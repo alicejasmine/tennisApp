@@ -4,7 +4,7 @@
       - main
       - master
   workflow_dispatch:
-  playwrighttests:
+jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
