@@ -23,6 +23,18 @@ public class PlayerController:ControllerBase
         return _playerService.CreatePlayer(dto.FullName,dto.Active);
     }
     
+    //Update player by id
+    [HttpPut]
+    [Route("/api/players/{playerId}")]
+    public Player Put(
+        [FromRoute] int playerId,
+        [FromBody] UpdatePlayerRequestDto dto)
+    {
+        return
+            _playerService.UpdatePlayer(playerId,dto.FullName, dto.Active);
+    }
+    
+    
     //read player by id
     [HttpGet]
     [Route("/api/players/{playerId}")]
@@ -31,4 +43,6 @@ public class PlayerController:ControllerBase
         return _playerService.GetPlayer(playerId);
     }
    
+    
+    
 }
