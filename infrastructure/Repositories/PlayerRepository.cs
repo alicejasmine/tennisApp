@@ -12,6 +12,16 @@ public class PlayerRepository
     {
         _dataSource = datasource;
     }
+    
+    
+    public bool IsFullNameTaken(string fullname)
+    {
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.players WHERE full_name = @fullname;",
+                new { fullname }) != 0;
+        }
+    }
 
 
     public Player CreatePlayer(string fullname, bool active) 
@@ -29,4 +39,8 @@ RETURNING
             return conn.QueryFirst<Player>(sql,new { fullname, active });
         }
     }
+    
+    
+    
+    
 }
