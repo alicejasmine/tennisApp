@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
-using Microsoft.VisualBasic.CompilerServices;
 using Npgsql;
 
 namespace infrastructure.Repositories;
