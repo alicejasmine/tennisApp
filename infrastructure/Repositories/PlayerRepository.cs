@@ -42,5 +42,16 @@ RETURNING
     
     
     
+    public Player GetPlayerById(int playerId)
+    {
+        var sql = $@"SELECT player_id as {nameof(Player.PlayerId)},
+    full_name as {nameof(Player.FullName)},
+       active as {nameof(Player.Active)} FROM tennis_app.players WHERE player_id = @playerId;";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<Player>(sql, new {playerId});
+        }
+    }
+    
     
 }

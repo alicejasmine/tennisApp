@@ -23,5 +23,12 @@ public class PlayerController:ControllerBase
         return _playerService.CreatePlayer(dto.FullName,dto.Active);
     }
     
+    //read player by id
+    [HttpGet]
+    [Route("/api/players/{playerId}")]
+    public Player Get([FromRoute] int playerId)
+    {
+        return _playerService.GetPlayer(playerId);
+    }
    
 }

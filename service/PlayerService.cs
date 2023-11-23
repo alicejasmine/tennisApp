@@ -34,4 +34,10 @@ public class PlayerService
             throw new Exception("Could not create a new player");
         }
     }
+    
+    
+    public Player GetPlayer(int playerId)
+    {
+        return _playerRepository.GetPlayerById(playerId);
+    }
 }
