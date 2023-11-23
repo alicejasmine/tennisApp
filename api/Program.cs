@@ -27,6 +27,9 @@ if (builder.Environment.IsProduction())
 builder.Services.AddSingleton<PlayerRepository>();
 builder.Services.AddSingleton<PlayerService>();
 
+builder.Services.AddSingleton<MatchRepository>();
+builder.Services.AddSingleton<MatchService>();
+
 
 
 
