@@ -19,16 +19,18 @@ public class ShotsRepository
     {
         string sql = $@"
 SELECT shots_id as {nameof(ShotListItem.ShotsId)},
+match_id as {nameof(ShotListItem.MatchId)},
+player_id as {nameof(ShotListItem.PlayerId)},
 shot_classification as {nameof(ShotListItem.ShotClassification)},
 shot_type as {nameof(ShotListItem.ShotType)},
 shot_destination as {nameof(ShotListItem.ShotDestination)},
 shot_direction as {nameof(ShotListItem.ShotDirection)},
 player_position as {nameof(ShotListItem.PlayerPosition)}
-FROM tennis_app.shots WHERE match_id = @matchId AND player_id = @playerId;
+FROM tennis_app.shots WHERE match_id = @mId AND player_id = @pId;
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<ShotListItem>(sql);
+            return conn.Query<ShotListItem>(sql, new {mId = matchId, pId = playerId });
         }
     }
     
@@ -37,16 +39,17 @@ FROM tennis_app.shots WHERE match_id = @matchId AND player_id = @playerId;
         string sql = $@"
 SELECT shots_id as {nameof(ShotListItem.ShotsId)},
 match_id as {nameof(ShotListItem.MatchId)},
+player_id as {nameof(ShotListItem.PlayerId)},
 shot_classification as {nameof(ShotListItem.ShotClassification)},
 shot_type as {nameof(ShotListItem.ShotType)},
 shot_destination as {nameof(ShotListItem.ShotDestination)},
 shot_direction as {nameof(ShotListItem.ShotDirection)},
 player_position as {nameof(ShotListItem.PlayerPosition)}
-FROM tennis_app.shots WHERE player_id = @playerId;
+FROM tennis_app.shots WHERE player_id = @pId;
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<ShotListItem>(sql);
+            return conn.Query<ShotListItem>(sql, new {pId = playerId});
         }
     }
 
