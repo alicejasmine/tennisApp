@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using infrastructure.DataModels;
+using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
 namespace service;
@@ -61,5 +62,10 @@ public class PlayerService
     public Player GetPlayer(int playerId)
     {
         return _playerRepository.GetPlayerById(playerId);
+    }
+    
+    public IEnumerable<AllPlayers> GetAllPlayers(int page, int resultsPerPage)
+    {
+        return _playerRepository.GetAllPlayers(page, resultsPerPage);
     }
 }

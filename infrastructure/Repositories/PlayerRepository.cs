@@ -1,5 +1,6 @@
 using Dapper;
 using infrastructure.DataModels;
+using infrastructure.QueryModels;
 using Npgsql;
 
 namespace infrastructure.Repositories;
@@ -22,13 +23,14 @@ public class PlayerRepository
                 new { fullname }) != 0;
         }
     }
-    
+
 /**/
     public bool IsFullNameTakenInUpdate(int playerId, string fullname)
     {
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.players WHERE full_name = @fullname AND player_id != @playerId;",
+            return conn.ExecuteScalar<int>(
+                "SELECT COUNT(*) FROM tennis_app.players WHERE full_name = @fullname AND player_id != @playerId;",
                 new { fullname, playerId }) != 0;
         }
     }
@@ -49,7 +51,7 @@ RETURNING
         }
     }
 
-    public Player UpdatePlayer(int playerId,string fullname, bool active)
+    public Player UpdatePlayer(int playerId, string fullname, bool active)
     {
         var sql = $@"
 UPDATE tennis_app.players SET full_name = @fullname, active = @active
@@ -75,6 +77,22 @@ RETURNING player_id as {nameof(Player.PlayerId)},
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.QueryFirst<Player>(sql, new { playerId });
+        }
+    }
+
+
+    public IEnumerable<AllPlayers> GetAllPlayers(int page, int resultsPerPage)
+    {
+        string sql = $@"
+SELECT player_id as {nameof(Player.PlayerId)},
+       full_name as {nameof(Player.FullName)},
+    active as {nameof(Player.Active)}
+
+FROM tennis_app.players OFFSET @offset LIMIT @limit;
+";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<AllPlayers>(sql, new { offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
         }
     }
 }

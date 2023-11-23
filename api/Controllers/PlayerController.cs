@@ -1,5 +1,6 @@
 using api.TransferModels;
 using infrastructure.DataModels;
+using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -43,6 +44,13 @@ public class PlayerController:ControllerBase
         return _playerService.GetPlayer(playerId);
     }
    
-    
+    //read all players
+  
+    [HttpGet]
+    [Route("/api/players")]
+    public IEnumerable<AllPlayers> GetFeed([FromQuery] int page, [FromQuery]int resultsPerPage)
+    {
+        return _playerService.GetAllPlayers(page, resultsPerPage);
+    }
     
 }
