@@ -95,4 +95,31 @@ FROM tennis_app.players OFFSET @offset LIMIT @limit;
             return conn.Query<AllPlayers>(sql, new { offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
         }
     }
+
+
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, int page, int resultsPerPage)
+    {
+        string sql = $@"
+        SELECT  
+            m.match_id as {nameof(MatchesForPlayer.Id)},
+            m.environment as {nameof(MatchesForPlayer.Environment)},
+            m.surface as {nameof(MatchesForPlayer.Surface)},
+            m.date as {nameof(MatchesForPlayer.Date)},
+            m.start_time as {nameof(MatchesForPlayer.StartTime)},
+            m.end_time as {nameof(MatchesForPlayer.EndTime)},
+            m.finished as {nameof(MatchesForPlayer.Finished)},
+            m.notes as {nameof(MatchesForPlayer.Notes)}
+        FROM tennis_app.match m
+        JOIN tennis_app.played_in pi ON m.match_id = pi.match_id
+        WHERE pi.player_id =@playerId
+        ORDER BY m.date DESC, m.start_time DESC
+        OFFSET @offset
+        LIMIT @limit;
+    ";
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<MatchesForPlayer>(sql,
+                new { playerId, offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
+        }
+    }
 }

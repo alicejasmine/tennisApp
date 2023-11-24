@@ -35,16 +35,17 @@ public class PlayerService
             throw new Exception("Could not create a new player");
         }
     }
-    
-    public Player UpdatePlayer(int playerId,string fullname, bool active)
+
+    public Player UpdatePlayer(int playerId, string fullname, bool active)
     {
         try
         {
-            if (_playerRepository.IsFullNameTakenInUpdate(playerId,fullname))
+            if (_playerRepository.IsFullNameTakenInUpdate(playerId, fullname))
                 throw new ValidationException("Player fullname is taken");
-            return _playerRepository.UpdatePlayer(playerId,fullname, active);
-
+            return _playerRepository.UpdatePlayer(playerId, fullname, active);
         }
+
+
         catch (ValidationException e)
         {
             Console.WriteLine(e.Message);
@@ -58,14 +59,20 @@ public class PlayerService
             throw new Exception("Could not update the player");
         }
     }
-    
+
     public Player GetPlayer(int playerId)
     {
         return _playerRepository.GetPlayerById(playerId);
     }
-    
+
     public IEnumerable<AllPlayers> GetAllPlayers(int page, int resultsPerPage)
     {
         return _playerRepository.GetAllPlayers(page, resultsPerPage);
+    }
+
+
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, int page, int resultsPerPage)
+    {
+        return _playerRepository.GetMatchesForPlayer(playerId, page, resultsPerPage);
     }
 }
