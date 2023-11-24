@@ -21,7 +21,7 @@ public class PlayerController : ControllerBase
     public Player Post([FromBody] CreatePlayerRequestDto dto)
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
-        return _playerService.CreatePlayer(dto.FullName, dto.Active);
+        return _playerService.CreatePlayer(dto.FullName);
     }
 
     //Update player by id

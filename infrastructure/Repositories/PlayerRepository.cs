@@ -35,19 +35,19 @@ public class PlayerRepository
         }
     }
 
-    public Player CreatePlayer(string fullname, bool active)
+    public Player CreatePlayer(string fullname)
     {
         var sql = $@"
-INSERT INTO tennis_app.players (full_name, active) 
-VALUES (@fullname, @active)
+INSERT INTO tennis_app.players (full_name) 
+VALUES (@fullname)
 RETURNING 
     player_id as {nameof(Player.PlayerId)},
-    full_name as {nameof(Player.FullName)},
-    active as {nameof(Player.Active)};
+    full_name as {nameof(Player.FullName)};
+    
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Player>(sql, new { fullname, active });
+            return conn.QueryFirst<Player>(sql, new { fullname});
         }
     }
 

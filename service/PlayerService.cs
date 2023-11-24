@@ -14,13 +14,13 @@ public class PlayerService
         _playerRepository = playerRepository;
     }
 
-    public Player CreatePlayer(string fullname, bool active)
+    public Player CreatePlayer(string fullname)
     {
         try
         {
             if (_playerRepository.IsFullNameTakenInCreate(fullname))
                 throw new ValidationException("player name is taken");
-            return _playerRepository.CreatePlayer(fullname, active);
+            return _playerRepository.CreatePlayer(fullname);
         }
         catch (ValidationException e)
         {
