@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using Dapper;
+﻿using Dapper;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Npgsql;
@@ -16,25 +15,36 @@ public class MatchRepository
         }
 
         public Match CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
-            DateTime endTime, bool finished, string notes)
+            DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
         {
             var sql = $@"
-        INSERT INTO tennis_app.match (environment, surface, date, start_time, end_time, finished, notes)
-        VALUES(@environment, @surface, @date, @startTime, @endTime, @finished, @notes)
-        RETURNING match_id as {nameof(Match.Id)},
-        environment as {nameof(Match.Environment)},
-        surface as {nameof(Match.Surface)},
-        date as {nameof(Match.Date)},
-        start_time as {nameof(Match.StartTime)},
-        end_time as {nameof(Match.EndTime)},
-        finished as {nameof(Match.Finished)},
-        notes as {nameof(Match.Notes)};
-";
+-- Insert into match and get the match_id
+    INSERT INTO tennis_app.match (environment, surface, date, start_time, end_time, finished, notes)
+    VALUES (@environment, @surface, @date, @startTime, @endTime, @finished, @notes)
+    RETURNING match_id as {nameof(Match.Id)},
+    environment as {nameof(Match.Environment)},
+    surface as {nameof(Match.Surface)},
+     date as {nameof(Match.Date)},
+      start_time as {nameof(Match.StartTime)},
+      end_time as {nameof(Match.EndTime)},
+     finished as {nameof(Match.Finished)},
+      notes as {nameof(Match.Notes)}; -- This will return the match_id as the result set
+
+-- Insert into played_in for playerId1
+    INSERT INTO tennis_app.played_in (match_id, player_id)
+    VALUES (LASTVAL(), @playerId1)
+    RETURNING player_id as {nameof(Match.PlayerId1)}; -- Assumes that match_id is a serial column
+
+-- Insert into played_in for playerId2
+    INSERT INTO tennis_app.played_in (match_id, player_id)
+    VALUES (LASTVAL(), @playerId2)
+    RETURNING player_id as {nameof(Match.PlayerId2)};-- Assumes that match_id is a serial column
+"; 
 
             using (var conn = _dataSource.OpenConnection())
             {
                 return conn.QueryFirst<Match>(sql,
-                    new { environment, surface, date, startTime, endTime, finished, notes });
+                    new { environment, surface, date, startTime, endTime, finished, notes, playerId1, playerId2 });
             }
         }
         

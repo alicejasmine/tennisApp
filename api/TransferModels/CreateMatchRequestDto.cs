@@ -15,4 +15,8 @@ public class CreateMatchRequestDto
     public bool Finished { get; set; }
     
     public string Notes { get; set; }
+    
+    public int PlayerId1 { get; set; }
+    
+    public int PlayerId2 { get; set; }
 }

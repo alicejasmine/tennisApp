@@ -23,7 +23,7 @@ public class MatchController:ControllerBase
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
         return _matchService.CreateMatch(dto.Environment, dto.Surface, dto.Date, dto.StartTime, dto.EndTime,
-            dto.Finished, dto.Notes);
+            dto.Finished, dto.Notes, dto.PlayerId1, dto.PlayerId2);
     }
     
     [HttpGet]

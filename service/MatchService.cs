@@ -15,9 +15,9 @@ public class MatchService
     }
 
     public Match CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
-        DateTime endTime, bool finished, string notes)
+        DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
     {
-        return _matchRepository.CreateMatch(environment, surface, date, startTime, endTime, finished, notes);
+        return _matchRepository.CreateMatch(environment, surface, date, startTime, endTime, finished, notes, playerId1, playerId2);
     }
     
     
