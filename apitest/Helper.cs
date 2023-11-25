@@ -74,18 +74,18 @@ THERE WAS AN ERROR REBUILDING THE DATABASE.", e);
 
 
     public static string RebuildScript = @"
-DROP SCHEMA IF EXISTS tennis_app_test CASCADE;
+DROP SCHEMA IF EXISTS tennis_app CASCADE;
 
-CREATE SCHEMA tennis_app_test;
+CREATE SCHEMA tennis_app;
 
-create table if not exists tennis_app_test.players
+create table if not exists tennis_app.players
 (
     player_id serial PRIMARY KEY,
     full_name VARCHAR (50) NOT NULL,
-    active boolean NOT NULL
+    active boolean DEFAULT true
 );
 
-create table if not exists tennis_app_test.match
+create table if not exists tennis_app.match
 (
     match_id serial PRIMARY KEY,
     environment VARCHAR(50) NOT NULL,
@@ -97,18 +97,18 @@ create table if not exists tennis_app_test.match
     notes VARCHAR(250)
 );
 
-create table if not exists tennis_app_test.played_in
+create table if not exists tennis_app.played_in
 (
     player_id int NOT NULL,
     match_id int NOT NULL,
     PRIMARY KEY (player_id, match_id),
     FOREIGN KEY (player_id)
-      REFERENCES tennis_app_test.players (player_id) ON DELETE CASCADE,
+      REFERENCES tennis_app.players (player_id) ON DELETE CASCADE,
     FOREIGN KEY (match_id)
-      REFERENCES tennis_app_test.match (match_id) ON DELETE CASCADE
+      REFERENCES tennis_app.match (match_id) ON DELETE CASCADE
 );
 
-create table if not exists tennis_app_test.shots
+create table if not exists tennis_app.shots
 (
     shots_id serial PRIMARY KEY,
     player_id int NOT NULL,
@@ -119,12 +119,12 @@ create table if not exists tennis_app_test.shots
     shot_direction VARCHAR(50) NOT NULL,
     player_position VARCHAR(50) NOT NULL,
     FOREIGN KEY (player_id)
-      REFERENCES tennis_app_test.players (player_id) ON DELETE CASCADE,
+      REFERENCES tennis_app.players (player_id) ON DELETE CASCADE,
     FOREIGN KEY (match_id)
-      REFERENCES tennis_app_test.match (match_id) ON DELETE CASCADE
+      REFERENCES tennis_app.match (match_id) ON DELETE CASCADE
 );
 
-create table if not exists tennis_app_test.users
+create table if not exists tennis_app.users
 (
     id serial PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
@@ -132,14 +132,14 @@ create table if not exists tennis_app_test.users
     admin boolean NOT NULL
 );
 
-create table if not exists tennis_app_test.password_hash
+create table if not exists tennis_app.password_hash
 (
   user_id integer,
   hash VARCHAR(350) NOT NULL,
   salt VARCHAR(180) NOT NULL,
   algorithm VARCHAR(12) NOT NULL,
   FOREIGN KEY (user_id)
-      REFERENCES tennis_app_test.users (id) ON DELETE CASCADE
+      REFERENCES tennis_app.users (id) ON DELETE CASCADE
 );
  ";
 }

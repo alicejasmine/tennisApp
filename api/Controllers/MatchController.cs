@@ -1,4 +1,5 @@
-﻿using api.TransferModels;
+﻿using api.Filters;
+using api.TransferModels;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ public class MatchController:ControllerBase
     }
 
     [HttpPost]
+    [ValidateModel]
     [Route("/api/matches")]
     public Match Post([FromBody] CreateMatchRequestDto dto)
     {
