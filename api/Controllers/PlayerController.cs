@@ -62,4 +62,13 @@ public class PlayerController : ControllerBase
     {
         return _playerService.GetMatchesForPlayer(playerId, page, resultsPerPage);
     }
+    
+    //search players
+    
+    [HttpGet]
+    [Route("/api/players/search")]
+    public IEnumerable<SearchPlayerItem> Get([FromQuery] SearchPlayerRequestDto dto)
+    {
+        return _playerService.SearchForPlayers(dto.SearchTerm);
+    }
 }

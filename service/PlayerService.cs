@@ -75,4 +75,9 @@ public class PlayerService
     {
         return _playerRepository.GetMatchesForPlayer(playerId, page, resultsPerPage);
     }
+    
+    public IEnumerable<SearchPlayerItem> SearchForPlayers(string searchTerm)
+    {
+        return _playerRepository.GetPlayers(searchTerm);
+    }
 }
