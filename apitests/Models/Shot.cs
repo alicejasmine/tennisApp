@@ -1,6 +1,4 @@
-﻿
-
-namespace infrastructure.DataModels;
+﻿namespace apitests;
 
 public class Shot
 {
@@ -12,5 +10,4 @@ public class Shot
     public string ShotDestination { get; set; }
     public string ShotDirection { get; set; }
     public string PlayerPosition { get; set; }
-    
 }

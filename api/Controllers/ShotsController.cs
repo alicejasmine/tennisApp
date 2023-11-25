@@ -37,7 +37,7 @@ public class ShotsController : ControllerBase
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
         return _shotService.CreateShot(playerId, matchId, dto.ShotClassification, dto.ShotType, dto.ShotDestination,
-            dto.ShotDirection, dto.PlayerPostion);
+            dto.ShotDirection, dto.PlayerPosition);
     }
     
     
