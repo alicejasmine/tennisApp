@@ -1,3 +1,4 @@
+using api.Filters;
 using api.TransferModels;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
@@ -17,6 +18,7 @@ public class PlayerController : ControllerBase
 
     //Create player
     [HttpPost]
+    [ValidateModel]
     [Route("/api/players")]
     public Player Post([FromBody] CreatePlayerRequestDto dto)
     {
@@ -26,6 +28,7 @@ public class PlayerController : ControllerBase
 
     //Update player by id
     [HttpPut]
+    [ValidateModel]
     [Route("/api/players/{playerId}")]
     public Player Put(
         [FromRoute] int playerId,
