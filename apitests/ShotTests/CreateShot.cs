@@ -57,7 +57,7 @@ public class CreateShot
                 .BeEquivalentTo(shotFromResponseBody); //Should be equal to shot found in DB
         }
     }
-
+    [TestCase("Unforced Error", "Forehand Return", "Long", "This player sucks", "Yellow")]
     [TestCase("winner", "Forehand Groundstroke", "Net", "Middle", "Green")]
     [TestCase("UnforcedError", "Backhand Groundstroke", "Not Applicable", "Middle", "Green")]
     [TestCase("Forced Error", "Backhand Volley", "Net", "Down The Line", "My favorite color is clear")]
@@ -66,8 +66,7 @@ public class CreateShot
     [TestCase("Forced Error", "Serv Deuce", "Not Applicable", "Cross Court", "Yellow")]
     [TestCase("Winner", "Serve Add", "Nat", "Middle", "Green")]
     [TestCase("Unforced Error", "Other", "idk", "Middle", "Green")]
-    [TestCase("Winner", "Forehand Volley", "Big fuckin miss", "Down The Line", "Red")]
-    [TestCase("Unforced Error", "Forehand Return", "Long", "This player sucks", "Yellow")]
+    [TestCase("", "", "", "", " ")]
     public async Task ServerSideDataValidationShouldReject(
         string shotClassification, string shotType, string shotDestination,
         string shotDirection, string playerPosition)
