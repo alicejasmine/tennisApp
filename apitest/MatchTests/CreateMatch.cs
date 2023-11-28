@@ -16,6 +16,8 @@ public class CreateMatch
 {
     [TestCase("indoor", "clay", "2023-11-23", "2023-11-23 19:14:12.965", "2023-11-23 19:14:12.965", true, "some note",
         1, 2)]
+    [TestCase("outdoor", "hard", "2023-11-23", "2023-11-23 19:14:12.965", "2023-11-23 19:14:12.965", true, "some note",
+        1, 2)]
     public async Task MatchCanSuccessfullyBeCreatedFromHttpRequest(string environment, string surface, DateTime date,
         DateTime startTime,
         DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
@@ -38,7 +40,6 @@ public class CreateMatch
 
         //ACT
         var httpResponse = await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/matches", testMatch);
-        TestContext.Out.WriteLine(httpResponse);
         var matchFromResponseBody =
             JsonConvert.DeserializeObject<Match>(await httpResponse.Content.ReadAsStringAsync());
         TestContext.Out.WriteLine(matchFromResponseBody);

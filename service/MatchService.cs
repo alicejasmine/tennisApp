@@ -14,16 +14,16 @@ public class MatchService
         _matchRepository = matchRepository;
     }
 
-    public Match CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
+    public MatchWithPlayers CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
         DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
     {
         return _matchRepository.CreateMatch(environment, surface, date, startTime, endTime, finished, notes, playerId1, playerId2);
     }
     
     
-    public IEnumerable<AllMatches> GetAllMatches()
+    public IEnumerable<MatchWithPlayers> GetAllMatchesWithPlayers()
     {
-        return _matchRepository.GetAllMatches();
+        return _matchRepository.GetAllMatchesWithPlayers();
     }
 
     public Match UpdateMatch(int id, string environment, string surface, DateTime date, DateTime startTime,
@@ -41,7 +41,7 @@ public class MatchService
         }
     }
 
-    public Match GetMatchById(int matchId)
+    public IEnumerable<MatchWithOnePlayer> GetMatchById(int matchId)
     {
         return _matchRepository.GetMatchById(matchId);
     }

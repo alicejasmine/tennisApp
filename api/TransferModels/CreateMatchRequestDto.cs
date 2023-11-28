@@ -11,7 +11,7 @@ public class CreateMatchRequestDto
     
     [Required]
     [ValueIsOneOf(new string[] {"clay", "hard", "other"}, "Must be clay, hard or other!")]
-    public string? Surface { get; set; }
+    public string Surface { get; set; }
     
     public DateTime Date { get; set; }
     

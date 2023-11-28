@@ -9,8 +9,8 @@ namespace tests;
 [TestFixture]
 public class UpdateMatch
 {
-    /*[TestCase("TestCaseIndoor", "clay", "2000-01-01", "2023-11-24T09:30:22.965Z", "2023-11-24T09:30:22.965Z", true, "some note")]
-    public async Task MatchCanSuccessfullyBeUpdatedFromHttpRequest(string environment, string surface, DateTime date, DateTime startTime, DateTime endTime, bool finished, string notes)
+    [TestCase("indoor", "clay", "2000-01-01", "2023-11-24T09:30:22.965Z", "2023-11-24T09:30:22.965Z", true, "some note", 1, 2)]
+    public async Task MatchCanSuccessfullyBeUpdatedFromHttpRequest(string environment, string surface, DateTime date, DateTime startTime, DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
     {
         //ARRANGE
         Helper.TriggerRebuild();
@@ -37,5 +37,5 @@ public class UpdateMatch
         {
             conn.QueryFirst<Match>("SELECT * FROM tennis_app.match;").Should().BeEquivalentTo(matchFromResponseBody);
         }
-    }*/
+    }
 }

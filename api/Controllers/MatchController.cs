@@ -21,7 +21,7 @@ public class MatchController:ControllerBase
     [HttpPost]
     [ValidateModel]
     [Route("/api/matches")]
-    public Match Post([FromBody] CreateMatchRequestDto dto)
+    public MatchWithPlayers Post([FromBody] CreateMatchRequestDto dto)
     {
         HttpContext.Response.StatusCode = StatusCodes.Status201Created;
         return _matchService.CreateMatch(dto.Environment, dto.Surface, dto.Date, dto.StartTime, dto.EndTime,
@@ -30,9 +30,9 @@ public class MatchController:ControllerBase
     
     [HttpGet]
     [Route("/api/matches")]
-    public IEnumerable<AllMatches> GetAllMatches()
+    public IEnumerable<MatchWithPlayers> GetAllMatches()
     {
-        return _matchService.GetAllMatches();
+        return _matchService.GetAllMatchesWithPlayers();
     }
 
     [HttpPut]
@@ -53,7 +53,7 @@ public class MatchController:ControllerBase
 
     [HttpGet]
     [Route("/api/matches/{matchId}")]
-    public Match Get([FromRoute] int matchId)
+    public IEnumerable<MatchWithOnePlayer> Get([FromRoute] int matchId)
     {
         return _matchService.GetMatchById(matchId);
     }
