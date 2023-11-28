@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using infrastructure.DataModels;
+﻿using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
@@ -41,7 +40,7 @@ public class MatchService
         }
     }
 
-    public IEnumerable<MatchWithOnePlayer> GetMatchById(int matchId)
+    public IEnumerable<MatchWithPlayers> GetMatchById(int matchId)
     {
         return _matchRepository.GetMatchById(matchId);
     }

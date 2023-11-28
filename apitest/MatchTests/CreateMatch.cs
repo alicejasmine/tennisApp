@@ -1,15 +1,12 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
-using System.Net.Mime;
+using apitest.Models;
 using Dapper;
 using FluentAssertions;
-using FluentAssertions.Equivalency.Tracing;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
-namespace tests;
+namespace apitest.MatchTests;
 
 [TestFixture]
 public class CreateMatch
@@ -42,7 +39,6 @@ public class CreateMatch
         var httpResponse = await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/matches", testMatch);
         var matchFromResponseBody =
             JsonConvert.DeserializeObject<Match>(await httpResponse.Content.ReadAsStringAsync());
-        TestContext.Out.WriteLine(matchFromResponseBody);
 
 
         //ASSERT
@@ -50,7 +46,6 @@ public class CreateMatch
         {
             var resultMatchAndPlayers = conn.QueryFirst<Match>(
                 "SELECT match_id as Id, environment as Environment, surface as Surface, date as Date, start_time as StartTime, end_time as EndTime, finished as Finished, notes as Notes FROM tennis_app.match; SELECT player_id as PlayerId1 FROM tennis_app.played_in WHERE player_id = 1 AND match_id=1; SELECT player_id as PlayerId1 FROM tennis_app.played_in WHERE player_id = 2 AND match_id=1;");
-            TestContext.Out.WriteLine(resultMatchAndPlayers);
             resultMatchAndPlayers.Should().BeEquivalentTo(matchFromResponseBody); //Should be equal to match found in DB
         }
 

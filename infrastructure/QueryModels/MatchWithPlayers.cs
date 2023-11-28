@@ -1,6 +1,4 @@
-﻿using System.Data.SqlTypes;
-
-namespace infrastructure.DataModels;
+﻿namespace infrastructure.QueryModels;
 
 public class MatchWithPlayers
 {

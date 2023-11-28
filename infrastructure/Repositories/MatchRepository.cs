@@ -35,8 +35,7 @@ public class MatchRepository
 
     INSERT INTO tennis_app.played_in (match_id, player_id)
     VALUES (LASTVAL(), @playerId2)
-    RETURNING player_id as {nameof(MatchWithPlayers.PlayerId2)};
-";
+    RETURNING player_id as {nameof(MatchWithPlayers.PlayerId2)};";
 
         using (var conn = _dataSource.OpenConnection())
         {
@@ -48,7 +47,7 @@ public class MatchRepository
     public IEnumerable<MatchWithPlayers> GetAllMatchesWithPlayers()
     {
         var sql = $@"
-        SELECT
+        SELECT DISTINCT ON (m.match_id)
        m.match_id as {nameof(MatchWithPlayers.Id)},
         m.environment as {nameof(MatchWithPlayers.Environment)},
         m.surface as {nameof(MatchWithPlayers.Surface)},
@@ -57,9 +56,13 @@ public class MatchRepository
         m.end_time as {nameof(MatchWithPlayers.EndTime)},
         m.finished as {nameof(MatchWithPlayers.Finished)},
         m.notes as {nameof(MatchWithPlayers.Notes)},
-        pi.player_id
+        pi1.player_id as {nameof(MatchWithPlayers.PlayerId1)},
+        pi2.player_id as {nameof(MatchWithPlayers.PlayerId2)}
         FROM tennis_app.match m
-        JOIN tennis_app.played_in pi ON m.match_id = pi.match_id;
+        INNER JOIN tennis_app.played_in pi1 ON m.match_id = pi1.match_id
+INNER JOIN tennis_app.players p1 ON pi1.player_id = p1.player_id
+INNER JOIN tennis_app.played_in pi2 ON m.match_id = pi2.match_id AND pi2.player_id != pi1.player_id
+INNER JOIN tennis_app.players p2 ON pi2.player_id = p2.player_id;
         ";
         using (var conn = _dataSource.OpenConnection())
         {
@@ -99,26 +102,31 @@ public class MatchRepository
         }
     }
 
-    public IEnumerable<MatchWithOnePlayer> GetMatchById(int matchId)
+    public IEnumerable<MatchWithPlayers> GetMatchById(int matchId)
     {
-        var sql = $@"SELECT m.match_id as {nameof(MatchWithOnePlayer.Id)},
-        m.environment as {nameof(MatchWithOnePlayer.Environment)},
-        m.surface as {nameof(MatchWithOnePlayer.Surface)},
-        m.date as {nameof(MatchWithOnePlayer.Date)},
-        m.start_time as {nameof(MatchWithOnePlayer.StartTime)},
-        m.end_time as {nameof(MatchWithOnePlayer.EndTime)},
-        m.finished as {nameof(MatchWithOnePlayer.Finished)},
-        m.notes as {nameof(MatchWithOnePlayer.Notes)},
-        pi.player_id as {nameof(MatchWithOnePlayer.PlayerId)}
-        FROM tennis_app.match m 
-        JOIN tennis_app.played_in pi ON m.match_id = pi.match_id
+        var sql = $@"SELECT DISTINCT ON (m.match_id)
+    m.match_id as {nameof(MatchWithPlayers.Id)},
+        m.environment as {nameof(MatchWithPlayers.Environment)},
+        m.surface as {nameof(MatchWithPlayers.Surface)},
+        m.date as {nameof(MatchWithPlayers.Date)},
+        m.start_time as {nameof(MatchWithPlayers.StartTime)},
+        m.end_time as {nameof(MatchWithPlayers.EndTime)},
+        m.finished as {nameof(MatchWithPlayers.Finished)},
+        m.notes as {nameof(MatchWithPlayers.Notes)},
+        pi1.player_id as {nameof(MatchWithPlayers.PlayerId1)},
+        pi2.player_id as {nameof(MatchWithPlayers.PlayerId2)}
+          FROM tennis_app.match m
+        INNER JOIN tennis_app.played_in pi1 ON m.match_id = pi1.match_id
+        INNER JOIN tennis_app.players p1 ON pi1.player_id = p1.player_id
+        INNER JOIN tennis_app.played_in pi2 ON m.match_id = pi2.match_id AND pi2.player_id != pi1.player_id
+        INNER JOIN tennis_app.players p2 ON pi2.player_id = p2.player_id
         WHERE m.match_id = @matchId;
         ";
     
 
     using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<MatchWithOnePlayer>(sql, new { matchId });
+            return conn.Query<MatchWithPlayers>(sql, new { matchId });
         }
     }
 }

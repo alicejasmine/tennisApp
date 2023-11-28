@@ -1,10 +1,11 @@
 ﻿using System.Net.Http.Json;
+using apitest.Models;
 using Dapper;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace tests;
+namespace apitest.MatchTests;
 
 [TestFixture]
 public class UpdateMatch
@@ -35,7 +36,7 @@ public class UpdateMatch
         //ASSERT
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
-            conn.QueryFirst<Match>("SELECT * FROM tennis_app.match;").Should().BeEquivalentTo(matchFromResponseBody);
+            conn.QueryFirst<Match>("SELECT match_id as Id, environment as Environment, surface as Surface, date as Date, start_time as StartTime, end_time as EndTime, finished as Finished, notes as Notes FROM tennis_app.match;").Should().BeEquivalentTo(matchFromResponseBody);
         }
     }
 }
