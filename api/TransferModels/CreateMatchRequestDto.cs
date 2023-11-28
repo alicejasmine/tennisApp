@@ -13,6 +13,7 @@ public class CreateMatchRequestDto
     [ValueIsOneOf(new string[] {"clay", "hard", "other"}, "Must be clay, hard or other!")]
     public string Surface { get; set; }
     
+    [Required]
     public DateTime Date { get; set; }
     
     public DateTime StartTime { get; set; }
@@ -24,7 +25,9 @@ public class CreateMatchRequestDto
     [StringLength(251)]
     public string Notes { get; set; }
     
+    [Required]
     public int PlayerId1 { get; set; }
     
+    [Required]
     public int PlayerId2 { get; set; }
 }

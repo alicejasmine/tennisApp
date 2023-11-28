@@ -1,11 +1,19 @@
-﻿namespace api.TransferModels;
+﻿using System.ComponentModel.DataAnnotations;
+using api.CustomDataAnnotation;
+
+namespace api.TransferModels;
 
 public class UpdateMatchRequestDto
 {
+    [Required]
+    [ValueIsOneOf(new string[] {"indoor", "outdoor"}, "Must be indoor or outdoor!")]
     public string Environment { get; set; }
 
+    [Required]
+    [ValueIsOneOf(new string[] {"clay", "hard", "other"}, "Must be clay, hard or other!")]
     public string Surface { get; set; }
     
+    [Required]
     public DateTime Date { get; set; }
     
     public DateTime StartTime { get; set; }
@@ -14,5 +22,6 @@ public class UpdateMatchRequestDto
     
     public bool Finished { get; set; }
     
+    [StringLength(251)]
     public string Notes { get; set; }
 }
