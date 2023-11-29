@@ -42,7 +42,8 @@ INSERT INTO tennis_app.players (full_name)
 VALUES (@fullname)
 RETURNING 
     player_id as {nameof(Player.PlayerId)},
-    full_name as {nameof(Player.FullName)};
+    full_name as {nameof(Player.FullName)},
+    active as {nameof(Player.Active)};
     
 ";
         using (var conn = _dataSource.OpenConnection())
