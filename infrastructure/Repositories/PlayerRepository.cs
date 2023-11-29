@@ -123,4 +123,23 @@ FROM tennis_app.players OFFSET @offset LIMIT @limit;
                 new { playerId, offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
         }
     }
+    
+    
+    public IEnumerable<SearchPlayerItem> GetPlayers(string searchTerm)
+    {
+        var sql = $@"
+SELECT player_id as {nameof(SearchPlayerItem.PlayerId)},
+       full_name as {nameof(SearchPlayerItem.FullName)}, 
+       active as {nameof(SearchPlayerItem.Active)}
+FROM tennis_app.players
+WHERE lower(players.full_name) LIKE LOWER(@searchTerm);
+";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<SearchPlayerItem>(sql, 
+                new {searchTerm = '%'+searchTerm+'%'});
+        }
+
+    }
 }

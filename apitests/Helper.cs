@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Npgsql;
 using NUnit.Framework;
 
+
 namespace apitests;
 
 public class Helper
@@ -54,6 +55,7 @@ public class Helper
 There was no response from the API, the API may not be running.
     ";
 
+
     public static void TriggerRebuild()
     {
         using (var conn = DataSource.OpenConnection())
@@ -91,7 +93,7 @@ create table if not exists tennis_app.match
     date date NOT NULL,
     start_time timestamp,
     end_time timestamp,
-    finished boolean NOT NULL DEFAULT false,
+    finished boolean NOT NULL DEFAULT false
     notes VARCHAR(250)
 );
 
@@ -140,4 +142,7 @@ create table if not exists tennis_app.password_hash
       REFERENCES tennis_app.users (id) ON DELETE CASCADE
 );
  ";
+
+    
+}
 
