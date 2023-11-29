@@ -1,4 +1,5 @@
-﻿namespace infrastructure;
+namespace infrastructure;
+
 
 public class Utilities
 {

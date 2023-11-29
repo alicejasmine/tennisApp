@@ -16,6 +16,13 @@ builder.Logging.AddConsole();
 builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
     dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
 
+
+
+
+builder.Services.AddSingleton<PlayerRepository>();
+builder.Services.AddSingleton<PlayerService>();
+builder.Services.AddSingleton<MatchRepository>();
+builder.Services.AddSingleton<MatchService>();
 builder.Services.AddSingleton<ShotsRepository>();
 builder.Services.AddSingleton<ShotService>();
 builder.Services.AddSingleton<UserRepository>();
@@ -31,8 +38,23 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var frontEndRelativePath = "./../frontend/www";
 builder.Services.AddSpaStaticFiles(conf => conf.RootPath = frontEndRelativePath);
+
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
+        dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
+}
+
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString);
+}
+
+
 var app = builder.Build();
 
 

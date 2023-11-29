@@ -1,7 +1,6 @@
-﻿using api.TransferModels.Validation;
+using api.TransferModels.Validation;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-
 
 
 namespace api.Filters;
@@ -23,6 +22,5 @@ public class ValidateModel : ActionFilterAttribute
         {
             StatusCode = 400
         };
-
     }
 }
