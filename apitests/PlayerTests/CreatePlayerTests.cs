@@ -4,9 +4,10 @@ using Dapper;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using test;
+using tests;
 
-namespace tests;
+
+namespace apitests.PlayerTests;
 
 public class CreatePlayerTests
 {

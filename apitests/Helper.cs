@@ -73,7 +73,7 @@ THERE WAS AN ERROR REBUILDING THE DATABASE.", e);
     }
 
 
-    public static string RebuildScript = @"
+    public static string RebuildScript = $@"
 DROP SCHEMA IF EXISTS tennis_app CASCADE;
 
 CREATE SCHEMA tennis_app;
@@ -82,7 +82,7 @@ create table if not exists tennis_app.players
 (
     player_id serial PRIMARY KEY,
     full_name VARCHAR (50) NOT NULL,
-    active boolean NOT NULL default true
+    active boolean DEFAULT true
 );
 
 create table if not exists tennis_app.match
@@ -93,7 +93,7 @@ create table if not exists tennis_app.match
     date date NOT NULL,
     start_time timestamp,
     end_time timestamp,
-    finished boolean NOT NULL DEFAULT false
+    finished boolean NOT NULL DEFAULT false,
     notes VARCHAR(250)
 );
 

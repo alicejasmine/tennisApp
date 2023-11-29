@@ -3,7 +3,6 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using test;
 using tests;
 
 namespace apitests.SearchTests;
