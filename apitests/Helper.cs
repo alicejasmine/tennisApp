@@ -3,12 +3,13 @@ using Newtonsoft.Json;
 using Npgsql;
 using NUnit.Framework;
 
-namespace test;
+namespace apitests;
 
 public class Helper
 {
-     public static readonly NpgsqlDataSource DataSource;
+    public static readonly NpgsqlDataSource DataSource;
     public static readonly string ApiBaseUrl = "http://localhost:5000/api";
+    
 
     static Helper()
     {
@@ -17,9 +18,7 @@ public class Helper
         var rawConnectionString = Environment.GetEnvironmentVariable(envVarKeyName)!;
         if (rawConnectionString == null)
         {
-            throw new Exception($@"
-YOUR CONN STRING PGCONN IS EMPTY.
-");
+            throw new Exception($@"YOUR CONN STRING PGCONN IS EMPTY.");
         }
 
         try
@@ -38,24 +37,22 @@ YOUR CONN STRING PGCONN IS EMPTY.
         }
         catch (Exception e)
         {
-            throw new Exception($@"
-Your connection string is found, but could not be used. Are you sure you correctly inserted
-the connection-string to Postgres?", e);
+            throw new Exception($@"Your connection string is found, but could not be used.", e);
         }
     }
-
-
+    
     public static string BadResponseBody(string content)
     {
-        return $@"
-tried to take the response body from the API and turn into a class object,
-but that failed. Below is what you sent me + the inner exception.
+        return $@"There was an issue fetching the response body from the API and turning it into a class object.
+        Reponse Body: {content}
 
-RESPONSE BODY: {content}
-
-EXCEPTION:
-";
+        EXCEPTION:
+        ";
     }
+    
+    public static string NoResponseMessage = $@"
+There was no response from the API, the API may not be running.
+    ";
 
     public static void TriggerRebuild()
     {
@@ -94,7 +91,7 @@ create table if not exists tennis_app.match
     date date NOT NULL,
     start_time timestamp,
     end_time timestamp,
-    finished boolean NOT NULL,
+    finished boolean NOT NULL DEFAULT false,
     notes VARCHAR(250)
 );
 
@@ -130,7 +127,7 @@ create table if not exists tennis_app.users
     id serial PRIMARY KEY,
     full_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    admin boolean NOT NULL
+    admin boolean NOT NULL DEFAULT false
 );
 
 create table if not exists tennis_app.password_hash
@@ -143,4 +140,4 @@ create table if not exists tennis_app.password_hash
       REFERENCES tennis_app.users (id) ON DELETE CASCADE
 );
  ";
-}
+
