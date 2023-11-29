@@ -1,5 +1,7 @@
-﻿using Dapper;
+using Dapper;
+using Newtonsoft.Json;
 using Npgsql;
+using NUnit.Framework;
 
 namespace apitests;
 
@@ -8,6 +10,7 @@ public class Helper
     public static readonly NpgsqlDataSource DataSource;
     public static readonly string ApiBaseUrl = "http://localhost:5000/api";
     
+
     static Helper()
     {
         var envVarKeyName = "pgconn";
@@ -62,7 +65,6 @@ There was no response from the API, the API may not be running.
             catch (Exception e)
             {
                 throw new Exception($@"
-
 THERE WAS AN ERROR REBUILDING THE DATABASE.", e);
             }
         }
@@ -78,7 +80,7 @@ create table if not exists tennis_app.players
 (
     player_id serial PRIMARY KEY,
     full_name VARCHAR (50) NOT NULL,
-    active boolean DEFAULT true
+    active boolean NOT NULL default true
 );
 
 create table if not exists tennis_app.match
@@ -138,4 +140,4 @@ create table if not exists tennis_app.password_hash
       REFERENCES tennis_app.users (id) ON DELETE CASCADE
 );
  ";
-}
+
