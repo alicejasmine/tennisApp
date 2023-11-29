@@ -1,4 +1,5 @@
 ﻿using apitest.Models;
+using apitests;
 using Dapper;
 using FluentAssertions;
 using NUnit.Framework;
