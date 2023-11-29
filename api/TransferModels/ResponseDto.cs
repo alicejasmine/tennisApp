@@ -1,4 +1,5 @@
-﻿namespace api.TransferModels;
+namespace api.TransferModels;
+
 
 public class ResponseDto
 {

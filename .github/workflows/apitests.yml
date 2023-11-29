@@ -3,6 +3,7 @@
     branches:
       - main
       - master
+      - dev-branch
   workflow_dispatch:
 jobs:
   playwrighttests:
