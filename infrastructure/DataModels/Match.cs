@@ -1,7 +1,6 @@
-namespace infrastructure.QueryModels;
+﻿namespace infrastructure.DataModels;
 
-
-public class MatchWithPlayers
+public class Match
 {
     public int Id { get; set; }
     public string Environment { get; set; }
@@ -11,6 +10,4 @@ public class MatchWithPlayers
     public DateTime EndTime { get; set; }
     public bool Finished { get; set; }
     public string Notes { get; set; }
-    public int PlayerId1 { get; set; }
-    public int PlayerId2 { get; set; }
 }

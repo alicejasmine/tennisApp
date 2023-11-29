@@ -25,6 +25,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
+        dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
+}
+
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString);
+}
+
+
+
+builder.Services.AddSingleton<PlayerRepository>();
+builder.Services.AddSingleton<PlayerService>();
+
+builder.Services.AddSingleton<MatchRepository>();
+builder.Services.AddSingleton<MatchService>();
+
+
+
+
 var app = builder.Build();
 
 app.UseSwagger();

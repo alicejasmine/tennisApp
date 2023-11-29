@@ -1,5 +1,8 @@
-﻿using Dapper;
+using Dapper;
+using Newtonsoft.Json;
 using Npgsql;
+using NUnit.Framework;
+
 
 namespace apitests;
 
@@ -8,6 +11,7 @@ public class Helper
     public static readonly NpgsqlDataSource DataSource;
     public static readonly string ApiBaseUrl = "http://localhost:5000/api";
     
+
     static Helper()
     {
         var envVarKeyName = "pgconn";
@@ -51,6 +55,7 @@ public class Helper
 There was no response from the API, the API may not be running.
     ";
 
+
     public static void TriggerRebuild()
     {
         using (var conn = DataSource.OpenConnection())
@@ -62,14 +67,13 @@ There was no response from the API, the API may not be running.
             catch (Exception e)
             {
                 throw new Exception($@"
-
 THERE WAS AN ERROR REBUILDING THE DATABASE.", e);
             }
         }
     }
 
 
-    public static string RebuildScript = @"
+    public static string RebuildScript = $@"
 DROP SCHEMA IF EXISTS tennis_app CASCADE;
 
 CREATE SCHEMA tennis_app;
@@ -138,4 +142,7 @@ create table if not exists tennis_app.password_hash
       REFERENCES tennis_app.users (id) ON DELETE CASCADE
 );
  ";
+
+    
 }
+

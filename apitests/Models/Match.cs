@@ -1,7 +1,6 @@
-namespace infrastructure.QueryModels;
+﻿namespace apitest.Models;
 
-
-public class MatchWithPlayers
+public class Match
 {
     public int Id { get; set; }
     public string Environment { get; set; }
