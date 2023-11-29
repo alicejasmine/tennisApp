@@ -1,3 +1,5 @@
+using api;
+using api.MiddleWare;
 using infrastructure;
 using infrastructure.Repositories;
 using service;
@@ -16,23 +18,45 @@ builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString
 
 builder.Services.AddSingleton<ShotsRepository>();
 builder.Services.AddSingleton<ShotService>();
+builder.Services.AddSingleton<UserRepository>();
+builder.Services.AddSingleton<PasswordHashRepository>();
+builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<AccountService>();
+builder.Services.AddJwtService();
+builder.Services.AddSwaggerGenWithBearerJWT();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+var frontEndRelativePath = "./../frontend/www";
+builder.Services.AddSpaStaticFiles(conf => conf.RootPath = frontEndRelativePath);
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
 
-app.UseCors(options =>
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    options.SetIsOriginAllowed(origin => true)
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseSecurityHeaders();
+
+var frontendOrigin = app.Services.GetService<IConfiguration>()!["FrontendOrigin"];
+app.UseCors(policy =>
+    policy
+        .SetIsOriginAllowed(origin => origin == frontendOrigin)
         .AllowAnyMethod()
         .AllowAnyHeader()
-        .AllowCredentials();
-});
+);
+
+app.UseSpaStaticFiles();
+app.UseSpa(conf => { conf.Options.SourcePath = frontEndRelativePath; });
+
 app.MapControllers();
+app.UseMiddleware<JwtBearerHandler>();
+app.UseMiddleware<GlobalExceptionHandler>();
 app.Run();

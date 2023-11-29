@@ -63,8 +63,8 @@ public class AccountService
         return _userRepository.GetById(data.UserId);
     }
 
-    public User Update(SessionData data, UpdateAccountCommandModel model, string? avatarUrl)
+    public User Update(SessionData data, UpdateAccountCommandModel model)
     {
-        return _userRepository.Update(data.UserId, model.FullName, model.Email, avatarUrl);
+        return _userRepository.Update(data.UserId, model.FullName, model.Email);
     }
 }
