@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using api.CustomDataAnnotation;
 
-namespace api.TransferModels;
+namespace api.TransferModels.MatchDtos;
 
 public class CreateMatchRequestDto
 {
