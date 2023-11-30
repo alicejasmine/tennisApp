@@ -17,6 +17,9 @@ builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString
 builder.Services.AddSingleton<ShotsRepository>();
 builder.Services.AddSingleton<ShotService>();
 
+builder.Services.AddSingleton<SearchRepository>();
+builder.Services.AddSingleton<SearchService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

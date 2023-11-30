@@ -1,4 +1,5 @@
-﻿namespace infrastructure.QueryModels;
+namespace infrastructure.QueryModels;
+
 
 public class MatchWithPlayers
 {
