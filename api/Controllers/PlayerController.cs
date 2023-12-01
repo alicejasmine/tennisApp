@@ -51,9 +51,9 @@ public class PlayerController : ControllerBase
 
     [HttpGet]
     [Route("/api/players")]
-    public IEnumerable<AllPlayers> GetAllPlayers([FromQuery] int page, [FromQuery] int resultsPerPage)
+    public IEnumerable<AllPlayers> GetAllPlayers()
     {
-        return _playerService.GetAllPlayers(page, resultsPerPage);
+        return _playerService.GetAllPlayers();
     }
 
     //read all matches for a player

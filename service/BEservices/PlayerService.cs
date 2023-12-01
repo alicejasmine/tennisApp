@@ -65,9 +65,9 @@ public class PlayerService
         return _playerRepository.GetPlayerById(playerId);
     }
 
-    public IEnumerable<AllPlayers> GetAllPlayers(int page, int resultsPerPage)
+    public IEnumerable<AllPlayers> GetAllPlayers()
     {
-        return _playerRepository.GetAllPlayers(page, resultsPerPage);
+        return _playerRepository.GetAllPlayers();
     }
 
 
