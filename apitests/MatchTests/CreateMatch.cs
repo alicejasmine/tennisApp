@@ -46,7 +46,10 @@ public class CreateMatch
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
             var resultMatchAndPlayers = conn.QueryFirst<Match>(
-                "SELECT match_id as Id, environment as Environment, surface as Surface, date as Date, start_time as StartTime, end_time as EndTime, finished as Finished, notes as Notes FROM tennis_app.match; SELECT player_id as PlayerId1 FROM tennis_app.played_in WHERE player_id = 1 AND match_id=1; SELECT player_id as PlayerId1 FROM tennis_app.played_in WHERE player_id = 2 AND match_id=1;");
+                "SELECT m.match_id as Id, m.environment as Environment, m.surface as Surface, m.date as Date, m.start_time as StartTime, m.end_time as EndTime, m.finished as Finished, m.notes as Notes, pi1.player_id as PlayerId1, pi2.player_id as PlayerId2" +
+                " FROM tennis_app.match m " +
+                "INNER JOIN tennis_app.played_in pi1 ON m.match_id = pi1.match_id AND pi1.player_id = 1 " +
+                "INNER JOIN tennis_app.played_in pi2 ON m.match_id = pi2.match_id AND pi2.player_id = 2;");
             resultMatchAndPlayers.Should().BeEquivalentTo(matchFromResponseBody); //Should be equal to match found in DB
         }
 
