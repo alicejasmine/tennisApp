@@ -8,6 +8,10 @@ namespace service;
 
 public class AccountService
 {
+    
+    // Account management tasks, such as registration, authentication, password-resets etc
+    // are delegated to this class.
+    
     private readonly ILogger<AccountService> _logger;
     private readonly PasswordHashRepository _passwordHashRepository;
     private readonly UserRepository _userRepository;

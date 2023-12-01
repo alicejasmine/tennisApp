@@ -15,7 +15,12 @@ public class UserController : ControllerBase
     }
     
     
-
+    [HttpGet("/api/users")]
+    public IActionResult Get()
+    {
+        return Ok(_userService.GetOverview());
+    }
+    
     [HttpGet("/api/users/{id}")]
     public IActionResult Get(int id)
     {

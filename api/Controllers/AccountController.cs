@@ -45,11 +45,25 @@ public class AccountController : ControllerBase
     [RequireAuthentication]
     [HttpGet]
     [Route("/api/account/info")]
-    public IActionResult AccInfo()
+    public ResponseDto AccInfo()
     {
         var data = HttpContext.GetSessionData();
         var user = _accountService.Get(data);
-        return Ok(user);
+        return new ResponseDto
+        {
+            ResponseData = user
+        };
+    }
+    
+    [RequireAuthentication]
+    [HttpPut]
+    [Route("/api/account/update")]
+    public IActionResult Update([FromForm] UpdateAccountCommandModel model)
+    {
+        
+        var session = HttpContext.GetSessionData()!;
+        _accountService.Update(session, model);
+        return Ok();
     }
     
 }

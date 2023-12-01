@@ -43,4 +43,13 @@ public class UserService
         };
     }
     
+    public IEnumerable<UserOverviewQueryModel> GetOverview()
+    {
+        return _userRepository.GetAll().Select(user => new UserOverviewQueryModel()
+        {
+            Id = user.Id,
+            FullName = user.FullName
+        });
+    }
+    
 }
