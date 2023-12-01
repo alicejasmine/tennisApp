@@ -13,11 +13,7 @@ import { CreatePlayerComponent } from '../create-player/create-player.component'
   selector: 'app-all-players',
   template: `
 
-      <ion-toolbar>
 
-          <ion-title>Players</ion-title>
-
-      </ion-toolbar>
 
       <ion-content class="ion-padding" fullscreen="true">
           <div class="container">
