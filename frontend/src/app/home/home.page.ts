@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
 import {HttpClient} from "@angular/common/http";
@@ -19,15 +19,15 @@ export class HomePage {
     this.getMatches();
   }
 
-async getMatches() {
+  async getMatches() {
     const call = this.http.get<MatchWithPlayers[]>(environment.baseUrl + '/api/matches');
     this.dataService.matchesWithPlayers = await firstValueFrom<MatchWithPlayers[]>(call);
-}
+  }
 
   async handleSearch($event: any) {
     const query = $event.target.value;
     const call = this.http.get<MatchWithPlayers[]>(environment.baseUrl + `/api/matches/search?SearchTerm=${query}`);
-    this.dataService.matchesWithPlayers= await firstValueFrom<MatchWithPlayers[]>(call);
+    this.dataService.matchesWithPlayers = await firstValueFrom<MatchWithPlayers[]>(call);
   }
 
 }
