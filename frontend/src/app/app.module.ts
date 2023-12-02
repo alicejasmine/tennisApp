@@ -9,11 +9,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AllPlayersComponent } from './all-players/all-players.component';
 import { DataService } from './data.service';
 import {HttpClientModule} from "@angular/common/http";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreatePlayerComponent } from './create-player/create-player.component';
 
 @NgModule({
-  declarations: [AppComponent, AllPlayersComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule],
+  declarations: [AppComponent, AllPlayersComponent,CreatePlayerComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ReactiveFormsModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },DataService],
   bootstrap: [AppComponent],
 })
