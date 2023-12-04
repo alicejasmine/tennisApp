@@ -1,4 +1,5 @@
-﻿using infrastructure.DataModels;
+﻿using System.ComponentModel.DataAnnotations;
+using infrastructure.DataModels;
 using infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 using service.Models.Command;
@@ -25,9 +26,6 @@ public class AccountService
     }
     
     
-
-    
-    
     // Calls the create method with the name of hash algorithm stored on user row in db
     // Allows us to easily implement support for a new password hashing algorithm
     // 
@@ -51,24 +49,80 @@ public class AccountService
         return null;
     }
     
-    
+    // Used to register a new account
+    // since anyone can register an account we will be defaulting new users without admin status
     public User Register(RegisterCommandModel model)
     {
-        var hashAlgorithm = PasswordHashAlgorithm.Create();
-        var salt = hashAlgorithm.GenerateSalt();
-        var hash = hashAlgorithm.HashPassword(model.Password, salt);
-        var user = _userRepository.Create(model.FullName, model.Email);
-        _passwordHashRepository.Create(user.Id, hash, salt, hashAlgorithm.GetName());
-        return user;
+        const bool admin = false; // !! IF CHANGED NEW USERS WILL BE ADMIN !!
+        
+        const int fakeId = 0; // since we are creating we have no id, so we will pass a fake one.
+        const bool isCreate = true; // Since we are creating a new user, this is true. If set to false, create will use fakeId to check email.
+
+        var fullName = model.FullName;
+        var email = model.Email;
+
+        try
+        {
+            if (_userRepository.IsEmailTaken(fakeId, email, isCreate))
+                throw new ValidationException("Email is taken, please choose another.");
+
+            var hashAlgorithm = PasswordHashAlgorithm.Create();
+            var salt = hashAlgorithm.GenerateSalt();
+            var hash = hashAlgorithm.HashPassword(model.Password, salt);
+            var user = _userRepository.Create(fullName, email, admin);
+            _passwordHashRepository.Create(user.Id, hash, salt, hashAlgorithm.GetName());
+            return user;
+        }
+        catch (ValidationException e)
+        {
+            _logger.LogError("Validation error: {Message}", e);
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.InnerException?.Message);
+            throw;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("User creation error: {Message}", e);
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.InnerException?.Message);
+            throw; 
+        }
     }
     
     public User? Get(SessionData data)
     {
         return _userRepository.GetById(data.UserId);
     }
-
+    
+    // This will be used when a user updates their own account 
     public User Update(SessionData data, UpdateAccountCommandModel model)
     {
-        return _userRepository.Update(data.UserId, model.FullName, model.Email);
+        var userId = data.UserId; // Id of our user
+        var fullname = model.FullName; // full name of our user
+        var email = model.Email; // email of user
+        var isAdmin = data.IsAdmin; // true if user is admin
+        var isCreate = false; // since we are updating this is false 
+        
+        try
+        {
+            if (_userRepository.IsEmailTaken(userId, email, isCreate))
+                throw new ValidationException("Email is taken, please choose another.");
+            return _userRepository.Update(userId, fullname, email, isAdmin);
+        }
+        catch (ValidationException e)
+        {
+            _logger.LogError("Validation error: {Message}", e);
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.InnerException?.Message);
+            throw;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("User creation error: {Message}", e);
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.InnerException?.Message);
+            throw;
+        }
+        
     }
 }

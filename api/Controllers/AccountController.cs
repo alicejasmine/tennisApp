@@ -20,6 +20,7 @@ public class AccountController : ControllerBase
         _jwtService = jwtService;
     }
     
+    // method to login, issues a bearer token for the user and sets our session data.
     [HttpPost]
     [Route("/api/account/login")]
     public ResponseDto Login([FromBody] LoginCommandModel model)
@@ -33,7 +34,7 @@ public class AccountController : ControllerBase
         };
     }
     
-    
+    // public access to create a new user account, this will always default admin status to false.
     [HttpPost]
     [Route("/api/account/register")]
     public IActionResult Register([FromBody] RegisterCommandModel model)
@@ -42,6 +43,7 @@ public class AccountController : ControllerBase
         return Created();
     }
     
+    // for accessing the users own info
     [RequireAuthentication]
     [HttpGet]
     [Route("/api/account/info")]
@@ -55,6 +57,7 @@ public class AccountController : ControllerBase
         };
     }
     
+    // for updating a users info
     [RequireAuthentication]
     [HttpPut]
     [Route("/api/account/update")]

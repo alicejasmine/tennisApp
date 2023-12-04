@@ -12,8 +12,39 @@ public class UserRepository
     {
         _dataSource = dataSource;
     }
-    public User Create(string fullName, string email, bool admin = false)
+
+    // The purpose of this boolean is to check and make sure there will be no duplicate emails.
+    // Since we use an email to log in, it is important they are unique.
+    // in lieu of having two methods we are using isCreate
+    // if true we will not use the userId (since it does not exist), and check only if the given email exists
+    // if false, we are updating a user and in this case we require userId
+    public bool IsEmailTaken(int userId, string email, bool isCreate)
     {
+        if (isCreate)
+        {
+            using (var conn = _dataSource.OpenConnection())
+            {
+                return conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.users WHERE email = @email;",
+                    new { email }) != 0;
+            }  
+        }
+        else
+        {
+            using (var conn = _dataSource.OpenConnection())
+            {
+                return conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.users WHERE email = @email AND id != @userId;",
+                    new { email, userId }) != 0;
+            } 
+        }
+        
+    }
+
+   
+    
+    public User Create(string fullName, string email, bool admin)
+    {
+        
+        
         const string sql = $@"
 INSERT INTO tennis_app.users (full_name, email, admin)
 VALUES (@fullName, @email, @admin)
@@ -27,7 +58,9 @@ RETURNING
         using var connection = _dataSource.OpenConnection();
         return connection.QueryFirst<User>(sql, new { fullName, email, admin });
     }
-    public User Update(int id, string fullName, string email, bool admin = false)
+    
+    
+    public User Update(int id, string fullName, string email, bool admin)
     {
         const string sql = $@"
 UPDATE tennis_app.users SET full_name = @fullName, email = @email, admin = @admin
