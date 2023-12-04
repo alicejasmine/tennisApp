@@ -3,7 +3,7 @@ using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using infrastructure.Repositories;
 
-namespace service;
+namespace service.BEservices;
 
 public class PlayerService
 {

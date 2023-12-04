@@ -1,4 +1,4 @@
-﻿namespace apitest.Models;
+﻿namespace apitests.Models;
 
 public class Match
 {

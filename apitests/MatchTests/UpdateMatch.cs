@@ -1,12 +1,11 @@
 ﻿using System.Net.Http.Json;
-using apitest.Models;
-using apitests;
+using apitests.Models;
 using Dapper;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace apitest.MatchTests;
+namespace apitests.MatchTests;
 
 [TestFixture]
 public class UpdateMatch

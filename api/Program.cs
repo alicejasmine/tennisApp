@@ -3,6 +3,7 @@ using api.MiddleWare;
 using infrastructure;
 using infrastructure.Repositories;
 using service;
+using service.BEservices;
 
 var builder = WebApplication.CreateBuilder(args);
 

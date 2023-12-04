@@ -1,4 +1,4 @@
-﻿namespace tests;
+﻿namespace apitests.Models;
 
 
 public class SearchPlayerItem

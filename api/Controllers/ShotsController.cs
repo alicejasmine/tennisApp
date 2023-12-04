@@ -1,8 +1,9 @@
+using api.Filters;
 using api.TransferModels.ShotDtos;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.BEservices;
 
 namespace api.Controllers;
 
@@ -30,7 +31,6 @@ public class ShotsController : ControllerBase
     {
         return _shotService.GetAllShotsByPlayer(playerId);
     }
-
     [HttpPost]
     [Route("/api/shots/{playerId}/{matchId}/shots")]
     public Shot Post([FromBody] CreateShotRequestDto dto, [FromRoute] int playerId, [FromRoute] int matchId)
