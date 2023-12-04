@@ -35,6 +35,9 @@ builder.Services.AddSwaggerGenWithBearerJWT();
 
 
 
+builder.Services.AddSingleton<SearchRepository>();
+builder.Services.AddSingleton<SearchService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
