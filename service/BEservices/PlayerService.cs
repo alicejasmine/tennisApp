@@ -71,9 +71,9 @@ public class PlayerService
     }
 
 
-    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, int page, int resultsPerPage)
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId)
     {
-        return _playerRepository.GetMatchesForPlayer(playerId, page, resultsPerPage);
+        return _playerRepository.GetMatchesForPlayer(playerId);
     }
     
     public IEnumerable<SearchPlayerItem> SearchForPlayers(string searchTerm)
