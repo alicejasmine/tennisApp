@@ -14,33 +14,37 @@ public class MatchRepository
         _dataSource = datasource;
     }
 
-    public MatchWithPlayers CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
-        DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
+    public Match CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
+        DateTime endTime, bool finished, string notes)
     {
         var sql = $@"
     INSERT INTO tennis_app.match (environment, surface, date, start_time, end_time, finished, notes)
     VALUES (@environment, @surface, @date, @startTime, @endTime, @finished, @notes)
-    RETURNING match_id as {nameof(MatchWithPlayers.Id)},
-    environment as {nameof(MatchWithPlayers.Environment)},
-    surface as {nameof(MatchWithPlayers.Surface)},
-     date as {nameof(MatchWithPlayers.Date)},
-      start_time as {nameof(MatchWithPlayers.StartTime)},
-      end_time as {nameof(MatchWithPlayers.EndTime)},
-     finished as {nameof(MatchWithPlayers.Finished)},
-      notes as {nameof(MatchWithPlayers.Notes)}; 
-
-    INSERT INTO tennis_app.played_in (match_id, player_id)
-    VALUES (LASTVAL(), @playerId1)
-    RETURNING player_id as {nameof(MatchWithPlayers.PlayerId1)};
-
-    INSERT INTO tennis_app.played_in (match_id, player_id)
-    VALUES (LASTVAL(), @playerId2)
-    RETURNING player_id as {nameof(MatchWithPlayers.PlayerId2)};";
+    RETURNING match_id as {nameof(Match.Id)},
+    environment as {nameof(Match.Environment)},
+    surface as {nameof(Match.Surface)},
+     date as {nameof(Match.Date)},
+      start_time as {nameof(Match.StartTime)},
+      end_time as {nameof(Match.EndTime)},
+     finished as {nameof(Match.Finished)},
+      notes as {nameof(Match.Notes)};";
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<MatchWithPlayers>(sql,
-                new { environment, surface, date, startTime, endTime, finished, notes, playerId1, playerId2 });
+            return conn.QueryFirst<Match>(sql,
+                new { environment, surface, date, startTime, endTime, finished, notes});
+        }
+    }
+    
+    public bool AddPlayersToMatch(int playerId, int matchId)
+    {
+        var sql = @"
+        INSERT INTO tennis_app.played_in (match_id, player_id)
+            VALUES (@matchId, @playerId);";
+        
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { matchId, playerId }) > 0;
         }
     }
 
