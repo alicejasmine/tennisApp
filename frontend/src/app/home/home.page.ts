@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
+  template: `<ion-searchbar animated="true" placeholder="Search players" debounce="100"
+                            (ionInput)=""></ion-searchbar>`,
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
