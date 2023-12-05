@@ -17,6 +17,7 @@
     <strong>Ready to create an app?</strong>
     <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
   </div>
-
+  <ion-searchbar *ngIf="fillSearchBar" [value]="fullName" animated="true" placeholder="Search players" debounce="100"
+                 (ionInput)="handleInput($event)"></ion-searchbar>`
   <button (click)="goToAllPlayers()">Go to All Players</button>
 </ion-content>

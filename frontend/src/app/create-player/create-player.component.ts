@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
       <ion-content class="ion-padding" fullscreen="true">
           <ion-list>
               <ion-item>
-                  <ion-input [formControl]="fullnameForm" label="Fullname" placeholder="enter text"></ion-input>
+                  <ion-input [formControl]="fullnameForm" label="Fullname" placeholder="enter text"> </ion-input>
               </ion-item>
               <ion-button [disabled]="PlayerForm.invalid" type="submit" (click)="submitCreatePlayer()"> Create
               </ion-button>

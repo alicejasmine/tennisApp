@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Player} from '../models';
 import {DataService} from "../data.service";
 import {ModalController} from '@ionic/angular';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {CreatePlayerComponent} from '../create-player/create-player.component';
@@ -23,7 +23,7 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
       <div class="container">
         <ion-card *ngFor="let player of dataService.players">
           <ion-card-header>
-            <ion-card-title (click)="openPlayerMatches(player.playerId)">{{player.fullName}}</ion-card-title>
+            <ion-card-title (click)="openPlayerMatches(player.fullName)">{{player.fullName}}</ion-card-title>
             <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
           </ion-card-header>
 
@@ -82,9 +82,14 @@ export class AllPlayersComponent {
     }
   }
 
-  async openPlayerMatches(playerId: number | undefined) {
-    if (playerId !== undefined) {
-      this.router.navigate(['player-matches', playerId]);
+  async openPlayerMatches(fullname: string | undefined) {
+    if (fullname !== undefined) {
+      const navigationExtras: NavigationExtras = {
+        queryParams: { fullName: fullname, fillSearchBar: true },
+      };
+      this.router.navigate(['/home'], navigationExtras);
     }
+
+
   }
 }

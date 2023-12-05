@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AllPlayersComponent } from './all-players/all-players.component';
-import { PlayerMatchesComponent } from './player-matches/player-matches.component';
+
 
 const routes: Routes = [
   {
@@ -14,10 +14,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {path:'all-players',
-  component:AllPlayersComponent},
-
-  {path:'player-matches/:playerId',
-    component:PlayerMatchesComponent}
+  component:AllPlayersComponent}
 ];
 
 @NgModule({
