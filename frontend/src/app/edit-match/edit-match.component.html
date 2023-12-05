@@ -2,44 +2,44 @@
   <ion-list>
     <ion-item>
       <ion-label>Date</ion-label>
-      <ion-datetime [formControl]="createNewMatchForm.controls.date"></ion-datetime>
+      <ion-datetime [formControl]="editNewMatchForm.controls.date"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime [formControl]="createNewMatchForm.controls.startTime" presentation="time"></ion-datetime>
+      <ion-datetime [formControl]="editNewMatchForm.controls.startTime" hourCycle="h24" presentation="time">77</ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Player 1</ion-label>
-      <ion-select [formControl]="createNewMatchForm.controls.player1" label="Player 1" placeholder="Player 1">
+      <ion-select [formControl]="editNewMatchForm.controls.playerid1" label="Player 1" placeholder="Player 1">
         <ion-select-option *ngFor="let player of dataService.players"
                            value="{{player.playerId}}">{{player.fullName}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Player 2</ion-label>
-      <ion-select [formControl]="createNewMatchForm.controls.player2" label="Player 2" placeholder="Player 2">
+      <ion-select [formControl]="editNewMatchForm.controls.playerid2" label="Player 2" placeholder="Player 2">
         <ion-select-option *ngFor="let player of dataService.players"
                            value="{{player.playerId}}">{{player.fullName}}</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select [formControl]="createNewMatchForm.controls.environment" label="Environment"
+      <ion-select [formControl]="editNewMatchForm.controls.environment" label="Environment"
                   placeholder="Pick environment">
         <ion-select-option value="indoor">indoor</ion-select-option>
         <ion-select-option value="outdoor">outdoor</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select [formControl]="createNewMatchForm.controls.surface" label="Surface" placeholder="Pick surface">
+      <ion-select [formControl]="editNewMatchForm.controls.surface" label="Surface" placeholder="Pick surface">
         <ion-select-option value="clay">clay</ion-select-option>
         <ion-select-option value="hard">hard</ion-select-option>
         <ion-select-option value="other">other</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-input [formControl]="createNewMatchForm.controls.notes" type="text" label="Notes">
+      <ion-input [formControl]="editNewMatchForm.controls.notes" type="text" label="Notes">
       </ion-input>
     </ion-item>
   </ion-list>
-  <ion-button data-testid="submit" [disabled]="createNewMatchForm.invalid" (click)="submit()">Create New Box</ion-button>
+  <ion-button data-testid="submit" [disabled]="editNewMatchForm.invalid" (click)="update()">Update match</ion-button>
 </ion-content>

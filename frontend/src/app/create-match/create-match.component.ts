@@ -22,8 +22,8 @@ export class CreateMatchComponent {
     startTime: [''],
     environment: ['', [Validators.required, Validators.pattern('(?:indoor|outdoor)')]],
     surface: ['', [Validators.required, Validators.pattern('(?:clay|hard|other)')]],
-    player1: ['', [Validators.required]],
-    player2: ['', [Validators.required]],
+    playerid1: ['', [Validators.required]],
+    playerid2: ['', [Validators.required]],
     notes: ['']
   })
 
@@ -33,9 +33,7 @@ export class CreateMatchComponent {
   }
 
   async submit() {
-    console.log(this.createNewMatchForm.controls.startTime.value)
-    console.log(this.createNewMatchForm.controls.player1.value)
-    console.log(this.createNewMatchForm.controls.player2.value)
+    console.log(this.createNewMatchForm.value)
     try {
 
       const observable =     this.http.post<ResponseDto<MatchWithPlayers>>('/api/matches', this.createNewMatchForm.getRawValue())
@@ -46,7 +44,7 @@ export class CreateMatchComponent {
 
 
       const toast = await this.toastController.create({
-        message: 'Box was created!',
+        message: 'Match was created!',
         duration: 1233,
         color: "success"
       })

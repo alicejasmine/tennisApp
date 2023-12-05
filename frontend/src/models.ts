@@ -1,5 +1,5 @@
 export class MatchWithPlayers {
-  matchId?: number;
+  id?: number;
   environment?: string;
   surface?: string;
   date?: Date;

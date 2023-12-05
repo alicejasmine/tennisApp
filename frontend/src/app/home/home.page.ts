@@ -6,7 +6,8 @@ import {MatchWithPlayers} from "../../models";
 import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
 import {ModalController} from "@ionic/angular";
-import {CreateMatchComponent} from "../createMatch/create-match.component";
+import {CreateMatchComponent} from "../create-match/create-match.component";
+import {EditMatchComponent} from "../edit-match/edit-match.component";
 
 @Component({
   selector: 'app-home',
@@ -23,13 +24,13 @@ export class HomePage {
   }
 
   async getMatches() {
-    const call = this.http.get<MatchWithPlayers[]>(environment.baseUrl + '/api/matches');
+    const call = this.http.get<MatchWithPlayers[]>('/api/matches');
     this.dataService.matchesWithPlayers = await firstValueFrom<MatchWithPlayers[]>(call);
   }
 
   async handleSearch($event: any) {
     const query = $event.target.value;
-    const call = this.http.get<MatchWithPlayers[]>(environment.baseUrl + `/api/matches/search?SearchTerm=${query}`);
+    const call = this.http.get<MatchWithPlayers[]>(`/api/matches/search?SearchTerm=${query}`);
     this.dataService.matchesWithPlayers = await firstValueFrom<MatchWithPlayers[]>(call);
   }
 
@@ -38,6 +39,19 @@ export class HomePage {
       component: CreateMatchComponent
     });
     modal.present();
+  }
 
+  async openModalEditMatch(matchId: number | undefined) {
+    console.log('MatchIs is ', matchId)
+    if (matchId !== undefined) {
+      const currentMatchToEdit = this.dataService.matchesWithPlayers.find(match => match.id === matchId);
+      if (currentMatchToEdit) {
+        this.dataService.currentMatch = currentMatchToEdit;
+        const modal = await this.modalController.create({
+          component: EditMatchComponent
+        });
+        modal.present();
+      }
+    }
   }
 }
