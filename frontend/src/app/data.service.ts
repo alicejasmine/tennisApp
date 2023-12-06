@@ -1,7 +1,5 @@
-
-import {MatchWithPlayers, Players} from "../models";
 import {Injectable} from "@angular/core";
-import {Match, Player} from "./models";
+import {MatchWithPlayers, Match, Player} from "./models";
 
 
 

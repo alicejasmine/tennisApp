@@ -4,13 +4,13 @@ import {Component,OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
 import {HttpClient} from "@angular/common/http";
-import {MatchWithPlayers} from "../../models";
 import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
 import {ModalController} from "@ionic/angular";
 import {CreateMatchComponent} from "../create-match/create-match.component";
 import {EditMatchComponent} from "../edit-match/edit-match.component";
 import {ActivatedRoute} from '@angular/router';
+import {MatchWithPlayers} from "../models";
 
 
 @Component({

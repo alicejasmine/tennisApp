@@ -3,9 +3,9 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {ModalController, ToastController} from "@ionic/angular";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DataService} from "../data.service";
-import {MatchWithPlayers, Players, ResponseDto} from "../../models";
 import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
+import {MatchWithPlayers, Player} from "../models";
 
 @Component({
   templateUrl: './create-match.component.html',
@@ -28,8 +28,8 @@ export class CreateMatchComponent {
   })
 
   async getPlayers() {
-    const call = this.http.get<Players[]>('/api/players?page=1&resultsPerPage=10');
-    this.dataService.players = await firstValueFrom<Players[]>(call);
+    const call = this.http.get<Player[]>('/api/players?page=1&resultsPerPage=10');
+    this.dataService.players = await firstValueFrom<Player[]>(call);
   }
 
   async submit() {
