@@ -14,12 +14,14 @@ import {EditMatchComponent} from "./edit-match/edit-match.component";
 import { AllPlayersComponent } from './all-players/all-players.component';
 import { DataService } from './data.service';
 import { FormsModule } from '@angular/forms';
-
+import { CreatePlayerComponent } from './create-player/create-player.component';
 @NgModule({
-  declarations: [AppComponent, CreateMatchComponent, EditMatchComponent,AllPlayersComponent],
+  declarations: [AppComponent, CreateMatchComponent, EditMatchComponent,AllPlayersComponent,CreatePlayerComponent],
     imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ReactiveFormsModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, DataService],
   bootstrap: [AppComponent]
+
+
 
 })
 export class AppModule {}
