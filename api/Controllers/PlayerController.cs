@@ -59,11 +59,10 @@ public class PlayerController : ControllerBase
     //read all matches for a player
 
     [HttpGet]
-    [Route("/api/matches/{playerId}")]
-    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, [FromQuery] int page,
-        [FromQuery] int resultsPerPage)
+    [Route("/api/matchesforplayer/{playerId}")]
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId)
     {
-        return _playerService.GetMatchesForPlayer(playerId, page, resultsPerPage);
+        return _playerService.GetMatchesForPlayer(playerId);
     }
     
     //search players

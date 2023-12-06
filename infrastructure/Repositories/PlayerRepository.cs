@@ -98,7 +98,7 @@ FROM tennis_app.players;
     }
 
 
-    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, int page, int resultsPerPage)
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId)
     {
         string sql = $@"
         SELECT  
@@ -114,13 +114,12 @@ FROM tennis_app.players;
         JOIN tennis_app.played_in pi ON m.match_id = pi.match_id
         WHERE pi.player_id =@playerId
         ORDER BY m.date DESC, m.start_time DESC
-        OFFSET @offset
-        LIMIT @limit;
+        
     ";
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.Query<MatchesForPlayer>(sql,
-                new { playerId, offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
+                new { playerId });
         }
     }
     

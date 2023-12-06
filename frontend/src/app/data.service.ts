@@ -1,7 +1,7 @@
 
 import {MatchWithPlayers, Players} from "../models";
 import {Injectable} from "@angular/core";
-import { Player } from "./models";
+import {Match, Player} from "./models";
 
 
 
@@ -15,5 +15,7 @@ export class DataService {
   public currentMatch: MatchWithPlayers = {};
   public players: Player[] = [];
   public currentPlayer: Player = {};
+  public matches: Match[] = [];
+
 
 }

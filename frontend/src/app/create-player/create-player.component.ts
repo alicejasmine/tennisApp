@@ -9,6 +9,7 @@ import {firstValueFrom} from 'rxjs';
 @Component({
   selector: 'app-create-player',
   template: `
+
     <ion-content class="ion-padding" fullscreen="true">
       <ion-list>
         <ion-item>
@@ -20,6 +21,7 @@ import {firstValueFrom} from 'rxjs';
         <ion-button (click)="modalController.dismiss()">Close</ion-button>
       </ion-list>
     </ion-content>`,
+
 
   styleUrls: ['./create-player.component.scss'],
 })

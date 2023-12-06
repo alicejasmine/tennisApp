@@ -1,5 +1,6 @@
 
-import {Component} from '@angular/core';
+
+import {Component,OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
 import {HttpClient} from "@angular/common/http";
@@ -9,6 +10,7 @@ import {firstValueFrom} from "rxjs";
 import {ModalController} from "@ionic/angular";
 import {CreateMatchComponent} from "../create-match/create-match.component";
 import {EditMatchComponent} from "../edit-match/edit-match.component";
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -16,13 +18,16 @@ import {EditMatchComponent} from "../edit-match/edit-match.component";
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  fullName: string | undefined;
+  fillSearchBar: boolean | undefined;
+
 
 
   constructor(public router: Router,
               public dataService: DataService,
               public http: HttpClient,
-              public modalController: ModalController) {
+              public modalController: ModalController,private route: ActivatedRoute) {
     this.getMatches();
   }
 
@@ -60,4 +65,18 @@ export class HomePage {
   async goToAllPlayers() {
     this.router.navigate(['/all-players']);
 
-  }}
+  }
+
+
+  async handleInput($event: any) {
+
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.fullName = params['fullName'];
+      this.fillSearchBar = params['fillSearchBar'] === 'true';
+    });
+  }
+}
+

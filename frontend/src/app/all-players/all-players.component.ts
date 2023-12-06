@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Player} from '../models';
 import {DataService} from "../data.service";
 import {ModalController} from '@ionic/angular';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {CreatePlayerComponent} from '../create-player/create-player.component';
@@ -18,12 +18,12 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
       <div class="container">
         <ion-searchbar animated="true" placeholder="Search players" debounce="100"
                        (ionInput)="handleInput($event)"></ion-searchbar>
-        <ion-button (click)="openCreatePLayer()">Create</ion-button>
+        <ion-button (click)="openCreatePlayer()">Create</ion-button>
       </div>
       <div class="container">
         <ion-card *ngFor="let player of dataService.players">
           <ion-card-header>
-            <ion-card-title>{{player.fullName}}</ion-card-title>
+            <ion-card-title (click)="openPlayerMatches(player.fullName)">{{player.fullName}}</ion-card-title>
             <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
           </ion-card-header>
 
@@ -60,7 +60,7 @@ export class AllPlayersComponent {
     this.dataService.players = await firstValueFrom<Player[]>(call);
   }
 
-  async openCreatePLayer() {
+  async openCreatePlayer() {
     const modal = await this.modalController.create({
       component: CreatePlayerComponent
     });
@@ -69,7 +69,6 @@ export class AllPlayersComponent {
 
 
   async openEditPlayer(playerId: number | undefined) {
-    console.log('PlayerId:', playerId);
     if (playerId !== undefined) {
       const editingPlayer = this.dataService.players.find(player => player.playerId === playerId);
       if (editingPlayer) {
@@ -81,5 +80,16 @@ export class AllPlayersComponent {
         modal.present();
       }
     }
+  }
+
+  async openPlayerMatches(fullname: string | undefined) {
+    if (fullname !== undefined) {
+      const navigationExtras: NavigationExtras = {
+        queryParams: { fullName: fullname, fillSearchBar: true },
+      };
+      this.router.navigate(['/home'], navigationExtras);
+    }
+
+
   }
 }
