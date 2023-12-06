@@ -68,14 +68,13 @@ export class HomePage implements OnInit {
   }
 
 
-  async handleInput($event: any) {
-
-  }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.fullName = params['fullName'];
       this.fillSearchBar = params['fillSearchBar'] === 'true';
+      if (this.fillSearchBar) {
+        this.handleSearch({ target: { value: this.fullName } });
+      }
     });
   }
 }
