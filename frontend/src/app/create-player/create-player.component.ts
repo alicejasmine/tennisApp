@@ -3,22 +3,23 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalController, ToastController} from '@ionic/angular';
 import {DataService} from '../data.service';
-import { Player } from '../models';
-import { firstValueFrom } from 'rxjs';
+import {Player} from '../models';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-create-player',
   template: `
-      <ion-content class="ion-padding" fullscreen="true">
-          <ion-list>
-              <ion-item>
-                  <ion-input [formControl]="fullnameForm" label="Fullname" placeholder="enter text"></ion-input>
-              </ion-item>
-              <ion-button [disabled]="PlayerForm.invalid" type="submit" (click)="submitCreatePlayer()"> Create
-              </ion-button>
-              <ion-button (click)="modalController.dismiss()">Close</ion-button>
-          </ion-list>
-      </ion-content>`,
+    <ion-content class="ion-padding" fullscreen="true">
+      <ion-list>
+        <ion-item>
+          <ion-input [formControl]="fullnameForm" label="Fullname" placeholder="Enter text"></ion-input>
+          <ion-text color="danger" *ngIf="fullnameForm.hasError('required')">(Required)</ion-text>
+        </ion-item>
+        <ion-button [disabled]="PlayerForm.invalid" type="submit" (click)="submitCreatePlayer()"> Create
+        </ion-button>
+        <ion-button (click)="modalController.dismiss()">Close</ion-button>
+      </ion-list>
+    </ion-content>`,
 
   styleUrls: ['./create-player.component.scss'],
 })
@@ -49,7 +50,7 @@ export class CreatePlayerComponent {
       })
       toast.present();
       this.modalController.dismiss();
-    }catch (error: any) {
+    } catch (error: any) {
       console.log(error);
       let errorMessage = 'Error';
 
