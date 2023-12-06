@@ -5,9 +5,8 @@ import {ModalController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
-
-import {UpdatePlayerComponent} from '../update-player/update-player.component';
-import { CreatePlayerComponent } from '../create-player/create-player.component';
+import {CreatePlayerComponent} from '../create-player/create-player.component';
+import {EditPlayerComponent} from '../edit-player/edit-player.component';
 
 @Component({
   selector: 'app-all-players',
@@ -15,25 +14,25 @@ import { CreatePlayerComponent } from '../create-player/create-player.component'
 
 
 
-      <ion-content class="ion-padding" fullscreen="true">
-          <div class="container">
-              <ion-searchbar animated="true" placeholder="Search players" debounce="100"
-                             (ionInput)="handleInput($event)"></ion-searchbar>
-              <ion-button (click)="openCreatePLayer()">Create</ion-button>
-          </div>
-          <div class="container">
-              <ion-card *ngFor="let player of dataService.players">
-                  <ion-card-header>
-                      <ion-card-title>{{player.fullName}}</ion-card-title>
-                      <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
-                  </ion-card-header>
+    <ion-content class="ion-padding" fullscreen="true">
+      <div class="container">
+        <ion-searchbar animated="true" placeholder="Search players" debounce="100"
+                       (ionInput)="handleInput($event)"></ion-searchbar>
+        <ion-button (click)="openCreatePLayer()">Create</ion-button>
+      </div>
+      <div class="container">
+        <ion-card *ngFor="let player of dataService.players">
+          <ion-card-header>
+            <ion-card-title>{{player.fullName}}</ion-card-title>
+            <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
+          </ion-card-header>
 
-                  <ion-button fill="clear" (click)="openUpdatePlayer(player.playerId)">Update</ion-button>
+          <ion-button fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
 
-              </ion-card>
-          </div>
+        </ion-card>
+      </div>
 
-      </ion-content>`,
+    </ion-content>`,
   styleUrls: ['./all-players.component.scss'],
 })
 export class AllPlayersComponent {
@@ -51,8 +50,8 @@ export class AllPlayersComponent {
   async getAllPlayers() {
 
     const call = this.http.get<Player[]>('api/players');
-    this.dataService.players = await firstValueFrom<Player[]>(call);}
-
+    this.dataService.players = await firstValueFrom<Player[]>(call);
+  }
 
 
   async handleInput($event: any) {
@@ -69,15 +68,18 @@ export class AllPlayersComponent {
   }
 
 
-  async openUpdatePlayer(playerId: number | undefined) {
+  async openEditPlayer(playerId: number | undefined) {
+    console.log('PlayerId:', playerId);
     if (playerId !== undefined) {
-      const modal = await this.modalController.create({
-        component: UpdatePlayerComponent,
-        componentProps: {
-          playerId: playerId
-        }
-      });
-      modal.present();
+      const editingPlayer = this.dataService.players.find(player => player.playerId === playerId);
+      if (editingPlayer) {
+        this.dataService.currentPlayer = editingPlayer;
+        const modal = await this.modalController.create({
+          component: EditPlayerComponent,
+
+        });
+        modal.present();
+      }
     }
   }
 }
