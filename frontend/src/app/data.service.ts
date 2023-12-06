@@ -1,12 +1,18 @@
+
 import {MatchWithPlayers, Players} from "../models";
 import {Injectable} from "@angular/core";
+import { Player } from "./models";
+
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class DataService {
-  public matchesWithPlayers: MatchWithPlayers[] =[];
+
+  public matchesWithPlayers: MatchWithPlayers[] = [];
   public currentMatch: MatchWithPlayers = {};
-  public players: Players[] = [];
+  public players: Player[] = [];
+  public currentPlayer: Player = {};
+
 }

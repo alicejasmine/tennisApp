@@ -6,15 +6,20 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
 import {HttpClientModule} from "@angular/common/http";
 import {CreateMatchComponent} from "./create-match/create-match.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {EditMatchComponent} from "./edit-match/edit-match.component";
+import { AllPlayersComponent } from './all-players/all-players.component';
+import { DataService } from './data.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, CreateMatchComponent, EditMatchComponent],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ReactiveFormsModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  declarations: [AppComponent, CreateMatchComponent, EditMatchComponent,AllPlayersComponent],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ReactiveFormsModule,FormsModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, DataService],
+  bootstrap: [AppComponent]
+
 })
 export class AppModule {}

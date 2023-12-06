@@ -1,3 +1,4 @@
+
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
@@ -9,12 +10,14 @@ import {ModalController} from "@ionic/angular";
 import {CreateMatchComponent} from "../create-match/create-match.component";
 import {EditMatchComponent} from "../edit-match/edit-match.component";
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+
 
   constructor(public router: Router,
               public dataService: DataService,
@@ -52,5 +55,9 @@ export class HomePage {
         modal.present();
       }
     }
-  }
 }
+
+  async goToAllPlayers() {
+    this.router.navigate(['/all-players']);
+
+  }}
