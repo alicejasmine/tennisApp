@@ -33,14 +33,13 @@ export class CreateMatchComponent {
   }
 
   async submit() {
-    console.log(this.createNewMatchForm.value)
     try {
 
-      const observable =     this.http.post<ResponseDto<MatchWithPlayers>>('/api/matches', this.createNewMatchForm.getRawValue())
+      const observable = this.http.post<MatchWithPlayers>('/api/matches', this.createNewMatchForm.getRawValue())
 
-      const response = await firstValueFrom(observable);
+      const response = await firstValueFrom<MatchWithPlayers>(observable);
 
-      this.dataService.matchesWithPlayers.push(response.responseData!);
+      this.dataService.matchesWithPlayers.push(response);
 
 
       const toast = await this.toastController.create({

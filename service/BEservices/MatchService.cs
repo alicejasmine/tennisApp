@@ -7,10 +7,12 @@ namespace service;
 public class MatchService
 {
     private readonly MatchRepository _matchRepository;
+    private readonly PlayerRepository _playerRepository;
 
-    public MatchService(MatchRepository matchRepository)
+    public MatchService(MatchRepository matchRepository, PlayerRepository playerRepository)
     {
         _matchRepository = matchRepository;
+        _playerRepository = playerRepository;
     }
 
     public MatchWithPlayers CreateMatch(string environment, string surface, DateTime date, DateTime startTime,
@@ -21,12 +23,14 @@ public class MatchService
             _matchRepository.CreateMatch(environment, surface, date, startTime, endTime, finished, notes);
         var assignedPlayer1 = _matchRepository.AddPlayersToMatch(playerId1, createdMatch.Id);
         var assignedPlayer2 = _matchRepository.AddPlayersToMatch(playerId2, createdMatch.Id);
+        var fullName1 = _playerRepository.GetPlayerById(playerId1);
+        var fullName2 = _playerRepository.GetPlayerById(playerId2);
         if (assignedPlayer1 || assignedPlayer2)
         {
             createdMatchWithPlayers = new MatchWithPlayers()
             {
                 Id = createdMatch.Id, Environment = environment, Surface = surface, Date = date, StartTime = startTime,
-                EndTime = endTime, Finished = finished, Notes = notes, PlayerId1 = playerId1, PlayerId2 = playerId2
+                EndTime = endTime, Finished = finished, Notes = notes, PlayerId1 = playerId1, PlayerId2 = playerId2, FullNamePlayer1 = fullName1.FullName, FullNamePlayer2 = fullName2.FullName
             };
         }
         

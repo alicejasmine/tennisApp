@@ -42,7 +42,6 @@ export class HomePage {
   }
 
   async openModalEditMatch(matchId: number | undefined) {
-    console.log('MatchIs is ', matchId)
     if (matchId !== undefined) {
       const currentMatchToEdit = this.dataService.matchesWithPlayers.find(match => match.id === matchId);
       if (currentMatchToEdit) {
