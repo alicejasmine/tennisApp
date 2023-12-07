@@ -7,7 +7,7 @@ import {AuthenticatedGuard} from "./guards";
 import { TabsComponent } from './tabs.component';
 import { AccountComponent } from './account/account.component';
 import { AllPlayersComponent } from './all-players/all-players.component';
-import { HomePage } from './home/home.page';
+import { MatchesComponent } from './home/matches.component';
 
 
 
@@ -16,9 +16,10 @@ const routes: Routes = [
     path: '',
     component: TabsComponent,
     children: [
+
       {
         path: 'home',
-        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+        component: MatchesComponent,
       },
       {
         path: '',

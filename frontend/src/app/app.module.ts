@@ -28,10 +28,12 @@ import { DataService } from './data.service';
 import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
+import { MatchesComponent } from './home/matches.component';
 
 
 @NgModule({
   declarations: [AppComponent,
+    MatchesComponent,
     UsersComponent,
     TabsComponent,
     AccountComponent,

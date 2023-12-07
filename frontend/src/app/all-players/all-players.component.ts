@@ -18,7 +18,7 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
       <div class="container">
         <ion-searchbar animated="true" placeholder="Search players" debounce="100"
                        (ionInput)="handleInput($event)"></ion-searchbar>
-        <ion-button (click)="openCreatePlayer()">Create</ion-button>
+        <ion-button (click)="openCreatePlayer()">Create Player</ion-button>
       </div>
       <div class="container">
         <ion-card *ngFor="let player of dataService.players">
