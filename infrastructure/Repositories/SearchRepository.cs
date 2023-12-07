@@ -29,7 +29,9 @@ SELECT DISTINCT ON (m.match_id)
         m.finished as {nameof(MatchWithPlayers.Finished)},
         m.notes as {nameof(MatchWithPlayers.Notes)},
       p1.player_id as {nameof(MatchWithPlayers.PlayerId1)},
-    p2.player_id as {nameof(MatchWithPlayers.PlayerId2)}
+    p2.player_id as {nameof(MatchWithPlayers.PlayerId2)},
+    p1.full_name as {nameof(MatchesForPlayer.FullNamePlayer1)},
+    p2.full_name as {nameof(MatchesForPlayer.FullNamePlayer2)}
 
     FROM tennis_app.match m
          

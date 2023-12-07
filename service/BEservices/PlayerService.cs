@@ -65,15 +65,15 @@ public class PlayerService
         return _playerRepository.GetPlayerById(playerId);
     }
 
-    public IEnumerable<AllPlayers> GetAllPlayers(int page, int resultsPerPage)
+    public IEnumerable<AllPlayers> GetAllPlayers()
     {
-        return _playerRepository.GetAllPlayers(page, resultsPerPage);
+        return _playerRepository.GetAllPlayers();
     }
 
 
-    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, int page, int resultsPerPage)
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId)
     {
-        return _playerRepository.GetMatchesForPlayer(playerId, page, resultsPerPage);
+        return _playerRepository.GetMatchesForPlayer(playerId);
     }
     
     public IEnumerable<SearchPlayerItem> SearchForPlayers(string searchTerm)

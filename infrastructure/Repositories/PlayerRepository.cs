@@ -82,23 +82,23 @@ RETURNING player_id as {nameof(Player.PlayerId)},
     }
 
 
-    public IEnumerable<AllPlayers> GetAllPlayers(int page, int resultsPerPage)
+    public IEnumerable<AllPlayers> GetAllPlayers()
     {
         string sql = $@"
 SELECT player_id as {nameof(Player.PlayerId)},
        full_name as {nameof(Player.FullName)},
     active as {nameof(Player.Active)}
 
-FROM tennis_app.players OFFSET @offset LIMIT @limit;
+FROM tennis_app.players;
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<AllPlayers>(sql, new { offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
+            return conn.Query<AllPlayers>(sql);
         }
     }
 
 
-    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId, int page, int resultsPerPage)
+    public IEnumerable<MatchesForPlayer> GetMatchesForPlayer(int playerId)
     {
         string sql = $@"
         SELECT  
@@ -114,13 +114,12 @@ FROM tennis_app.players OFFSET @offset LIMIT @limit;
         JOIN tennis_app.played_in pi ON m.match_id = pi.match_id
         WHERE pi.player_id =@playerId
         ORDER BY m.date DESC, m.start_time DESC
-        OFFSET @offset
-        LIMIT @limit;
+        
     ";
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.Query<MatchesForPlayer>(sql,
-                new { playerId, offset = (page - 1) * resultsPerPage, limit = resultsPerPage });
+                new { playerId });
         }
     }
     
