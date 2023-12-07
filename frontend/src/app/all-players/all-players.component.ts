@@ -11,7 +11,7 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
 @Component({
   selector: 'app-all-players',
   template: `
-
+    <app-title title="Players"></app-title>
 
 
     <ion-content class="ion-padding" fullscreen="true">

@@ -8,6 +8,7 @@ import {TokenService} from "src/services/token.service";
       <ion-header>
           <ion-toolbar>
               <ion-title>{{ titleText }}</ion-title>
+            
               <ion-buttons slot="end">
                   <ion-button fill="solid" *ngIf="token.getToken(); else notLoggedIn" (click)="token.clearToken()">
                       Logout
@@ -19,7 +20,7 @@ import {TokenService} from "src/services/token.service";
                           <ion-icon slot="end" name="log-in"></ion-icon>
                       </ion-button>
                       <ion-button fill="solid" [routerLink]="'/register'">
-                          Regiser
+                          Register
                       </ion-button>
                   </ng-template>
               </ion-buttons>
@@ -37,6 +38,6 @@ export class HeaderComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.title.setTitle(`Blog - ${this.titleText}`)
+    this.title.setTitle(`Stepwise - ${this.titleText}`)
   }
 }

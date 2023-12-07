@@ -7,6 +7,7 @@ import {AuthenticatedGuard} from "./guards";
 import { TabsComponent } from './tabs.component';
 import { AccountComponent } from './account/account.component';
 import { AllPlayersComponent } from './all-players/all-players.component';
+import { HomePage } from './home/home.page';
 
 
 
@@ -33,15 +34,9 @@ const routes: Routes = [
         component: RegisterComponent,
       },
       {
-        path: 'users',
-        component: UsersComponent,
-        canActivate: [AuthenticatedGuard]
-      },
-      {
-        path: 'account',
-        component: AccountComponent,
-        canActivate: [AuthenticatedGuard]
-      },
+        path:'all-players',
+        component:AllPlayersComponent
+      }
     ]
   }
 ];
