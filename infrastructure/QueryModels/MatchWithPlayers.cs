@@ -13,4 +13,6 @@ public class MatchWithPlayers
     public string Notes { get; set; }
     public int PlayerId1 { get; set; }
     public int PlayerId2 { get; set; }
+    public string FullNamePlayer1 { get; set; }
+    public string FullNamePlayer2 { get; set; }
 }

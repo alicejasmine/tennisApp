@@ -10,4 +10,6 @@ public class MatchesForPlayer
     public DateTime EndTime { get; set; }
     public bool Finished { get; set; }
     public string Notes { get; set; }
+    public string FullNamePlayer1 { get; set; }
+    public string FullNamePlayer2 { get; set; }
 }
