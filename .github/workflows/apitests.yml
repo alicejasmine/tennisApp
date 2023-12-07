@@ -6,7 +6,7 @@
       - dev-branch
   workflow_dispatch:
 jobs:
-  playwrighttests:
+  ApiTests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
