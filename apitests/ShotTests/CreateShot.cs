@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace apitests.ShotTests;
 
-[TestFixture]
+
 public class CreateShot
 {
     

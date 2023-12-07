@@ -19,9 +19,11 @@ import { AuthHttpInterceptor } from 'src/interceptors/auth-http-interceptor';
 import {AuthenticatedGuard} from "./guards";
 import { HeaderComponent } from './header.component';
 import { RewriteHttpInterceptor } from 'src/interceptors/rewrite-http-interceptor';
+import { TabsComponent } from './tabs.component';
 @NgModule({
   declarations: [AppComponent,
     UsersComponent,
+    TabsComponent,
     AccountComponent,
     RegisterComponent,
     LoginComponent,

@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private toastController: ToastController,
-    private tokenService: TokenService,
+    private tokenService: TokenService
   ) {
 
   }

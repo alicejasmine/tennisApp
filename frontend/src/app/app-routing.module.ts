@@ -4,20 +4,42 @@ import {LoginComponent} from "./account/login.component";
 import {RegisterComponent} from "./account/register.component";
 import {UsersComponent} from "./user/users.component";
 import {AuthenticatedGuard} from "./guards";
+import { TabsComponent } from './tabs.component';
+import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    canActivate: [AuthenticatedGuard]
+    path: '',
+    component: TabsComponent,
+    children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AuthenticatedGuard]
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
+        canActivate: [AuthenticatedGuard]
+      },
+    ]
   }
 ];
 

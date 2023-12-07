@@ -57,7 +57,7 @@ public class AccountController : ControllerBase
         };
     }
     
-    // for updating a users info
+    // this method is intended to allow a user to update their own information
     [RequireAuthentication]
     [HttpPut]
     [Route("/api/account/update")]

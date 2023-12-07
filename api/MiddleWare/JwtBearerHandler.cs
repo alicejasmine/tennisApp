@@ -5,7 +5,7 @@ namespace api.MiddleWare;
 public class JwtBearerHandler
 {
     
-    // This class is used to parse the header of a given HTTP request that is in the bearer token
+    // This class is used to parse the header of a given HTTP request and extract our token
     
     private readonly ILogger<JwtBearerHandler> _logger;
     private readonly RequestDelegate _next;
