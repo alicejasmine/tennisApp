@@ -1,10 +1,10 @@
 using System.Net;
 using System.Net.Http.Json;
+using apitests.Models;
 using Dapper;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using tests;
 
 
 namespace apitests.PlayerTests;

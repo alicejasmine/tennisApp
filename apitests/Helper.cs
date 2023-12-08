@@ -1,7 +1,5 @@
 using Dapper;
-using Newtonsoft.Json;
 using Npgsql;
-using NUnit.Framework;
 
 
 namespace apitests;
@@ -143,6 +141,6 @@ create table if not exists tennis_app.password_hash
 );
  ";
 
-    
+
 }
 

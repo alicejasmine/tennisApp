@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace api.TransferModels;
+namespace api.TransferModels.PlayerDtos;
 
 public class UpdatePlayerRequestDto
 {

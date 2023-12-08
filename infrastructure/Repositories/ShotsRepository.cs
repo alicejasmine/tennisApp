@@ -14,6 +14,8 @@ public class ShotsRepository
         _dataSource = dataSource;
     }
 
+  
+    
     public IEnumerable<ShotListItem> GetPlayerShotsByMatch(int playerId, int matchId)
     {
         string sql = $@"
@@ -25,11 +27,11 @@ shot_type as {nameof(ShotListItem.ShotType)},
 shot_destination as {nameof(ShotListItem.ShotDestination)},
 shot_direction as {nameof(ShotListItem.ShotDirection)},
 player_position as {nameof(ShotListItem.PlayerPosition)}
-FROM tennis_app.shots WHERE match_id = @mId AND player_id = @pId;
+FROM tennis_app.shots WHERE match_id = @matchId AND player_id = @playerId;
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<ShotListItem>(sql, new {mId = matchId, pId = playerId });
+            return conn.Query<ShotListItem>(sql);
         }
     }
     
@@ -52,12 +54,12 @@ FROM tennis_app.shots WHERE player_id = @pId;
         }
     }
 
-    public Shot CreateShot(int playerId, int matchId, string shotClass, string shotType, string shotDest,
-        string shotDir, string playPos)
+    public Shot CreateShot(int playerId, int matchId, string shotClassification, string shotType, string shotDestination,
+        string shotDirection, string playPosition)
     {
         var sql =
             $@"INSERT INTO tennis_app.shots (player_id, match_id, shot_classification, shot_type, shot_destination, shot_direction, player_position) 
-VALUES (@playerId, @matchId, @shotClass, @shotType, @shotDest, @shotDir, @playPos)
+VALUES (@playerId, @matchId, @shotClassification, @shotType, @shotDestination, @shotDirection, @playPosition)
 RETURNING tennis_app.shots.shots_id as {nameof(Shot.ShotsId)},
 player_id as {nameof(Shot.PlayerId)},
 match_id as {nameof(Shot.MatchId)},
@@ -71,7 +73,7 @@ player_position as {nameof(Shot.PlayerPosition)};
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.QueryFirst<Shot>(sql,
-                new { playerId, matchId, shotClass, shotType, shotDest, shotDir, playPos });
+                new { playerId, matchId, shotClassification, shotType, shotDestination, shotDirection, playPosition });
         }
     }
     

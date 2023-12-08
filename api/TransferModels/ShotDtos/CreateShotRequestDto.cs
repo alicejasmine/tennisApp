@@ -7,11 +7,11 @@ namespace api.TransferModels.ShotDtos;
 public class CreateShotRequestDto
 {
     
-    [Required]
+    [NotNull]
     [ValueIsOneOf(new string[] {"Winner", "Forced Error", "Unforced Error"},
         "Value must be one of these choices: Winner, Forced Error, or Unforced Error.")]
     public string? ShotClassification { get; set; }
-    [Required]
+    [NotNull]
     [ValueIsOneOf(new string[]{
         "Forehand Groundstroke", "Forehand Volley", "Forehand Return", 
         "Backhand Groundstroke", "Backhand Volley", "Backhand Return", 
@@ -20,13 +20,13 @@ public class CreateShotRequestDto
         "Forehand Volley, Forehand Return, Backhand Groundstroke, " +
         "Backhand Volley, Backhand Return, Overhead, Serve Deuce, Serve Add, Other")]
     public string? ShotType { get; set; }
-    [Required]
+    [NotNull]
     [ValueIsOneOf(new string[]{"Net", "Wide", "Long", "Not Applicable"}, "Valid elements are Wide, Long, Net, and Not Applicable")]
     public string? ShotDestination { get; set; }
-    [Required]
+    [NotNull]
     [ValueIsOneOf(new string[]{"Middle", "Down The Line", "Cross Court"},"Valid elements are Middle, Down The Line, and Cross Court")]
     public string? ShotDirection { get; set; }
-    [Required]
+    [NotNull]
     [ValueIsOneOf(new string[]{"Red", "Yellow", "Green"},"Valid elements are Red, Yellow, and Green")]
     public string? PlayerPosition { get; set; }
 }

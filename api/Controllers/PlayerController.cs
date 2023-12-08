@@ -1,9 +1,9 @@
 using api.Filters;
-using api.TransferModels;
+using api.TransferModels.PlayerDtos;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.BEservices;
 
 namespace api.Controllers;
 

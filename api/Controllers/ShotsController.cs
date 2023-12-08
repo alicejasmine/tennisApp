@@ -1,8 +1,9 @@
+using api.Filters;
 using api.TransferModels.ShotDtos;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
-using service;
+using service.BEservices;
 
 namespace api.Controllers;
 
@@ -16,7 +17,8 @@ public class ShotsController : ControllerBase
     {
         _shotService = shotService;
     } 
-
+    
+    // return shots for a player in a given match
     [HttpGet]
     [Route("/api/shots/{playerId}/{matchId}/shots")]
     public IEnumerable<ShotListItem> Get([FromRoute] int playerId, [FromRoute] int matchId )
@@ -24,13 +26,15 @@ public class ShotsController : ControllerBase
         return _shotService.GetShotsForPlayerByMatch(playerId, matchId);
     }
     
+    // return shots for a player in all matches
     [HttpGet]
     [Route("/api/shots/{playerId}/matches/shots")]
     public IEnumerable<ShotListItem> Get([FromRoute] int playerId)
     {
         return _shotService.GetAllShotsByPlayer(playerId);
     }
-
+    
+    // create a new shot for a given player in a given match
     [HttpPost]
     [Route("/api/shots/{playerId}/{matchId}/shots")]
     public Shot Post([FromBody] CreateShotRequestDto dto, [FromRoute] int playerId, [FromRoute] int matchId)

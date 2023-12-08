@@ -11,14 +11,14 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
 @Component({
   selector: 'app-all-players',
   template: `
-
+    <app-title title="Players"></app-title>
 
 
     <ion-content class="ion-padding" fullscreen="true">
       <div class="container">
         <ion-searchbar animated="true" placeholder="Search players" debounce="100"
                        (ionInput)="handleInput($event)"></ion-searchbar>
-        <ion-button (click)="openCreatePlayer()">Create</ion-button>
+        <ion-button (click)="openCreatePlayer()">Create Player</ion-button>
       </div>
       <div class="container">
         <ion-card *ngFor="let player of dataService.players">
