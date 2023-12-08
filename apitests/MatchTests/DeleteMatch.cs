@@ -1,10 +1,9 @@
-﻿using apitest.Models;
-using apitests;
+﻿using apitests.Models;
 using Dapper;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace apitest.MatchTests;
+namespace apitests.MatchTests;
 
 public class DeleteMatch
 {

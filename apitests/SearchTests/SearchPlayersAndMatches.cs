@@ -1,11 +1,10 @@
-using apitest.Models;
 using apitests.Models;
 using Dapper;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using tests;
+
 
 namespace apitests.SearchTests;
 

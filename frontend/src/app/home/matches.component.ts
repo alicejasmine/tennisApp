@@ -1,5 +1,3 @@
-
-
 import {Component,OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
@@ -15,10 +13,38 @@ import {MatchWithPlayers} from "../models";
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
+  template: `
+    <app-title [title]="'Home'"></app-title>
+    <ion-content [fullscreen]="true">
+    <ion-grid>
+          <div class="container">
+            <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
+                           (ionInput)="handleSearch($event)"></ion-searchbar>
+            <ion-button class="createMatchButton" (click)="openModalCreateMatch()">Create Match</ion-button>
+          </div>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4" *ngFor="let match of dataService.matchesWithPlayers">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
+                VS {{match.fullNamePlayer2}}</ion-card-title>
+              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-button (click)="openModalEditMatch(match.id)">Edit</ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-content>
+`,
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class MatchesComponent implements OnInit {
   fullName: string | undefined;
   fillSearchBar: boolean | undefined;
 
@@ -60,7 +86,7 @@ export class HomePage implements OnInit {
         modal.present();
       }
     }
-}
+  }
 
   async goToAllPlayers() {
     this.router.navigate(['/all-players']);
@@ -78,4 +104,3 @@ export class HomePage implements OnInit {
     });
   }
 }
-

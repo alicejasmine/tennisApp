@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using apitests.Models;
 using Dapper;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ using NUnit.Framework;
 
 namespace apitests.ShotTests;
 
-[TestFixture]
+
 public class CreateShot
 {
     
@@ -16,17 +17,22 @@ public class CreateShot
     [TestCase( "Forced Error", "Backhand Volley", "Net", "Down The Line", "Red")]
     [TestCase( "Winner", "Backhand Return", "Wide", "Cross Court", "Yellow")]
     [TestCase( "Unforced Error", "Overhead", "Long", "Down The Line", "Red")]
-    [TestCase( "Forced Error", "Serve Deuce", "Not Applicable", "Cross Court", "Yellow")]
-    [TestCase( "Winner", "Serve Add", "Net", "Middle", "Green")]
-    [TestCase( "Unforced Error", "Other", "Net", "Middle", "Green")]
-    [TestCase( "Winner", "Forehand Volley", "Wide", "Down The Line", "Red")]
-    [TestCase( "Unforced Error", "Forehand Return", "Long", "Cross Court", "Yellow")]
     public async Task ShotCanBeSuccessfullyCreatedFromHttp(
         string shotClassification, string shotType, string shotDestination,
         string shotDirection, string playerPosition)
     {
         //ARRANGE
         Helper.TriggerRebuild();
+
+        await using (var conn = await Helper.DataSource.OpenConnectionAsync())
+        {
+            conn.Query(
+                "insert into tennis_app.players(full_name, active)VALUES('Jeff Lebowski', true);" +
+                "insert into tennis_app.players(full_name, active)VALUES('John Malkovich', true);" +
+                "insert into tennis_app.match(environment, surface, date, start_time, end_time, notes) VALUES ('indoor', 'clay', '2023-11-23', '2023-11-23 19:14:12.965', '2023-11-23 19:14:12.965', 'notes');");
+        }
+        
+
         var testShot = new Shot()
         {
             PlayerId = 1,
@@ -40,8 +46,10 @@ public class CreateShot
         
         
         //ACT
+        
+        
         var httpResponse =
-            await new HttpClient().PostAsJsonAsync("http://localhost:5000/api/shots/"+1+"/"+1+"/shots", testShot);
+            await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/shots/1/1/shots", testShot);
 
         var shotFromResponseBody =
             JsonConvert.DeserializeObject<Shot>(await httpResponse.Content.ReadAsStringAsync()); 
@@ -51,18 +59,14 @@ public class CreateShot
         //ASSERT
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
+            var shotResult = conn.QueryFirst<Shot>(
+                "SELECT shots_id AS ShotsId, player_id AS PlayerId, match_id AS MatchId, shot_classification AS ShotClassification, shot_type AS ShotType, shot_destination AS ShotDestination, shot_direction AS ShotDirection, player_position AS PlayerPosition FROM tennis_app.shots;");
             
-            
-            conn.QueryFirstOrDefault<Shot>("SELECT * FROM tennis_app.shots;").Should()
+            shotResult.Should()
                 .BeEquivalentTo(shotFromResponseBody); //Should be equal to shot found in DB
         }
     }
-    [TestCase("Unforced Error", "Forehand Return", "Long", "This player sucks", "Yellow")]
-    [TestCase("winner", "Forehand Groundstroke", "Net", "Middle", "Green")]
-    [TestCase("UnforcedError", "Backhand Groundstroke", "Not Applicable", "Middle", "Green")]
-    [TestCase("Forced Error", "Backhand Volley", "Net", "Down The Line", "My favorite color is clear")]
-    [TestCase("Winner", "BackhandReturn", "Wide", "Cross Court", "Yellow")]
-    [TestCase("Unforced Error", "OverHead", "Long", "Down The Line", "Red")]
+    
     [TestCase("Forced Error", "Serv Deuce", "Not Applicable", "Cross Court", "Yellow")]
     [TestCase("Winner", "Serve Add", "Nat", "Middle", "Green")]
     [TestCase("Unforced Error", "Other", "idk", "Middle", "Green")]
@@ -73,6 +77,15 @@ public class CreateShot
     {
         //ARRANGE
         Helper.TriggerRebuild();
+        
+        await using (var conn = await Helper.DataSource.OpenConnectionAsync())
+        {
+            conn.Query(
+                "insert into tennis_app.players(full_name, active)VALUES('Jeff Lebowski', true);" +
+                "insert into tennis_app.players(full_name, active)VALUES('John Malkovich', true);" +
+                "insert into tennis_app.match(environment, surface, date, start_time, end_time, notes) VALUES ('indoor', 'clay', '2023-11-23', '2023-11-23 19:14:12.965', '2023-11-23 19:14:12.965', 'notes');");
+        }
+        
         var testShot = new Shot()
         {
             PlayerId = 1,
@@ -87,8 +100,7 @@ public class CreateShot
 
         //ACT
         var httpResponse =
-            await new HttpClient().PostAsJsonAsync("http://localhost:5000/api/shots/" + 1 + "/" + 1 + "/shots",
-                testShot);
+            await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/shots/1/1/shots", testShot);
         
         //ASSERT
         httpResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);

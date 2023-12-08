@@ -1,6 +1,7 @@
-using api.TransferModels;
-using Microsoft.AspNetCore.Mvc;
+using api.TransferModels.Validation;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace api.Filters;
 
@@ -10,7 +11,7 @@ public class ValidateModel : ActionFilterAttribute
     {
         if (context.ModelState.IsValid)
             return;
-        string errorMessages = context.ModelState
+        var errorMessages = context.ModelState
             .Values
             .SelectMany(i => i.Errors.Select(e => e.ErrorMessage))
             .Aggregate((i, j) => i + "," + j);
