@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {ModalController, ToastController} from "@ionic/angular";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DataService} from "../data.service";
-import {Match} from "../models";
+import {Match, MatchWithPlayers} from "../models";
 import {firstValueFrom} from "rxjs";
 
 @Component({
@@ -21,19 +21,21 @@ export class EditMatchComponent {
     startTime: [this.dataService.currentMatch.startTime],
     environment: [this.dataService.currentMatch.environment, [Validators.required, Validators.pattern('(?:indoor|outdoor)')]],
     surface: [this.dataService.currentMatch.surface, [Validators.required, Validators.pattern('(?:clay|hard|other)')]],
+    playerid1: [this.dataService.currentMatch.playerId1, [Validators.required]],
+    playerid2: [this.dataService.currentMatch.playerId2, [Validators.required]],
     notes: [this.dataService.currentMatch.notes]
   });
 
   async editMatch() {
     try {
-      const call = this.http.put<Match>('api/matches/' + this.dataService.currentMatch.id, this.editMatchForm.value);
-      const result = await firstValueFrom<Match>(call);
-      let index = this.dataService.matches.findIndex(m => m.id == this.dataService.currentMatch.id)
-      this.dataService.matches[index] = result;
+      const call = this.http.put<MatchWithPlayers>('api/matches/' + this.dataService.currentMatch.id, this.editMatchForm.value);
+      const result = await firstValueFrom<MatchWithPlayers>(call);
+      let index = this.dataService.matchesWithPlayers.findIndex(m => m.id == this.dataService.currentMatch.id)
+      this.dataService.matchesWithPlayers[index] = result;
       this.dataService.currentMatch = result;
       this.modalController.dismiss();
       const toast = await this.toastController.create({
-        message: 'Match is updated',
+        message: 'Match updated',
         duration: 1000,
         color: 'success'
       })

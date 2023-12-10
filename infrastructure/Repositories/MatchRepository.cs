@@ -47,6 +47,17 @@ public class MatchRepository
             return conn.Execute(sql, new { matchId, playerId }) > 0;
         }
     }
+    
+    public bool GetPlayersToMatch(int playerId, int matchId)
+    {
+        var sql = @"
+        SELECT player_id ";
+        
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { matchId, playerId }) > 0;
+        }
+    }
 
     public IEnumerable<MatchWithPlayers> GetAllMatchesWithPlayers()
     {
