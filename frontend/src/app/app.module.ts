@@ -29,6 +29,7 @@ import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
+import {MatchStatisticsComponent} from "./match-statistics/match-statistics.component";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { MatchesComponent } from './home/matches.component';
     EditMatchComponent,
     AllPlayersComponent,
     CreatePlayerComponent,
-    EditPlayerComponent
+    EditPlayerComponent,
+    MatchStatisticsComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
