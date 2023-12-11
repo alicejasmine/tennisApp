@@ -1,6 +1,31 @@
 <app-title [title]="'Match statistics'"></app-title>
 <ion-content [fullscreen]="true">
-  <ion-label>STATISTICS</ion-label>
-  <br>
-  <ion-item>Match id: {{dataService.currentMatch.id}}</ion-item>
+  <ion-list>
+    <ion-list-header>
+      <ion-label class="list-header">{{dataService.currentMatch.fullNamePlayer1}} VS {{dataService.currentMatch.fullNamePlayer2}} - {{dataService.currentMatch.date| date:'dd-MM-yyyy'}}</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Environment: {{dataService.currentMatch.environment}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Surface: {{dataService.currentMatch.surface}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Start time: {{dataService.currentMatch.startTime | date: 'hh:mm dd-mm-yyyy'}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Finished?: {{dataService.currentMatch.finished}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Player 1: {{dataService.currentMatch.fullNamePlayer1}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Player 2: {{dataService.currentMatch.fullNamePlayer2}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Note: {{dataService.currentMatch.notes}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-button (click)="openDeleteConfirmation(dataService.currentMatch.id)">Delete match</ion-button>
+  <ion-button (click)="openShotsRegistration">Track shots</ion-button>
 </ion-content>
