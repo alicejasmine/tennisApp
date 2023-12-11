@@ -8,6 +8,7 @@ import { TabsComponent } from './tabs.component';
 import { AccountComponent } from './account/account.component';
 import { AllPlayersComponent } from './all-players/all-players.component';
 import { MatchesComponent } from './home/matches.component';
+import {MatchStatisticsComponent} from "./match-statistics/match-statistics.component";
 
 
 
@@ -37,9 +38,14 @@ const routes: Routes = [
       {
         path:'all-players',
         component:AllPlayersComponent
+      },
+      {
+        path: 'match-info/:id',
+        component: MatchStatisticsComponent
       }
     ]
-  }
+  },
+
 ];
 
 @NgModule({

@@ -29,6 +29,8 @@ import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
+import {MatchStatisticsComponent} from "./match-statistics/match-statistics.component";
+import {DeleteMatchComponent} from "./delete-match/delete-match.component";
 
 import {
   ShotDestinationAndDirectionComponent
@@ -55,7 +57,9 @@ import { PlayerPositionComponent } from './shot/player-position/player-position.
     ShotClassificationComponent,
     ShotTypeComponent,
     ShotDestinationAndDirectionComponent,
-    PlayerPositionComponent
+    PlayerPositionComponent,
+    MatchStatisticsComponent,
+    DeleteMatchComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
