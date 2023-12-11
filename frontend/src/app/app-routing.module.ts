@@ -9,6 +9,8 @@ import { AccountComponent } from './account/account.component';
 import { AllPlayersComponent } from './all-players/all-players.component';
 import { MatchesComponent } from './home/matches.component';
 import {MatchStatisticsComponent} from "./match-statistics/match-statistics.component";
+import { ShotClassificationComponent } from './shot/shot-classification/shot-classification.component';
+import { ShotTypeComponent } from './shot/shot-type/shot-type.component';
 
 
 
@@ -42,6 +44,14 @@ const routes: Routes = [
       {
         path: 'match-info/:id',
         component: MatchStatisticsComponent
+      },
+      {
+        path: 'shot-classification/:matchId',
+        component: ShotClassificationComponent
+      },
+      { path: 'shot-type/:matchId/:playerId',
+        component: ShotTypeComponent
+       
       }
     ]
   },

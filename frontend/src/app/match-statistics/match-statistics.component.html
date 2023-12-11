@@ -27,5 +27,5 @@
     </ion-item>
   </ion-list>
   <ion-button (click)="openDeleteConfirmation(dataService.currentMatch.id)">Delete match</ion-button>
-  <ion-button (click)="openShotsRegistration()">Track shots</ion-button>
+  <ion-button  [routerLink]="['/shot-classification', dataService.currentMatch.id]">Track shots</ion-button>
 </ion-content>

@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {DataService} from 'src/app/data.service';
 import {MatchWithPlayers} from 'src/app/models';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -30,19 +31,19 @@ import {MatchWithPlayers} from 'src/app/models';
           <ion-item *ngIf="match.playerId1 && match.fullNamePlayer1">
             <ion-label>{{ match.fullNamePlayer1 }}</ion-label>
             <ion-button
-              [color]="selectedShotType === 'winner' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
+              [color]="selectedShotClassification === 'winner' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
               (click)="recordShot(match.playerId1, 'winner')"
             >
               Winner
             </ion-button>
             <ion-button
-              [color]="selectedShotType === 'forcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
+              [color]="selectedShotClassification === 'forcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
               (click)="recordShot(match.playerId1, 'forcedError')"
             >
               Forced Error
             </ion-button>
             <ion-button
-              [color]="selectedShotType === 'unforcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
+              [color]="selectedShotClassification === 'unforcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
               (click)="recordShot(match.playerId1, 'unforcedError')"
             >
               Unforced Error
@@ -53,19 +54,19 @@ import {MatchWithPlayers} from 'src/app/models';
           <ion-item *ngIf="match.playerId2 && match.fullNamePlayer2">
             <ion-label>{{ match.fullNamePlayer2 }}</ion-label>
             <ion-button
-              [color]="selectedShotType === 'winner' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
+              [color]="selectedShotClassification === 'winner' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
               (click)="recordShot(match.playerId2, 'winner')"
             >
               Winner
             </ion-button>
             <ion-button
-              [color]="selectedShotType === 'forcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
+              [color]="selectedShotClassification === 'forcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
               (click)="recordShot(match.playerId2, 'forcedError')"
             >
               Forced Error
             </ion-button>
             <ion-button
-              [color]="selectedShotType === 'unforcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
+              [color]="selectedShotClassification === 'unforcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
               (click)="recordShot(match.playerId2, 'unforcedError')"
             >
               Unforced Error
@@ -74,14 +75,14 @@ import {MatchWithPlayers} from 'src/app/models';
         </ion-card-content>
       </ion-card>
 
-      <ion-button *ngIf="matchStarted" (click)="goToNextComponent()" [disabled]="!selectedShotType">Next</ion-button>
+      <ion-button *ngIf="matchStarted" [routerLink]="['/shot-type', match?.id, selectedPlayerId]" [disabled]="!selectedShotClassification">Next</ion-button>
     </ion-content>
   `,
   styleUrls: ['./shot-classification.component.scss'],
 })
-export class ShotClassificationComponent implements OnInit {
+export class ShotClassificationComponent {
   match: MatchWithPlayers | undefined
-  selectedShotType: string | undefined;
+  selectedShotClassification: string | undefined;
   selectedPlayerId: number | undefined;
   matchStarted: boolean = false;
 
@@ -89,17 +90,21 @@ export class ShotClassificationComponent implements OnInit {
               public route: ActivatedRoute,
               public router: Router,
               public dataService: DataService,
-              public http: HttpClient) {
+              public httpClient: HttpClient,) {
+this.getMatch()
   }
 
-  ngOnInit() {
+  async getMatch() {
+    try {
+      const id = (await firstValueFrom(this.route.paramMap)).get('matchId');
+      this.match=this.dataService.currentMatch = (await firstValueFrom(this.httpClient.get<MatchWithPlayers>('api/matches/' + id)));
 
+    } catch (e) {
+      this.router.navigate(['']);
+    }
   }
 
-  async goToNextComponent() {
-
-  }
-
+  
   async startMatch() {
     this.matchStarted = true;
   }
@@ -107,6 +112,8 @@ export class ShotClassificationComponent implements OnInit {
   recordShot(playerId: number, shotType: string) {
 
     this.selectedPlayerId = playerId;
-    this.selectedShotType = shotType;
+    this.selectedShotClassification = shotType;
   }
+
+
 }

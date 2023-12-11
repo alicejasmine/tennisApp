@@ -15,7 +15,7 @@ import {ModalController} from "@ionic/angular";
 
 export class MatchStatisticsComponent {
 
-  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router, public modalController: ModalController ) {
+  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router, public modalController: ModalController) {
     this.getMatchStatistics();
   }
 
@@ -41,7 +41,8 @@ export class MatchStatisticsComponent {
     }
   }
 
-  async openShotsRegistration () {
 
-  }
+
+
+
 }
