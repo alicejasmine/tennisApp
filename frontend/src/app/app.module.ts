@@ -30,6 +30,13 @@ import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
 
+import {
+  ShotDestinationAndDirectionComponent
+} from "./shot/shot-destination-and-direction/shot-destination-and-direction.component";
+import { ShotClassificationComponent } from './shot/shot-classification/shot-classification.component';
+import { ShotTypeComponent } from './shot/shot-type/shot-type.component';
+import { PlayerPositionComponent } from './shot/player-position/player-position.component';
+
 
 @NgModule({
   declarations: [AppComponent,
@@ -44,7 +51,11 @@ import { MatchesComponent } from './home/matches.component';
     EditMatchComponent,
     AllPlayersComponent,
     CreatePlayerComponent,
-    EditPlayerComponent
+    EditPlayerComponent,
+    ShotClassificationComponent,
+    ShotTypeComponent,
+    ShotDestinationAndDirectionComponent,
+    PlayerPositionComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
