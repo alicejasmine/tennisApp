@@ -6,7 +6,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime [formControl]="editMatchForm.controls.startTime" hourCycle="h24" presentation="time">77</ion-datetime>
+      <ion-datetime [formControl]="editMatchForm.controls.startTime" hourCycle="h24" presentation="time" [value]="editMatchForm.controls.date.value"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-select [formControl]="editMatchForm.controls.environment" label="Environment"

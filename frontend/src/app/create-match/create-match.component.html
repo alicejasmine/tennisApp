@@ -6,7 +6,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime [formControl]="createNewMatchForm.controls.startTime" hourCycle="h24" presentation="time" [value]="dateTime" displayFormat="HH:mm"></ion-datetime>
+      <ion-datetime [formControl]="createNewMatchForm.controls.startTime" hourCycle="h24" presentation="time" [value]="createNewMatchForm.controls.date.value" displayFormat="HH:mm"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Player 1</ion-label>
