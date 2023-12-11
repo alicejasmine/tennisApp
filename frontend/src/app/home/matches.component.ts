@@ -28,8 +28,8 @@ import {MatchWithPlayers} from "../models";
         <ion-col size="4" *ngFor="let match of dataService.matchesWithPlayers">
           <ion-card>
             <ion-card-header>
-              <ion-button (click)="openMatchInfo(match.id)"><ion-card-title>{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
-                VS {{match.fullNamePlayer2}}</ion-card-title></ion-button>
+              <ion-card-title routerLink="/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
+                VS {{match.fullNamePlayer2}}</ion-card-title>
               <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
@@ -88,12 +88,12 @@ export class MatchesComponent implements OnInit {
     }
   }
 
-  async openMatchInfo(matchId: number | undefined) {
+ /* async openMatchInfo(matchId: number | undefined) {
     const currentMatchInfo = this.dataService.matchesWithPlayers.find(match => match.id === matchId);
     if (currentMatchInfo) {
       this.router.navigate(['/match-info/', matchId]);
     }
-  }
+  }*/
 
   async goToAllPlayers() {
     this.router.navigate(['/all-players']);

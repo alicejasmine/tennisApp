@@ -108,7 +108,7 @@ public class MatchRepository
         }
     }
 
-    public IEnumerable<MatchWithPlayers> GetMatchById(int matchId)
+    public MatchWithPlayers GetMatchById(int matchId)
     {
         var sql = $@"SELECT DISTINCT ON (m.match_id)
     m.match_id as {nameof(MatchWithPlayers.Id)},
@@ -134,7 +134,7 @@ public class MatchRepository
 
     using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<MatchWithPlayers>(sql, new { matchId });
+            return conn.QueryFirst<MatchWithPlayers>(sql, new { matchId });
         }
     }
 }

@@ -38,13 +38,14 @@ const routes: Routes = [
       {
         path:'all-players',
         component:AllPlayersComponent
+      },
+      {
+        path: 'match-info/:id',
+        component: MatchStatisticsComponent
       }
     ]
   },
-  {
-    path: 'match-info/:matchId',
-    component: MatchStatisticsComponent
-  }
+
 ];
 
 @NgModule({

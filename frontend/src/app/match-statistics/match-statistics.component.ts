@@ -1,43 +1,29 @@
-import {Component, OnInit} from "@angular/core";
+import {Component} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {DataService} from "../data.service";
 import {MatchWithPlayers} from "../models";
 import {firstValueFrom} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-match-statistics',
   templateUrl: './match-statistics.component.html'
 })
 
-export class MatchStatisticsComponent implements OnInit {
-  match: MatchWithPlayers | undefined;
+export class MatchStatisticsComponent {
 
-  constructor(public http: HttpClient, public dataService: DataService, public activatedRoute: ActivatedRoute) {
-    this.setId();
+  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router ) {
+    this.getMatchStatistics();
   }
 
-  ngOnInit() {
-    this.getMatchInfo();
-  }
-
-  async getMatchInfo() {
-    this.activatedRoute.params.subscribe(async (params) => {
-      const matchId = params['matchId'];
-      if (matchId) {
-        const call = this.http.get<MatchWithPlayers>('/api/matches/' + matchId);
-        this.match = await firstValueFrom<MatchWithPlayers>(call);
-      }
-      console.log(this.match)
-    });
-  }
-
-  async setId() {
+  async getMatchStatistics() {
     try {
-      const id = (await firstValueFrom(this.activatedRoute.paramMap)).get('matchId');
-      this.dataService.currentMatch = (await firstValueFrom(this.http.get<any>('/api/matches/' + id)));
+      const id = (await firstValueFrom(this.route.paramMap)).get('id');
+      this.dataService.currentMatch = (await firstValueFrom(this.http.get<MatchWithPlayers>('/api/matches/' + id)));
+      console.log(this.dataService.currentMatch)
+      console.log(id)
     } catch (e) {
-      console.log(e);
+      this.router.navigate(['']);
     }
   }
 }

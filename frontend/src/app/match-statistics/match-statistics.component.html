@@ -1,5 +1,6 @@
 <app-title [title]="'Match statistics'"></app-title>
-<ion-content [fullscreen]="true" *ngIf="match">
-  <ion-label>THIS ARE STATISTICS</ion-label>
-  <ion-label >Match id: {{match.id}}</ion-label>
+<ion-content [fullscreen]="true">
+  <ion-label>STATISTICS</ion-label>
+  <br>
+  <ion-item>Match id: {{dataService.currentMatch.id}}</ion-item>
 </ion-content>
