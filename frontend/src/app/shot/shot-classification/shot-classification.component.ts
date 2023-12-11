@@ -32,19 +32,19 @@ import { firstValueFrom } from 'rxjs';
             <ion-label>{{ match.fullNamePlayer1 }}</ion-label>
             <ion-button
               [color]="selectedShotClassification === 'winner' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
-              (click)="recordShot(match.playerId1, 'winner')"
+              (click)="selectedPlayerId = match.playerId1; selectedShotClassification = 'winner';"
             >
               Winner
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'forcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
-              (click)="recordShot(match.playerId1, 'forcedError')"
+              (click)="selectedPlayerId = match.playerId1; selectedShotClassification = 'forcedError';"
             >
               Forced Error
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'unforcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
-              (click)="recordShot(match.playerId1, 'unforcedError')"
+              (click)="selectedPlayerId = match.playerId1; selectedShotClassification = 'unforcedError';"
             >
               Unforced Error
             </ion-button>
@@ -55,19 +55,19 @@ import { firstValueFrom } from 'rxjs';
             <ion-label>{{ match.fullNamePlayer2 }}</ion-label>
             <ion-button
               [color]="selectedShotClassification === 'winner' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
-              (click)="recordShot(match.playerId2, 'winner')"
+              (click)="selectedPlayerId = match.playerId2; selectedShotClassification = 'winner';"
             >
               Winner
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'forcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
-              (click)="recordShot(match.playerId2, 'forcedError')"
+              (click)="selectedPlayerId = match.playerId2; selectedShotClassification = 'forcedError';"
             >
               Forced Error
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'unforcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
-              (click)="recordShot(match.playerId2, 'unforcedError')"
+              (click)="selectedPlayerId = match.playerId2; selectedShotClassification = 'unforcedError';"
             >
               Unforced Error
             </ion-button>
@@ -75,7 +75,7 @@ import { firstValueFrom } from 'rxjs';
         </ion-card-content>
       </ion-card>
 
-      <ion-button *ngIf="matchStarted" [routerLink]="['/shot-type', match?.id, selectedPlayerId]" [disabled]="!selectedShotClassification">Next</ion-button>
+      <ion-button *ngIf="matchStarted && match" (click)="registerShot(match.id, selectedPlayerId, selectedShotClassification)" [disabled]="!selectedShotClassification">Next</ion-button>
     </ion-content>
   `,
   styleUrls: ['./shot-classification.component.scss'],
@@ -104,16 +104,17 @@ this.getMatch()
     }
   }
 
-  
+
   async startMatch() {
     this.matchStarted = true;
   }
 
-  recordShot(playerId: number, shotType: string) {
+  registerShot(matchId:number |undefined ,playerId: number |undefined  , shotType: string|undefined) {
 
     this.selectedPlayerId = playerId;
     this.selectedShotClassification = shotType;
-  }
 
+    this.router.navigate(['/shot-type/'+matchId +'/'+ playerId]);
+  }
 
 }
