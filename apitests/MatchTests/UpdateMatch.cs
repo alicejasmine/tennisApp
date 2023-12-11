@@ -37,7 +37,6 @@ public class UpdateMatch
         var httpResponse = await new HttpClient().PutAsJsonAsync(Helper.ApiBaseUrl + "/matches/1", testMatch);
         var matchFromResponseBody =
             JsonConvert.DeserializeObject<Match>(await httpResponse.Content.ReadAsStringAsync());
-        Console.WriteLine(matchFromResponseBody.Id);
 
         //ASSERT
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
