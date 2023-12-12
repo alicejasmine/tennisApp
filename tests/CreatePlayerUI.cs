@@ -29,7 +29,7 @@ public class CreatePlayerUI : PageTest
         //ASSERT
         //Created player should be visible 
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = fullname })).ToBeVisibleAsync();
-        
+
         //player in db is the one created
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {

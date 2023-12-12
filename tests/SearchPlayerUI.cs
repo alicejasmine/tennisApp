@@ -13,7 +13,7 @@ public class SearchPlayerUI : PageTest
     [TestCase("James Blue")]
     public async Task CanSearchUI(string fullname)
     {
-        // ARRANGE
+        //ARRANGE
         Helper.TriggerRebuild();
         var player = new Player()
         {
@@ -33,12 +33,12 @@ public class SearchPlayerUI : PageTest
         await Page.GotoAsync("http://localhost:4200/all-players");
 
         await Page.GetByLabel("search text").ClickAsync();
-
-        await Page.GetByLabel("search text").FillAsync(fullname);
+        await Page.GetByRole(AriaRole.Searchbox, new() { Name = "search text" }).FillAsync(fullname);
 
 
         //ASSERT
-
+        //searchbar is filled with fullname and the searched player is visible
+        await Expect(Page.GetByLabel("search text")).ToHaveValueAsync(fullname);
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = fullname })).ToBeVisibleAsync();
     }
 

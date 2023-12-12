@@ -29,7 +29,7 @@ public class EditPlayerUI : PageTest
 
         //ACT
         //update from UI
-     
+
         await Page.GotoAsync("http://localhost:4200/all-players");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Update" }).ClickAsync();
@@ -46,7 +46,7 @@ public class EditPlayerUI : PageTest
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Update" }).ClickAsync();
 
-        
+
         //ASSERT
         //updated player is in database
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
