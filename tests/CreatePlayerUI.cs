@@ -17,7 +17,7 @@ public class CreatePlayerUI : PageTest
         //ACT
         await Page.GotoAsync("http://localhost:4200/all-players");
 
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Create" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Create Player" }).ClickAsync();
 
         await Page.GetByLabel("Fullname").ClickAsync();
 
@@ -29,7 +29,7 @@ public class CreatePlayerUI : PageTest
         //ASSERT
         //Created player should be visible 
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = fullname })).ToBeVisibleAsync();
-
+        
         //player in db is the one created
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
