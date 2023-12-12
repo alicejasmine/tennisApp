@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {DataService} from 'src/app/data.service';
 import {MatchWithPlayers} from 'src/app/models';
-import { firstValueFrom } from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 
 
 @Component({
@@ -18,56 +18,57 @@ import { firstValueFrom } from 'rxjs';
     </ion-header>
 
     <ion-content>
-      <ion-card *ngIf="match">
+      <ion-card *ngIf="this.dataService.currentMatch">
         <ion-card-header>
           <ion-card-title>
-            {{ match.date | date:'dd-MM-yyyy' }} {{ match.fullNamePlayer1 }} VS {{ match.fullNamePlayer2 }}
+            {{ this.dataService.currentMatch.date | date:'dd-MM-yyyy' }} {{ this.dataService.currentMatch.fullNamePlayer1 }}
+            VS {{ this.dataService.currentMatch.fullNamePlayer2 }}
           </ion-card-title>
         </ion-card-header>
         <ion-button *ngIf="!matchStarted" (click)="startMatch()" color="warning">Start Match</ion-button>
 
         <ion-card-content *ngIf="matchStarted">
 
-          <ion-item *ngIf="match.playerId1 && match.fullNamePlayer1">
-            <ion-label>{{ match.fullNamePlayer1 }}</ion-label>
+          <ion-item
+            *ngIf="this.dataService.currentMatch.playerId1 && this.dataService.currentMatch.fullNamePlayer1">
+            <ion-label>{{ this.dataService.currentMatch.fullNamePlayer1 }}</ion-label>
             <ion-button
-              [color]="selectedShotClassification === 'winner' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
-              (click)="selectedPlayerId = match.playerId1; selectedShotClassification = 'winner';"
+              [color]="selectedShotClassification === 'Winner' && selectedPlayerId === this.dataService.currentMatch.playerId1 ? 'success' : 'light'"
+              (click)="selectedPlayerId = this.dataService.currentMatch.playerId1; selectedShotClassification = 'Winner';"
             >
               Winner
             </ion-button>
             <ion-button
-              [color]="selectedShotClassification === 'forcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
-              (click)="selectedPlayerId = match.playerId1; selectedShotClassification = 'forcedError';"
+              [color]="selectedShotClassification === 'Forced Error' && selectedPlayerId === this.dataService.currentMatch.playerId1 ? 'success' : 'light'"
+              (click)="selectedPlayerId = this.dataService.currentMatch.playerId1; selectedShotClassification = 'Forced Error';"
             >
               Forced Error
             </ion-button>
             <ion-button
-              [color]="selectedShotClassification === 'unforcedError' && selectedPlayerId === match.playerId1 ? 'success' : 'light'"
-              (click)="selectedPlayerId = match.playerId1; selectedShotClassification = 'unforcedError';"
+              [color]="selectedShotClassification === 'Unforced Error' && selectedPlayerId === this.dataService.currentMatch.playerId1 ? 'success' : 'light'"
+              (click)="selectedPlayerId = this.dataService.currentMatch.playerId1; selectedShotClassification = 'Unforced Error';"
             >
               Unforced Error
             </ion-button>
           </ion-item>
-
-
-          <ion-item *ngIf="match.playerId2 && match.fullNamePlayer2">
-            <ion-label>{{ match.fullNamePlayer2 }}</ion-label>
+          <ion-item
+            *ngIf="this.dataService.currentMatch.playerId2 && this.dataService.currentMatch.fullNamePlayer2">
+            <ion-label>{{ this.dataService.currentMatch.fullNamePlayer2 }}</ion-label>
             <ion-button
-              [color]="selectedShotClassification === 'winner' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
-              (click)="selectedPlayerId = match.playerId2; selectedShotClassification = 'winner';"
+              [color]="selectedShotClassification === 'Winner' && selectedPlayerId === this.dataService.currentMatch.playerId2 ? 'success' : 'light'"
+              (click)="selectedPlayerId = this.dataService.currentMatch.playerId2; selectedShotClassification = 'Winner';"
             >
               Winner
             </ion-button>
             <ion-button
-              [color]="selectedShotClassification === 'forcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
-              (click)="selectedPlayerId = match.playerId2; selectedShotClassification = 'forcedError';"
+              [color]="selectedShotClassification === 'Forced Error' && selectedPlayerId === this.dataService.currentMatch.playerId2 ? 'success' : 'light'"
+              (click)="selectedPlayerId = this.dataService.currentMatch.playerId2; selectedShotClassification = 'Forced Error';"
             >
               Forced Error
             </ion-button>
             <ion-button
-              [color]="selectedShotClassification === 'unforcedError' && selectedPlayerId === match.playerId2 ? 'success' : 'light'"
-              (click)="selectedPlayerId = match.playerId2; selectedShotClassification = 'unforcedError';"
+              [color]="selectedShotClassification === 'Unforced Error' && selectedPlayerId === this.dataService.currentMatch.playerId2 ? 'success' : 'light'"
+              (click)="selectedPlayerId = this.dataService.currentMatch.playerId2; selectedShotClassification = 'Unforced Error';"
             >
               Unforced Error
             </ion-button>
@@ -75,29 +76,32 @@ import { firstValueFrom } from 'rxjs';
         </ion-card-content>
       </ion-card>
 
-      <ion-button *ngIf="matchStarted && match" (click)="registerShot(match.id, selectedPlayerId, selectedShotClassification)" [disabled]="!selectedShotClassification">Next</ion-button>
+      <ion-button *ngIf="matchStarted"
+                  (click)="registerShotClassification(this.dataService.currentMatch.id, selectedPlayerId, selectedShotClassification)"
+                  [disabled]="!selectedShotClassification">Next
+      </ion-button>
     </ion-content>
   `,
   styleUrls: ['./shot-classification.component.scss'],
 })
 export class ShotClassificationComponent {
-  match: MatchWithPlayers | undefined
+
   selectedShotClassification: string | undefined;
   selectedPlayerId: number | undefined;
   matchStarted: boolean = false;
 
-  constructor(public modalController: ModalController,
-              public route: ActivatedRoute,
-              public router: Router,
-              public dataService: DataService,
-              public httpClient: HttpClient,) {
-this.getMatch()
+  constructor(
+    public route: ActivatedRoute,
+    public router: Router,
+    public dataService: DataService,
+    public httpClient: HttpClient) {
+    this.getMatch()
   }
 
   async getMatch() {
     try {
       const id = (await firstValueFrom(this.route.paramMap)).get('matchId');
-      this.match=this.dataService.currentMatch = (await firstValueFrom(this.httpClient.get<MatchWithPlayers>('api/matches/' + id)));
+      this.dataService.currentMatch = (await firstValueFrom(this.httpClient.get<MatchWithPlayers>('api/matches/' + id)));
 
     } catch (e) {
       this.router.navigate(['']);
@@ -109,12 +113,14 @@ this.getMatch()
     this.matchStarted = true;
   }
 
-  registerShot(matchId:number |undefined ,playerId: number |undefined  , shotType: string|undefined) {
+  registerShotClassification(matchId: number | undefined, playerId: number | undefined, shotType: string | undefined) {
 
-    this.selectedPlayerId = playerId;
-    this.selectedShotClassification = shotType;
+    this.dataService.currentShot.playerId = playerId;
+    this.dataService.currentShot.matchId = matchId;
+    this.dataService.currentShot.shotClassification = shotType;
+    this.selectedShotClassification = undefined; //clear selected button
+    this.router.navigate(['/shot-type/' + matchId + '/' + playerId]);
 
-    this.router.navigate(['/shot-type/'+matchId +'/'+ playerId]);
   }
 
 }

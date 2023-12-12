@@ -13,6 +13,7 @@ export class DataService {
   public players: Player[] = [];
   public currentPlayer: Player = {};
   public matches: Match[] = [];
-  public shot: Shot = {};
+  public currentShot: Shot = {};
+  public shots: Shot[] = [];
 
 }
