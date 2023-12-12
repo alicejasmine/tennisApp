@@ -19,7 +19,7 @@ import {MatchWithPlayers} from "../models";
     <ion-grid>
           <div class="container">
             <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
-                           (ionInput)="handleSearch($event)"></ion-searchbar>
+                           (ionInput)="handleSearch($event)" data-testid="search-bar"></ion-searchbar>
             <ion-button class="createMatchButton" (click)="openModalCreateMatch()">Create Match</ion-button>
           </div>
     </ion-grid>
