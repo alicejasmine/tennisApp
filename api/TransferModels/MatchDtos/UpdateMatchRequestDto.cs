@@ -24,4 +24,10 @@ public class UpdateMatchRequestDto
     
     [StringLength(251)]
     public string Notes { get; set; }
+    
+    [Required]
+    public int PlayerId1 { get; set; }
+    
+    [Required]
+    public int PlayerId2 { get; set; }
 }

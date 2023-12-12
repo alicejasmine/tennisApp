@@ -5,6 +5,7 @@ using api.TransferModels.MatchDtos;
 using infrastructure.DataModels;
 using infrastructure.QueryModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.JSInterop.Infrastructure;
 using service;
 using service.BEservices;
 
@@ -40,10 +41,10 @@ public class MatchController:ControllerBase
 
     [HttpPut]
     [Route("/api/matches/{matchId}")]
-    public Match Put([FromRoute] int matchId, [FromBody] UpdateMatchRequestDto dto)
+    public MatchWithPlayers Put([FromRoute] int matchId, [FromBody] UpdateMatchRequestDto dto)
     {
         return _matchService.UpdateMatch(matchId, dto.Environment, dto.Surface, dto.Date, dto.StartTime, dto.EndTime,
-            dto.Finished, dto.Notes);
+            dto.Finished, dto.Notes, dto.PlayerId1, dto.PlayerId2);
     }
 
     [HttpDelete]

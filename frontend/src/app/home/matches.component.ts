@@ -30,7 +30,6 @@ import {MatchWithPlayers} from "../models";
             <ion-card-header>
               <ion-card-title>{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
                 VS {{match.fullNamePlayer2}}</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
               <ion-button (click)="openModalEditMatch(match.id)">Edit</ion-button>
