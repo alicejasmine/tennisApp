@@ -11,10 +11,13 @@
       <ion-label>Surface: {{dataService.currentMatch.surface}}</ion-label>
     </ion-item>
     <ion-item>
-      <ion-label>Start time: {{dataService.currentMatch.startTime | date: 'hh:mm dd-mm-yyyy'}}</ion-label>
+      <ion-label>Start time: {{dataService.currentMatch.startTime | date: 'HH:mm'}}</ion-label>
     </ion-item>
     <ion-item>
-      <ion-label>Finished?: {{dataService.currentMatch.finished}}</ion-label>
+      <ion-label>Finished: {{ dataService.currentMatch.finished ? 'Yes' : 'No' }}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="dataService.currentMatch.finished">
+      <ion-label>Match duration: {{ getMatchDuration() }}</ion-label>
     </ion-item>
     <ion-item>
       <ion-label>Player 1: {{dataService.currentMatch.fullNamePlayer1}}</ion-label>
