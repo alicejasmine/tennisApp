@@ -28,3 +28,15 @@ export class MatchWithPlayers {
   fullNamePlayer1?: string;
   fullNamePlayer2?: string;
 }
+
+export interface User {
+  id: number;
+  fullName: string;
+  email: string;
+  isAdmin: boolean;
+}
+
+export class ResponseDto<T> {
+  responseData?: T;
+  messageToClient?: string;
+}

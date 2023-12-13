@@ -107,7 +107,8 @@ public class UserService
         return _userRepository.GetAll().Select(user => new UserOverviewQueryModel()
         {
             Id = user.Id,
-            FullName = user.FullName
+            FullName = user.FullName,
+            Email = user.Email
         });
     }
     

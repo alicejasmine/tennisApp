@@ -29,6 +29,8 @@ import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
+import {UserService} from "./user/user.service";
+import {CreateUserComponent} from "./user/create-user-component";
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { MatchesComponent } from './home/matches.component';
     EditMatchComponent,
     AllPlayersComponent,
     CreatePlayerComponent,
-    EditPlayerComponent
+    EditPlayerComponent,
+    CreateUserComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -54,7 +57,8 @@ import { MatchesComponent } from './home/matches.component';
     TokenService,
     AuthenticatedGuard,
     AccountService,
-    DataService
+    DataService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
