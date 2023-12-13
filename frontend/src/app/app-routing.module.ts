@@ -37,6 +37,16 @@ const routes: Routes = [
       {
         path:'all-players',
         component:AllPlayersComponent
+      },
+      {
+        path:'users',
+        component:UsersComponent,
+        canActivate: [AuthenticatedGuard]
+      },
+      {
+        path:'account',
+        component:AccountComponent,
+        canActivate: [AuthenticatedGuard]
       }
     ]
   }

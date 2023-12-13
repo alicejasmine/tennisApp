@@ -12,6 +12,8 @@ export class AuthenticatedGuard implements CanActivate {
   ) {
   }
 
+  // If for some reason a given user tries to access something that needs authorization
+  // we will redirect them to the login screen if they are not logged in.
   async canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -20,7 +22,7 @@ export class AuthenticatedGuard implements CanActivate {
     if (isAuthenticated) return true;
     (await this.toast.create({
       message: 'Login required!',
-      color: 'danger', duration: 5000
+      color: 'danger', duration: 5000, position: "top"
     })).present();
     return this.router.parseUrl('/login');
   }

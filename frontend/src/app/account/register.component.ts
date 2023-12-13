@@ -95,7 +95,8 @@ export class RegisterComponent {
     (await this.toast.create({
       message: "Thank you for signing up!",
       color: "success",
-      duration: 5000
+      duration: 5000,
+      position: "top"
     })).present();
   }
 }

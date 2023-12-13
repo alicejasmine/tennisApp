@@ -18,8 +18,8 @@ import { HttpEventType } from '@angular/common/http';
           </ion-item>
 
 
-          <ion-item>
-            <ion-toggle disabled [checked]="isAdmin">Administrator</ion-toggle>
+          <ion-item *ngIf="isAdmin">
+            <ion-toggle  disabled [checked]="isAdmin">Administrator</ion-toggle>
           </ion-item>
         </ion-list>
         <ion-progress-bar
@@ -61,6 +61,7 @@ export class AccountComponent implements OnInit {
     this.form.patchValue(account);
     this.isAdmin = account.isAdmin;
     this.loading = false;
+
   }
 
 

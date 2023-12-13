@@ -7,8 +7,8 @@ import { TokenService } from "src/services/token.service";
 
 @Component({
   template: `
-    <ion-content style="position: absolute; top: 0;">
-      <ion-button (click)="logout()">Logout</ion-button>
+    <app-title title="Users"></app-title>
+    <ion-content [fullscreen]="true">
       <ion-list [inset]="true">
         <ion-item [id]="'card_'+user.id" *ngFor="let user of users$ | async">
           <ion-label>
@@ -18,15 +18,14 @@ import { TokenService } from "src/services/token.service";
         </ion-item>
       </ion-list>
     </ion-content>
-  `
+  `,
+  styleUrls: ['users.component.scss'],
 })
 export class UsersComponent implements OnInit {
   users$?: Observable<User[]>;
 
   constructor(
-    private http: HttpClient,
-    private toastController: ToastController,
-    private tokenService: TokenService
+    private http: HttpClient
   ) {
 
   }
@@ -37,13 +36,5 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.fetchUsers();
   }
-  async logout() {
-    this.tokenService.clearToken();
 
-    (await this.toastController.create({
-      message: 'Successfully logged out',
-      duration: 5000,
-      color: 'success',
-    })).present()
-  }
 }

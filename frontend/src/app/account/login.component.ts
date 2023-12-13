@@ -77,7 +77,8 @@ export class LoginComponent {
     (await this.toast.create({
       message: "Welcome back!",
       color: "success",
-      duration: 5000
+      duration: 5000,
+      position: "top"
     })).present();
   }
 }
