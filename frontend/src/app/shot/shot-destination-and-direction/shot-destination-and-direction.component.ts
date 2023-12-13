@@ -89,7 +89,7 @@ export class ShotDestinationAndDirectionComponent {
     this.dataService.currentShot.shotDestination = shotDestination;
     this.selectedDestination = undefined; //clear buttons
     this.selectedDirection = undefined;
-    this.router.navigate(['/player-position/' + this.dataService.currentMatch.id + '/' + this.dataService.currentPlayer.playerId]);
+    this.router.navigate(['/player-position/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
     console.log(this.dataService.currentShot)
   }
 }

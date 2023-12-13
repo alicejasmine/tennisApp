@@ -60,7 +60,7 @@ export class ShotTypeComponent {
   registerShotType(shotType: string | undefined) {
     this.dataService.currentShot.shotType = shotType;
     this.selectedShotType = undefined;
-    this.router.navigate(['/shot-destination-and-direction/' + this.dataService.currentMatch.id + '/' + this.dataService.currentPlayer.playerId]);
+    this.router.navigate(['/shot-destination-and-direction/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
 
   }
 }
