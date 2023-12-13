@@ -29,15 +29,15 @@ import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
-import {MatchStatisticsComponent} from "./match-statistics/match-statistics.component";
-import {DeleteMatchComponent} from "./delete-match/delete-match.component";
 
-import {
-  ShotDestinationAndDirectionComponent
-} from "./shot/shot-destination-and-direction/shot-destination-and-direction.component";
+
+import { DeleteMatchComponent } from './delete-match/delete-match.component';
+import { MatchStatisticsComponent } from './match-statistics/match-statistics.component';
+import { PlayerPositionComponent } from './shot/player-position/player-position.component';
+import { ShotDestinationAndDirectionComponent } from './shot/shot-destination-and-direction/shot-destination-and-direction.component';
 import { ShotClassificationComponent } from './shot/shot-classification/shot-classification.component';
 import { ShotTypeComponent } from './shot/shot-type/shot-type.component';
-import { PlayerPositionComponent } from './shot/player-position/player-position.component';
+import { EditEndingMatchComponent } from './edit-match/edit-ending-match.component';
 
 
 @NgModule({
@@ -59,7 +59,8 @@ import { PlayerPositionComponent } from './shot/player-position/player-position.
     ShotDestinationAndDirectionComponent,
     PlayerPositionComponent,
     MatchStatisticsComponent,
-    DeleteMatchComponent
+    DeleteMatchComponent,
+    EditEndingMatchComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -3,6 +3,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {DataService} from 'src/app/data.service';
 import {ShotService} from 'src/services/shot.service';
+import {ModalController} from '@ionic/angular';
+import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.component';
+
+
 
 @Component({
   selector: 'app-player-position',
@@ -17,8 +21,7 @@ import {ShotService} from 'src/services/shot.service';
     <ion-item>
       <ion-button (click)="registerPlayerPosition(selectedArea)" [disabled]="!selectedArea" color="primary">Next Point
       </ion-button>
-      <ion-button (click)="updateNotes()" color="tertiary">Update Notes</ion-button>
-      <ion-button (click)="endMatch()" color="danger">End Match</ion-button>
+      <ion-button (click)="endMatchModal(selectedArea)" [disabled]="!selectedArea" color="danger">End Match</ion-button>
 
     </ion-item>
 
@@ -60,8 +63,10 @@ export class PlayerPositionComponent {
   constructor(public route: ActivatedRoute,
               public router: Router,
               public dataService: DataService,
+              public modalCtrl: ModalController,
               public shotService: ShotService,
-              public httpClient: HttpClient) {
+              public httpClient: HttpClient,
+              ) {
   }
 
   selectCourtArea(area: string) {
@@ -69,8 +74,8 @@ export class PlayerPositionComponent {
   }
 
 
-  registerPlayerPosition(shotType: string | undefined) {
-    this.dataService.currentShot.playerPosition = shotType;
+  registerPlayerPosition(playerPosition: string | undefined) {
+    this.dataService.currentShot.playerPosition = playerPosition;
     this.shotService.registerShot();
     console.log(this.dataService.currentShot)
     this.router.navigate(['/shot-classification/' + this.dataService.currentMatch.id]);
@@ -78,11 +83,20 @@ export class PlayerPositionComponent {
     this.selectedArea = undefined; //clear button
   }
 
-  async endMatch() {
+
+  async endMatchModal(playerPosition: string | undefined) {
+    const modal = await this.modalCtrl.create({
+      component: EditEndingMatchComponent,
+    });
+    this.dataService.currentShot.playerPosition = playerPosition;
+    this.shotService.registerShot();
     this.dataService.currentMatch.finished = true;
-    this.router.navigate(['/match-info/' + this.dataService.currentMatch.id]);
+
+    const currentDateTime = new Date();
+    currentDateTime.setHours(currentDateTime.getHours() + 1);
+    this.dataService.currentMatch.endTime=currentDateTime;
+    await modal.present();
   }
 
-  async updateNotes() {
-  }
+
 }

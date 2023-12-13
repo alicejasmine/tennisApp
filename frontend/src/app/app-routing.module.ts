@@ -61,8 +61,8 @@ const routes: Routes = [
       { path: 'player-position/:matchId/:playerId',
         component: PlayerPositionComponent
 
-      }
-      
+      },
+
     ]
   },
 
