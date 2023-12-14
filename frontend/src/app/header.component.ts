@@ -1,14 +1,14 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Title} from "@angular/platform-browser";
 import {TokenService} from "src/services/token.service";
-import {RouterLink} from "@angular/router";
+
 
 @Component({
   selector: 'app-title',
   template: `
       <ion-header>
           <ion-toolbar>
-              
+
             <ion-col size="2" class="logo">
               <img src="assets/img/stepwise-logo.JPG" height="100" width="200" alt="logo">
             </ion-col>
@@ -49,5 +49,6 @@ export class HeaderComponent implements OnChanges {
     this.title.setTitle(`Stepwise - ${this.titleText}`)
   }
 
-  protected readonly RouterLink = RouterLink;
+
+
 }

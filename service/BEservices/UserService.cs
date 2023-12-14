@@ -18,33 +18,6 @@ public class UserService
         _logger = logger;
     }
     
-    // While anyone can register an account, we assume create will be used to create an account for someone else
-    // because of this, unlike register we will NOT be assuming the user is not an admin
-    // So, we need to know if they will be.
-    public User Create(CreateUserCommandModel model)
-    {
-        const int fakeId = 0; // a new user will not have an id, irrelevant if isCreate is true.
-        const bool isTrue = true; // true when creating a new user, which we are.
-        
-        try
-        {
-            if (_userRepository.IsEmailTaken(fakeId, model.Email, isTrue))
-                throw new ValidationException("Email is taken, please choose another.");
-            return _userRepository.Create(model.FullName, model.Email, model.IsAdmin);
-        }
-        catch (ValidationException e)
-        {
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.InnerException?.Message);
-            throw;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.InnerException?.Message);
-            throw new Exception("Could not create a new user");
-        }
-    }
     
     // This will be used when an admin updates another user
     public User Update(UpdateUserCommandModel model)

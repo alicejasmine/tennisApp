@@ -1,5 +1,6 @@
 ﻿using api.Filters;
 using Microsoft.AspNetCore.Mvc;
+using service;
 using service.BEservices;
 using service.Models.Command;
 
@@ -10,10 +11,11 @@ namespace api.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;
-
-    public UserController(UserService userService)
+    private readonly AccountService _accountService;
+    public UserController(UserService userService, AccountService accountService)
     {
         _userService = userService;
+        _accountService = accountService;
     }
     
     // get all users
@@ -26,9 +28,9 @@ public class UserController : ControllerBase
     //intended for use by admin to register another user
     [HttpPost]
     [Route("/api/users/register")]
-    public IActionResult Register([FromBody] CreateUserCommandModel model)
+    public IActionResult Register([FromBody] RegisterCommandModel model)
     {
-        var user = _userService.Create(model);
+        var user = _accountService.Register(model);
         return Created();
     }
     

@@ -53,14 +53,13 @@ public class AccountService
     // since anyone can register an account we will be defaulting new users without admin status
     public User Register(RegisterCommandModel model)
     {
-        const bool admin = false; // !! IF CHANGED NEW USERS WILL BE ADMIN !!
-        
         const int fakeId = 0; // since we are creating we have no id, so we will pass a fake one.
         const bool isCreate = true; // Since we are creating a new user, this is true. If set to false, create will use fakeId to check email.
 
         var fullName = model.FullName;
         var email = model.Email;
-
+        var isAdmin = model.IsAdmin;
+        
         try
         {
             if (_userRepository.IsEmailTaken(fakeId, email, isCreate))
@@ -69,7 +68,7 @@ public class AccountService
             var hashAlgorithm = PasswordHashAlgorithm.Create();
             var salt = hashAlgorithm.GenerateSalt();
             var hash = hashAlgorithm.HashPassword(model.Password, salt);
-            var user = _userRepository.Create(fullName, email, admin);
+            var user = _userRepository.Create(fullName, email, isAdmin);
             _passwordHashRepository.Create(user.Id, hash, salt, hashAlgorithm.GetName());
             return user;
         }
