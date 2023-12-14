@@ -27,18 +27,18 @@ import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.com
 
       <ion-content>
           <div class="court">
-              <svg [class.selected]="selectedArea === 'Green'"
+              <svg  data-testid="Green" [class.selected]="selectedArea === 'Green'"
                    (click)="selectCourtArea('Green')"
                    [style.border]="selectedArea === 'Green' ? '10px solid green' : 'transparent'" width="20vw"
                    viewBox="0 0 855 233" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-                   style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><rect x="0" y="0" width="854.627" height="1043.69" style="fill:#66d47d;"/>
+                   style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><rect  x="0" y="0" width="854.627" height="1043.69" style="fill:#66d47d;"/>
                   <g><path d="M117.5,2.92l-0,1037.62" style="fill:none;stroke:#fff;stroke-width:6.25px;"/>
                       <path d="M747.497,3.045l0,1037.31" style="fill:none;stroke:#fff;stroke-width:6.25px;"/>
                       <path d="M424.646,3.092l0,612.361" style="fill:none;stroke:#fff;stroke-width:6.25px;"/></g>
                   <rect x="0" y="0" width="854.627" height="232.409" style="fill:none;"/>
                   <rect x="0" y="2.92" width="854.627" height="229.489" style="fill:none;"/></svg>
             <br>
-              <svg [class.selected]="selectedArea === 'Yellow'"
+              <svg data-testid="Yellow"[class.selected]="selectedArea === 'Yellow'"
                    (click)="selectCourtArea('Yellow')"
                    [style.border]="selectedArea === 'Yellow' ? '10px solid yellow' : 'transparent'" width="20vw"
                    viewBox="0 0 855 613" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.com
                   <rect x="-0" y="-0" width="854.627" height="612.487" style="fill:none;"/>
                   <rect x="0" y="-229.489" width="854.627" height="229.489" style="fill:none;"/></svg>
             <br>
-              <svg [class.selected]="selectedArea === 'Red'"
+              <svg data-testid="Red" [class.selected]="selectedArea === 'Red'"
                    (click)="selectCourtArea('Red')"
                    [style.border]="selectedArea === 'Red' ? '10px solid red' : 'transparent'" width="20vw"
                    viewBox="0 0 855 199" version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
