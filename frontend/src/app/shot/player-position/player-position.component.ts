@@ -96,7 +96,6 @@ export class PlayerPositionComponent {
       component: EditEndingMatchComponent,
     });
     this.dataService.currentShot.playerPosition = playerPosition;
-    this.shotService.registerShot();
     this.dataService.currentMatch.finished = true;
 
     const currentDateTime = new Date();
