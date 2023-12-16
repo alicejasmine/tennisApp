@@ -90,6 +90,6 @@ export class ShotDestinationAndDirectionComponent {
     this.selectedDestination = undefined; //clear buttons
     this.selectedDirection = undefined;
     this.router.navigate(['/player-position/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
-    console.log(this.dataService.currentShot)
+  
   }
 }
