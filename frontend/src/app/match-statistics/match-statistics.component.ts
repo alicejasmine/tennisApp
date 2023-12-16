@@ -6,6 +6,8 @@ import {firstValueFrom} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DeleteMatchComponent} from "../delete-match/delete-match.component";
 import {ModalController} from "@ionic/angular";
+import { ChartOptions } from "chart.js";
+import { ShotService } from "src/services/shot.service";
 
 @Component({
   selector: 'app-match-statistics',
@@ -14,9 +16,21 @@ import {ModalController} from "@ionic/angular";
 })
 
 export class MatchStatisticsComponent {
+  title = 'ng2-charts-demo';
 
-  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router, public modalController: ModalController) {
+
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: true,
+  };
+  public pieChartLabels = ['Winner', 'Forced Error', 'Unforced Error'];
+  public pieChartDatasets = [ {
+    data: [0, 0, 0]
+  } ];
+  public pieChartLegend = true;
+  public pieChartPlugins = [];
+  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router, public modalController: ModalController, public shotService: ShotService) {
     this.getMatchStatistics();
+    this.countShots();
   }
 
   async getMatchStatistics() {
@@ -54,4 +68,21 @@ export class MatchStatisticsComponent {
     return '';
 
   }
+
+   countShots() {
+
+    try {
+      if (this.dataService.currentMatch.playerId1 && this.dataService.currentMatch.id) {
+         this.shotService.countShotsForPlayerByMatch(this.dataService.currentMatch.playerId1, this.dataService.currentMatch.id);
+        this.pieChartDatasets = [{
+          data: [this.shotService.winnerCount, this.shotService.forcedErrorCount, this.shotService.unforcedErrorCount]
+        }];
+
+        console.log('Chart data updated successfully.');
+      }
+    } catch (error) {
+      console.error('Error counting shots:', error);
+    }
+  }
+
 }

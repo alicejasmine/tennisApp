@@ -11,7 +11,9 @@ import {ToastController} from "@ionic/angular";
   providedIn: 'root',
 })
 export class ShotService {
-
+  public winnerCount = 0;
+  public forcedErrorCount = 0;
+  public unforcedErrorCount = 0;
   constructor(private httpClient: HttpClient, public dataService: DataService, public toastController: ToastController,) {
   }
 
@@ -19,7 +21,7 @@ export class ShotService {
 
     const playerId = this.dataService.currentShot.playerId;
     const matchId = this.dataService.currentShot.matchId;
-    
+
     const shotData = {
       ShotClassification: this.dataService.currentShot.shotClassification,
       ShotType: this.dataService.currentShot.shotType,
@@ -28,7 +30,7 @@ export class ShotService {
       PlayerPosition: this.dataService.currentShot.playerPosition,
     };
     try {
-      
+
       const call = this.httpClient.post<Shot>(`/api/shots/${playerId}/${matchId}/shots`, shotData);
       const result = await firstValueFrom<Shot>(call);
       this.dataService.shots.push(result);
@@ -59,5 +61,36 @@ export class ShotService {
       toast.present();
     }
   }
-}
- 
+
+
+  async countShotsForPlayerByMatch(playerId: number, matchId: number) {
+    try {
+      const call = `/api/shots/${playerId}/${matchId}/shots`;
+      const shots = await firstValueFrom(this.httpClient.get<Shot[]>(call));
+
+      this.winnerCount = 0;
+      this.forcedErrorCount = 0;
+      this.unforcedErrorCount = 0;
+
+      shots.forEach((shot) => {
+        this.updateShotClassificationCount(shot.shotClassification);
+      });
+    } catch (error) {
+      console.error('Error counting shots:', error);
+
+    }
+  }
+  private updateShotClassificationCount(shotClassification: string| undefined) {
+    switch (shotClassification) {
+      case 'Winner':
+        this.winnerCount++;
+        break;
+      case 'Forced Error':
+        this.forcedErrorCount++;
+        break;
+      case 'Unforced Error':
+        this.unforcedErrorCount++;
+        break;
+    }
+  }
+  }
