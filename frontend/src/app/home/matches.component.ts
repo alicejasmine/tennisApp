@@ -87,12 +87,7 @@ export class MatchesComponent implements OnInit {
     }
   }
 
- /* async openMatchInfo(matchId: number | undefined) {
-    const currentMatchInfo = this.dataService.matchesWithPlayers.find(match => match.id === matchId);
-    if (currentMatchInfo) {
-      this.router.navigate(['/match-info/', matchId]);
-    }
-  }*/
+
 
   async goToAllPlayers() {
     this.router.navigate(['/all-players']);

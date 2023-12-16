@@ -15,7 +15,7 @@ import {ModalController} from "@ionic/angular";
 
 export class MatchStatisticsComponent {
 
-  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router, public modalController: ModalController ) {
+  constructor(public http: HttpClient, public dataService: DataService, public route: ActivatedRoute, public router: Router, public modalController: ModalController) {
     this.getMatchStatistics();
   }
 
@@ -41,7 +41,17 @@ export class MatchStatisticsComponent {
     }
   }
 
-  async openShotsRegistration () {
+
+  getMatchDuration(): string {if (this.dataService.currentMatch.startTime && this.dataService.currentMatch.endTime) {
+    const startTime = new Date(this.dataService.currentMatch.startTime);
+    const endTime = new Date(this.dataService.currentMatch.endTime);
+    const durationInMinutes = Math.floor((endTime.getTime() - startTime.getTime()) / (1000 * 60));
+    const hours = Math.floor(durationInMinutes / 60);
+    const minutes = durationInMinutes % 60;
+
+    return `${hours}h ${minutes}m`;
+  }
+    return '';
 
   }
 }
