@@ -57,7 +57,7 @@ public class MatchController:ControllerBase
 
     [HttpGet]
     [Route("/api/matches/{matchId}")]
-    public IEnumerable<MatchWithPlayers> Get([FromRoute] int matchId)
+    public MatchWithPlayers Get([FromRoute] int matchId)
     {
         return _matchService.GetMatchById(matchId);
     }

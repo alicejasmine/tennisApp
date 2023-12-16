@@ -7,9 +7,9 @@ import {TokenService} from "src/services/token.service";
   template: `
       <ion-header>
           <ion-toolbar>
-              
+
             <ion-col size="2" class="logo">
-              <img src="assets/img/stepwise-logo.JPG" height="100" width="200" alt="logo">
+              <img src="assets/img/Stepwise.svg" height="100" width="200" alt="logo">
             </ion-col>
               <ion-buttons slot="end">
                   <ion-button fill="solid" *ngIf="token.getToken(); else notLoggedIn" (click)="token.clearToken()">
