@@ -31,6 +31,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
 import {UserService} from "./user/user.service";
 import {CreateUserComponent} from "./user/create-user-component";
+import {EditUserComponent} from "./user/edit-user.component";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {CreateUserComponent} from "./user/create-user-component";
     AllPlayersComponent,
     CreatePlayerComponent,
     EditPlayerComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    EditUserComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

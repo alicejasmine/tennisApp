@@ -18,7 +18,9 @@ public class UserController : ControllerBase
         _accountService = accountService;
     }
     
+    
     // get all users
+    [RequireAuthentication]
     [HttpGet("/api/users")]
     public IActionResult Get()
     {
@@ -37,8 +39,9 @@ public class UserController : ControllerBase
     // intended to be used by admin/coach to update another user
     [HttpPut]
     [Route("/api/users/update/{id}")]
-    public IActionResult Update([FromForm] UpdateUserCommandModel model)
+    public IActionResult Update([FromForm] UpdateUserCommandModel model, [FromRoute] int id)
     {
+        model.Id = id;
         _userService.Update(model);
         return Ok();
     }

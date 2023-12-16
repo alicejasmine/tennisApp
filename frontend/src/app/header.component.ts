@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Title} from "@angular/platform-browser";
 import {TokenService} from "src/services/token.service";
-
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-title',
@@ -17,7 +17,7 @@ import {TokenService} from "src/services/token.service";
                   <ion-button fill="outline" [routerLink]="'/account'">
                     My Account
                   </ion-button>
-                  <ion-button fill="solid"  (click)="token.clearToken()" [routerLink]="'/home'" >
+                  <ion-button fill="solid"  (click)="logout()">
                     Logout
                     <ion-icon slot="end" name="log-out"></ion-icon>
                   </ion-button>
@@ -42,6 +42,7 @@ export class HeaderComponent implements OnChanges {
   constructor(
     readonly token: TokenService,
     private readonly title: Title,
+    private router: Router,
   ) {
   }
 
@@ -49,6 +50,10 @@ export class HeaderComponent implements OnChanges {
     this.title.setTitle(`Stepwise - ${this.titleText}`)
   }
 
-
-
+  logout(){
+    this.token.clearToken();
+    this.router.navigate(['/home']).then(() => {
+      window.location.reload();
+    });
+  }
 }

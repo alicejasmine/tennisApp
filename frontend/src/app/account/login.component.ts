@@ -72,6 +72,8 @@ export class LoginComponent {
     const { token } = await firstValueFrom(this.service.login(this.form.value as Credentials));
     this.token.setToken(token);
 
+    await this.service.setLogged();
+
     this.router.navigateByUrl('/home');
 
     (await this.toast.create({

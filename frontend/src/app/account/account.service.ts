@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
+import {ReplaySubject} from "rxjs";
 import {User} from "../models";
 
 
@@ -25,12 +26,33 @@ export class AccountService {
   constructor(private readonly http: HttpClient) {
   }
 
+
+  private logged = new ReplaySubject<boolean>(1);
+  isLogged = this.logged.asObservable();
+
+
+
   getCurrentUser() {
     return this.http.get<User>('/api/account/info');
   }
 
+
   login(value: Credentials) {
     return this.http.post<{ token: string }>('/api/account/login', value);
+  }
+
+  async setLogged(){
+    this.getCurrentUser();
+    this.logged.next(true);
+  }
+
+
+  checkStatus() {
+    if (localStorage.getItem('token')) {
+      this.logged.next(true);
+    } else {
+      this.logged.next(false);
+    }
   }
 
   register(value: Registration) {

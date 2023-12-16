@@ -1,25 +1,30 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import {ModalController, ToastController} from "@ionic/angular";
-import { Observable } from "rxjs";
-import { TokenService } from "src/services/token.service";
-import {User} from "../models";
+import {Component, OnInit} from "@angular/core";
+import {ModalController} from "@ionic/angular";
+import {firstValueFrom, Observable} from "rxjs";
 import {CreateUserComponent} from "./create-user-component";
+import {EditUserComponent} from "./edit-user.component";
+import {UserService} from "./user.service";
+import {User} from "../models";
+import {HttpClient} from "@angular/common/http";
+
 
 @Component({
   template: `
     <app-title title="Users"></app-title>
     <ion-content [fullscreen]="true">
+      <div>
+        <ion-card *ngFor="let user of this.service.users| async">
+            <ion-card-header>
+                <ion-card-title>
+                    {{user.fullName}}
+                </ion-card-title>
+            </ion-card-header>
+            <ion-card-content>Email: {{user.email}}</ion-card-content>
+              <ion-card-content> Admin: {{user.isAdmin ? 'true' : 'false'}}</ion-card-content>
 
-
-      <ion-list [inset]="true">
-        <ion-item [id]="'card_'+user.id" *ngFor="let user of users$ | async">
-          <ion-label>
-            <h2>{{user.fullName}}</h2>
-            <p>Email: {{user.email}}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+            <ion-button fill="clear" (click)="openModalEditUser(user.id)">Edit User</ion-button>
+        </ion-card>
+      </div>
     </ion-content>
     <ion-footer>
       <ion-toolbar>
@@ -29,14 +34,14 @@ import {CreateUserComponent} from "./create-user-component";
   `,
   styleUrls: ['users.component.scss'],
 })
-export class UsersComponent implements OnInit {
-  users$?: Observable<User[]>;
-
+export class UsersComponent implements OnInit{
   constructor(
-    private http: HttpClient,
-    public modalController: ModalController
+    private modalController: ModalController,
+    public service: UserService
   ) {
   }
+
+
 
   async openModalCreateUser(){
     const modal = await this.modalController.create({
@@ -45,12 +50,21 @@ export class UsersComponent implements OnInit {
     modal.present();
   }
 
-  async fetchUsers() {
-    this.users$ = this.http.get<User[]>('/api/users');
+  async openModalEditUser(id: number | undefined) {
+    if (id !== undefined) {
+      const editUser$ = this.service.getUserById(id);
+      if (editUser$) {
+        this.service.editingUser = await firstValueFrom(editUser$);
+        const modal = await this.modalController.create({
+          component: EditUserComponent
+        });
+        modal.present();
+      }
+    }
   }
 
-  ngOnInit(): void {
-    this.fetchUsers();
+  ngOnInit() {
+    this.service.getUsers();
   }
 
 }

@@ -1,14 +1,15 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import { AccountService, AccountUpdate } from './account.service';
-import { finalize, firstValueFrom } from 'rxjs';
+import {finalize, firstValueFrom, Subscription} from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
+import {UsersComponent} from "../user/users.component";
 @Component({
   template: `
     <app-title title="Account"></app-title>
-    <ion-content>
+    <ion-content *ngIf="!loading">
       <form [formGroup]="form" (ngSubmit)="submit()">
-        <ion-list class="field-list" *ngIf="loading; else loading">
+        <ion-list class="field-list">
           <ion-item>
             <ion-input label="Name" formControlName="fullName"></ion-input>
           </ion-item>
@@ -34,21 +35,25 @@ import { HttpEventType } from '@angular/common/http';
         <ion-spinner></ion-spinner>
       </ng-template>
     </ion-content>
+    <ion-item-divider *ngIf="loading">Loading...</ion-item-divider>
   `,
   styleUrls: ['./form.css'],
 })
 
 export class AccountComponent implements OnInit {
+
+  private accountSubscription?: Subscription;
+
+  isAdmin?: boolean;
   loading: boolean = true;
   uploading: boolean = false;
   uploadProgress: number | null = null;
+  isLogged?: boolean;
 
   form = this.fb.group({
     fullName: ['', Validators.required],
     email: ['', Validators.required],
   });
-
-  isAdmin?: boolean;
 
 
   constructor(
@@ -57,11 +62,26 @@ export class AccountComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    var account = await firstValueFrom(this.service.getCurrentUser());
-    this.form.patchValue(account);
-    this.isAdmin = account.isAdmin;
-    this.loading = false;
+    this.accountSubscription = this.service.isLogged.subscribe(logged => {
+      this.isLogged = logged;
+      if (logged){
+        this.service.getCurrentUser().subscribe(user => {
+          this.form.patchValue(user);
+          this.isAdmin = user.isAdmin;
+          this.loading = false;
+        });
+      }
 
+    });
+    this.service.checkStatus();
+  }
+
+
+
+  ngOnDestroy() {
+    if (this.accountSubscription) {
+      this.accountSubscription.unsubscribe();
+    }
   }
 
 
