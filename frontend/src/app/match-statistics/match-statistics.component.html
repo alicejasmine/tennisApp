@@ -1,0 +1,34 @@
+<app-title [title]="'Match statistics'"></app-title>
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-list-header>
+      <ion-label class="list-header">{{dataService.currentMatch.fullNamePlayer1}} VS {{dataService.currentMatch.fullNamePlayer2}} - {{dataService.currentMatch.date| date:'dd-MM-yyyy'}}</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Environment: {{dataService.currentMatch.environment}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Surface: {{dataService.currentMatch.surface}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Start time: {{dataService.currentMatch.startTime | date: 'HH:mm'}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Finished: {{ dataService.currentMatch.finished ? 'Yes' : 'No' }}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="dataService.currentMatch.finished">
+      <ion-label>Match duration: {{ getMatchDuration() }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Player 1: {{dataService.currentMatch.fullNamePlayer1}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Player 2: {{dataService.currentMatch.fullNamePlayer2}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Note: {{dataService.currentMatch.notes}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-button (click)="openDeleteConfirmation(dataService.currentMatch.id)">Delete match</ion-button>
+  <ion-button  *ngIf="!dataService.currentMatch.finished" [routerLink]="['/shot-classification', dataService.currentMatch.id]">Track shots</ion-button>
+</ion-content>

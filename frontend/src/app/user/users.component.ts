@@ -2,8 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ToastController } from "@ionic/angular";
 import { Observable } from "rxjs";
-import { User } from "src/models";
+
 import { TokenService } from "src/services/token.service";
+import { User } from "../models";
 
 @Component({
   template: `

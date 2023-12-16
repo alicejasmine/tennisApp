@@ -74,7 +74,7 @@ public class MatchService
         }
     }
 
-    public IEnumerable<MatchWithPlayers> GetMatchById(int matchId)
+    public MatchWithPlayers GetMatchById(int matchId)
     {
         return _matchRepository.GetMatchById(matchId);
     }
