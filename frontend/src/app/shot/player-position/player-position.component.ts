@@ -84,7 +84,6 @@ export class PlayerPositionComponent {
   registerPlayerPosition(playerPosition: string | undefined) {
     this.dataService.currentShot.playerPosition = playerPosition;
     this.shotService.registerShot();
-    console.log(this.dataService.currentShot)
     this.router.navigate(['/shot-classification/' + this.dataService.currentMatch.id]);
     this.dataService.currentShot = {}; //clear current shot so a new one can be registered
     this.selectedArea = undefined; //clear button
