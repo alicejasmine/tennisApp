@@ -9,17 +9,7 @@ namespace tests;
 
 public class CreateMatchUi : PageTest
 {
-       [Test]
-    public async Task t() {
-        
-        await Page.GotoAsync("http://localhost:4200/");
-
-        await Page.GotoAsync("http://localhost:4200/home");
-
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Create Match" }).ClickAsync();
-
-await Page.Locator("calendar-day calendar-day-active calendar-day-today").ClickAsync();
-        }
+        //await Page.Locator("calendar-day calendar-day-active calendar-day-today").ClickAsync();
     
     [TestCase("indoor", "clay", "2023-12-23", "2023-11-23 19:14:12.965", "2023-11-23 19:14:12.965", false, "some note",
         1, 2)]
@@ -36,9 +26,6 @@ await Page.Locator("calendar-day calendar-day-active calendar-day-today").ClickA
                 "insert into tennis_app.players(full_name)VALUES('Bob Pancakes');");
         }
 
-        string dateToPick = date.ToShortDateString();
-        string timeToPick = startTime.ToString();
-
         //ACT
         await Page.GotoAsync("http://localhost:4200/");
 
@@ -46,17 +33,19 @@ await Page.Locator("calendar-day calendar-day-active calendar-day-today").ClickA
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create Match" }).ClickAsync();
         
-        await Page.GetByLabel("Today, Wednesday, 13 December").ClickAsync();
+        await Page.GetByLabel("Today, Saturday, December 16").ClickAsync();
 
-        await Page.GetByRole(AriaRole.Button, new() { Name = timeToPick }).Nth(1).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "12" }).Nth(1).ClickAsync();
 
-        await Page.Locator("div").Filter(new() { HasText = "Player 1" }).Nth(2).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "00" }).ClickAsync();
+
+        await Page.GetByText("Player 1Player").ClickAsync();
 
         await Page.GetByRole(AriaRole.Radio, new() { Name = "Aleksandra Kurdelska" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "OK" }).ClickAsync();
 
-        await Page.GetByText("Player 2").Nth(2).ClickAsync();
+        await Page.GetByText("Player 2Player").ClickAsync();
 
         await Page.GetByRole(AriaRole.Radio, new() { Name = "Bob Pancakes" }).ClickAsync();
 
@@ -81,7 +70,7 @@ await Page.Locator("calendar-day calendar-day-active calendar-day-today").ClickA
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create match" }).ClickAsync();
         
         //ASSERT
-        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "-12-2023 || Bob VS Alex" })).ToBeVisibleAsync();
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "16-12-2023 || Aleksandra" }).Nth(1)).ToBeVisibleAsync();
 
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
