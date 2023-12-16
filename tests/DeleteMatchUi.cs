@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using FluentAssertions;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
@@ -25,6 +26,26 @@ public class DeleteMatchUi : PageTest
         }
         
         //ACT
+        await Page.GotoAsync("http://localhost:4200/");
+
+        await Page.GotoAsync("http://localhost:4200/home");
+
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "01-01-2001 || Bob Pancakes VS Aleksandra Kurdelska" }).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete match" }).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Confirm" }).ClickAsync();
         
+        await Page.GotoAsync("http://localhost:4200/home");
+
+      
+        //ASSERT
+        await Expect(Page.Locator("ion-grid").Nth(1)).ToBeEmptyAsync();
+ 
+        await using (var conn = await Helper.DataSource.OpenConnectionAsync())
+        {
+            conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.match;").Should().Be(0);
+            conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.played_in").Should().Be(0);
+        }
     }
 }
