@@ -12,9 +12,16 @@ import {MatchWithPlayers, Player} from "../models";
   styleUrl: './create-match.component.scss'
 })
 export class CreateMatchComponent {
+  dateTime: any;
 
   constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public dataService: DataService, public toastController: ToastController) {
     this.getPlayers();
+  }
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.dateTime = new Date().toISOString();
+    })
   }
 
   createNewMatchForm = this.fb.group({
@@ -50,7 +57,7 @@ export class CreateMatchComponent {
       toast.present();
       this.modalController.dismiss();
     } catch (e) {
-      if(e instanceof HttpErrorResponse) {
+      if (e instanceof HttpErrorResponse) {
         const toast = await this.toastController.create({
           message: e.error.messageToClient,
           color: "danger"
