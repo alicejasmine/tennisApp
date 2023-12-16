@@ -29,8 +29,6 @@ export class ShotService {
     };
     try {
       
-      console.log('Player ID:', playerId);
-      console.log('Match ID:', matchId);
       const call = this.httpClient.post<Shot>(`/api/shots/${playerId}/${matchId}/shots`, shotData);
       const result = await firstValueFrom<Shot>(call);
       this.dataService.shots.push(result);
