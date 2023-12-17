@@ -27,11 +27,11 @@ shot_type as {nameof(ShotListItem.ShotType)},
 shot_destination as {nameof(ShotListItem.ShotDestination)},
 shot_direction as {nameof(ShotListItem.ShotDirection)},
 player_position as {nameof(ShotListItem.PlayerPosition)}
-FROM tennis_app.shots WHERE match_id = @matchId AND player_id = @playerId;
+FROM tennis_app.shots WHERE match_id = @mId AND player_id = @pId;
 ";
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<ShotListItem>(sql);
+            return conn.Query<ShotListItem>(sql, new {pId = playerId, mId = matchId});
         }
     }
     
