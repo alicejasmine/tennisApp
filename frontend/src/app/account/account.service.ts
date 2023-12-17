@@ -29,7 +29,8 @@ export class AccountService {
 
   private logged = new ReplaySubject<boolean>(1);
   isLogged = this.logged.asObservable();
-
+  private admin = new ReplaySubject<boolean>(1);
+  isAdmin = this.admin.asObservable();
 
 
   getCurrentUser() {
@@ -42,17 +43,19 @@ export class AccountService {
   }
 
   async setLogged(){
-    this.getCurrentUser();
-    this.logged.next(true);
+    this.getCurrentUser().subscribe(user => {
+      this.admin.next(<boolean>user.isAdmin)
+      this.logged.next(true);
+    });
   }
 
 
   checkStatus() {
     if (localStorage.getItem('token')) {
       this.logged.next(true);
-    } else {
-      this.logged.next(false);
     }
+      this.logged.next(false);
+      this.admin.next(false);
   }
 
   register(value: Registration) {

@@ -24,7 +24,14 @@ public class UserController : ControllerBase
     [HttpGet("/api/users")]
     public IActionResult Get()
     {
-        return Ok(_userService.GetOverview());
+        var sessionData = HttpContext.GetSessionData();
+        if (sessionData.IsAdmin)
+        {
+            return Ok(_userService.GetOverview());
+        }
+
+        return Unauthorized();
+
     }
     
     //intended for use by admin to register another user

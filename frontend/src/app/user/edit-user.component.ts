@@ -72,17 +72,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.accountSubscription = this.accountService.isLogged.subscribe(logged => {
-      this.isLogged = logged;
-      if (logged){
         this.accountService.getCurrentUser().subscribe(user => {
           this.isAdmin = user.isAdmin;
           if (this.service.editingUser?.id != null){
             this.form.patchValue(this.service.editingUser);
             this.loading = false;
           }
-        });
-      }
     });
     this.accountService.checkStatus();
   }

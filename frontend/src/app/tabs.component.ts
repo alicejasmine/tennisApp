@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {AccountService} from "./account/account.service";
 
 @Component({
@@ -14,7 +14,7 @@ import {AccountService} from "./account/account.service";
                   <ion-icon name="person-outline"></ion-icon>
                   Players
               </ion-tab-button>
-            <ion-tab-button tab="users" *ngIf="isLoggedInAndAdmin()">
+            <ion-tab-button tab="users" *ngIf="isAdmin">
               <ion-icon name="person-outline"></ion-icon>
               Users
             </ion-tab-button>
@@ -26,22 +26,19 @@ export class TabsComponent implements OnInit, OnDestroy {
 
   isAdmin?: boolean;
   isLogged?: boolean;
-  loading?: boolean = true;
   private accountSubscription?: Subscription;
+  private adminSub?: Subscription;
 
   constructor(private readonly service: AccountService) {}
 
   async ngOnInit() {
-
     this.accountSubscription = this.service.isLogged.subscribe(logged => {
       this.isLogged = logged;
       if (logged){
-      this.service.getCurrentUser().subscribe(user => {
-        this.isAdmin = user.isAdmin;
-        this.loading = false;
-        });
+      this.adminSub = this.service.isAdmin.subscribe(admin => {
+        this.isAdmin = admin;
+        })
       }
-
     });
     this.service.checkStatus();
   }
@@ -50,9 +47,10 @@ export class TabsComponent implements OnInit, OnDestroy {
     if (this.accountSubscription) {
       this.accountSubscription.unsubscribe();
     }
+    if (this.adminSub){
+      this.adminSub.unsubscribe();
+    }
   }
 
-  isLoggedInAndAdmin(): boolean {
-    return this.isAdmin === true && !this.loading;
-  }
+
 }

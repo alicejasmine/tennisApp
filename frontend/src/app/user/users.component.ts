@@ -11,7 +11,7 @@ import {HttpClient} from "@angular/common/http";
 @Component({
   template: `
     <app-title title="Users"></app-title>
-    <ion-content [fullscreen]="true">
+    <ion-content [fullscreen]="true" >
       <div>
         <ion-card *ngFor="let user of this.service.users| async">
             <ion-card-header>
@@ -20,7 +20,7 @@ import {HttpClient} from "@angular/common/http";
                 </ion-card-title>
             </ion-card-header>
             <ion-card-content>Email: {{user.email}}</ion-card-content>
-              <ion-card-content> Admin: {{user.isAdmin ? 'true' : 'false'}}</ion-card-content>
+              <ion-card-content> {{user.isAdmin ? 'Admin' : 'User'}}</ion-card-content>
 
             <ion-button fill="clear" (click)="openModalEditUser(user.id)">Edit User</ion-button>
         </ion-card>

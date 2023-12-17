@@ -81,7 +81,8 @@ public class UserService
         {
             Id = user.Id,
             FullName = user.FullName,
-            Email = user.Email
+            Email = user.Email,
+            IsAdmin = user.IsAdmin
         });
     }
     

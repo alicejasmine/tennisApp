@@ -7,7 +7,7 @@ import {UsersComponent} from "../user/users.component";
 @Component({
   template: `
     <app-title title="Account"></app-title>
-    <ion-content *ngIf="!loading">
+    <ion-content>
       <form [formGroup]="form" (ngSubmit)="submit()">
         <ion-list class="field-list">
           <ion-item>
@@ -35,7 +35,7 @@ import {UsersComponent} from "../user/users.component";
         <ion-spinner></ion-spinner>
       </ng-template>
     </ion-content>
-    <ion-item-divider *ngIf="loading">Loading...</ion-item-divider>
+
   `,
   styleUrls: ['./form.css'],
 })
@@ -45,10 +45,8 @@ export class AccountComponent implements OnInit {
   private accountSubscription?: Subscription;
 
   isAdmin?: boolean;
-  loading: boolean = true;
   uploading: boolean = false;
   uploadProgress: number | null = null;
-  isLogged?: boolean;
 
   form = this.fb.group({
     fullName: ['', Validators.required],
@@ -62,28 +60,19 @@ export class AccountComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.accountSubscription = this.service.isLogged.subscribe(logged => {
-      this.isLogged = logged;
-      if (logged){
-        this.service.getCurrentUser().subscribe(user => {
-          this.form.patchValue(user);
-          this.isAdmin = user.isAdmin;
-          this.loading = false;
-        });
-      }
-
+    this.service.getCurrentUser().subscribe(user => {
+      this.form.patchValue(user);
+      this.isAdmin = user.isAdmin;
     });
+
     this.service.checkStatus();
   }
-
-
 
   ngOnDestroy() {
     if (this.accountSubscription) {
       this.accountSubscription.unsubscribe();
     }
   }
-
 
   submit() {
     if (this.form.invalid) return;
