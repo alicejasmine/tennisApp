@@ -1,19 +1,22 @@
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, catchError, firstValueFrom} from 'rxjs';
-import { DataService } from 'src/app/data.service';
-import { Shot } from 'src/app/models';
+import {DataService} from 'src/app/data.service';
+import {Shot} from 'src/app/models';
 import {ToastController} from "@ionic/angular";
-
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShotService {
-  public winnerCount = 0;
-  public forcedErrorCount = 0;
-  public unforcedErrorCount = 0;
+  public winnerCountPlayer1 = 0;
+  public forcedErrorCountPlayer1 = 0;
+  public unforcedErrorCountPlayer1 = 0;
+  public winnerCountPlayer2 = 0;
+  public forcedErrorCountPlayer2 = 0;
+  public unforcedErrorCountPlayer2 = 0;
+
   constructor(private httpClient: HttpClient, public dataService: DataService, public toastController: ToastController,) {
   }
 
@@ -68,29 +71,53 @@ export class ShotService {
       const call = `/api/shots/${playerId}/${matchId}/shots`;
       const shots = await firstValueFrom(this.httpClient.get<Shot[]>(call));
 
-      this.winnerCount = 0;
-      this.forcedErrorCount = 0;
-      this.unforcedErrorCount = 0;
 
+      this.resetCount(playerId);
       shots.forEach((shot) => {
-        this.updateShotClassificationCount(shot.shotClassification);
+        this.updateShotClassificationCount(shot.playerId, shot.shotClassification);
       });
     } catch (error) {
       console.error('Error counting shots:', error);
 
     }
   }
-  private updateShotClassificationCount(shotClassification: string| undefined) {
+
+  private updateShotClassificationCount(playerId: number | undefined, shotClassification: string | undefined) {
     switch (shotClassification) {
       case 'Winner':
-        this.winnerCount++;
+        if (playerId === this.dataService.currentMatch.playerId1) {
+          this.winnerCountPlayer1++;
+        } else if (playerId === this.dataService.currentMatch.playerId2) {
+          this.winnerCountPlayer2++;
+        }
         break;
       case 'Forced Error':
-        this.forcedErrorCount++;
+        if (playerId === this.dataService.currentMatch.playerId1) {
+          this.forcedErrorCountPlayer1++;
+        } else if (playerId === this.dataService.currentMatch.playerId2) {
+          this.forcedErrorCountPlayer2++;
+        }
         break;
       case 'Unforced Error':
-        this.unforcedErrorCount++;
+        if (playerId === this.dataService.currentMatch.playerId1) {
+          this.unforcedErrorCountPlayer1++;
+        } else if (playerId === this.dataService.currentMatch.playerId2) {
+          this.unforcedErrorCountPlayer2++;
+        }
         break;
     }
   }
+
+
+  private resetCount(playerId: number) {
+    if (playerId == this.dataService.currentMatch.playerId1) {
+      this.winnerCountPlayer1 = 0;
+      this.forcedErrorCountPlayer1 = 0;
+      this.unforcedErrorCountPlayer1 = 0;
+    } else if (playerId == this.dataService.currentMatch.playerId2) {
+      this.winnerCountPlayer2 = 0;
+      this.forcedErrorCountPlayer2 = 0;
+      this.unforcedErrorCountPlayer2 = 0;
+    }
   }
+}

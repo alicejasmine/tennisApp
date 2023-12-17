@@ -31,14 +31,27 @@
   </ion-list>
   <ion-button (click)="openDeleteConfirmation(dataService.currentMatch.id)">Delete match</ion-button>
   <ion-button  *ngIf="!dataService.currentMatch.finished" [routerLink]="['/shot-classification', dataService.currentMatch.id]">Track shots</ion-button>
-  <div style="width: 400px; height: 400px;">
+
+  <div style="width: 300px; height: 300px;">
+
   <canvas baseChart
           [type]="'pie'"
-          [datasets]="pieChartDatasets"
+          [datasets]="pieChartDatasets1"
           [labels]="pieChartLabels"
           [options]="pieChartOptions"
           [plugins]="pieChartPlugins"
           [legend]="pieChartLegend">
   </canvas>
+  </div>
+
+  <div style="width: 300px; height: 300px;">
+    <canvas baseChart
+            [type]="'pie'"
+            [datasets]="pieChartDatasets2"
+            [labels]="pieChartLabels"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend">
+    </canvas>
   </div>
 </ion-content>

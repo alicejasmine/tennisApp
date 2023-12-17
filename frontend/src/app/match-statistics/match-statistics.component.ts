@@ -16,14 +16,16 @@ import {ShotService} from "src/services/shot.service";
 })
 
 export class MatchStatisticsComponent implements OnInit {
-  title = 'ng2-charts-demo';
 
 
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
   };
   public pieChartLabels = ['Winner', 'Forced Error', 'Unforced Error'];
-  public pieChartDatasets = [{
+  public pieChartDatasets1 = [{
+    data: [0, 0, 0]
+  }];
+  public pieChartDatasets2 = [{
     data: [0, 0, 0]
   }];
   public pieChartLegend = true;
@@ -74,27 +76,27 @@ export class MatchStatisticsComponent implements OnInit {
   }
 
   async loadGraphs() {
-    try {
-      if (this.dataService.currentMatch.playerId1 && this.dataService.currentMatch.id) {
-        await this.shotService.countShotsForPlayerByMatch(this.dataService.currentMatch.playerId1, this.dataService.currentMatch.id);
-        this.pieChartDatasets = [{
-          data: [this.shotService.winnerCount, this.shotService.forcedErrorCount, this.shotService.unforcedErrorCount]
-        }];
 
-      }
-    } catch (error) {
-      console.error('Error counting shots:', error);
+    if (this.dataService.currentMatch.playerId1 && this.dataService.currentMatch.playerId2 && this.dataService.currentMatch.id) {
+      await this.shotService.countShotsForPlayerByMatch(this.dataService.currentMatch.playerId1, this.dataService.currentMatch.id);
+      await this.shotService.countShotsForPlayerByMatch(this.dataService.currentMatch.playerId2, this.dataService.currentMatch.id);
+
+      this.pieChartDatasets1 = [{
+        data: [this.shotService.winnerCountPlayer1, this.shotService.forcedErrorCountPlayer1, this.shotService.unforcedErrorCountPlayer1]
+      }];
+
+      this.pieChartDatasets2 = [{
+        data: [this.shotService.winnerCountPlayer2, this.shotService.forcedErrorCountPlayer2, this.shotService.unforcedErrorCountPlayer2]
+      }];
     }
+
   }
 
   async loadData() {
-    try {
-      await this.getMatchStatistics();
-      if (this.dataService.currentMatch.finished == true) { //load data only when match is done
-        this.loadGraphs();
-      }
-    } catch (error) {
-      console.error('Error loading data:', error);
+
+    await this.getMatchStatistics();
+    if (this.dataService.currentMatch.finished == true) { //load data only when match is done
+      this.loadGraphs();
     }
   }
 
