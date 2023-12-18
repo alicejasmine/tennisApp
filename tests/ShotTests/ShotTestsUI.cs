@@ -52,12 +52,13 @@ public class ShotTestsUI : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Track shots" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Start Match" }).ClickAsync();
+        await Page.WaitForSelectorAsync($"[data-testid='shotClassification-{shotClassification}']");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = shotClassification }).First.ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Next" }).ClickAsync();
 
-        await Task.Delay(2000);
+        await Page.WaitForSelectorAsync($"[data-testid='shotType-{shotType}']");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = shotType }).ClickAsync();
 
@@ -115,12 +116,14 @@ public class ShotTestsUI : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Track shots" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Start Match" }).ClickAsync();
+        await Page.WaitForSelectorAsync($"[data-testid='shotClassification-{shotClassification}']");
+        
 
         await Page.GetByRole(AriaRole.Button, new() { Name = shotClassification }).First.ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Next" }).ClickAsync();
 
-        await Task.Delay(2000);
+        await Page.WaitForSelectorAsync($"[data-testid='shotType-{shotType}']");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = shotType }).ClickAsync();
 
