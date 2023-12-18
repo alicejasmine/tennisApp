@@ -31,27 +31,140 @@
   </ion-list>
   <ion-button (click)="openDeleteConfirmation(dataService.currentMatch.id)">Delete match</ion-button>
   <ion-button  *ngIf="!dataService.currentMatch.finished" [routerLink]="['/shot-classification', dataService.currentMatch.id]">Track shots</ion-button>
+<ion-grid *ngIf="dataService.currentMatch.finished">
 
-  <div style="width: 300px; height: 300px;">
 
-  <canvas baseChart
-          [type]="'pie'"
-          [datasets]="pieChartDatasets1"
-          [labels]="pieChartLabels"
-          [options]="pieChartOptions"
-          [plugins]="pieChartPlugins"
-          [legend]="pieChartLegend">
-  </canvas>
-  </div>
+  <!-- Shot classification Pie Charts -->
+  <ion-row>
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot classification - {{dataService.currentMatch.fullNamePlayer1}} </ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDataset1"
+                [labels]="pieChartLabelClassification"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
 
-  <div style="width: 300px; height: 300px;">
-    <canvas baseChart
-            [type]="'pie'"
-            [datasets]="pieChartDatasets2"
-            [labels]="pieChartLabels"
-            [options]="pieChartOptions"
-            [plugins]="pieChartPlugins"
-            [legend]="pieChartLegend">
-    </canvas>
-  </div>
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot classification - {{dataService.currentMatch.fullNamePlayer2}}</ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDataset2"
+                [labels]="pieChartLabelClassification"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
+  </ion-row>
+  <!-- Winner Pie Charts -->
+  <ion-row>
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header">  Shot Type (winner) - {{dataService.currentMatch.fullNamePlayer1}}</ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasetWinner1"
+                [labels]="pieChartLabelType"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
+
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot Type (winner) - {{dataService.currentMatch.fullNamePlayer2}}</ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasetWinner2"
+                [labels]="pieChartLabelType"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <!-- Forced Error Pie Charts -->
+  <ion-row>
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot Type (Forced Error) - {{dataService.currentMatch.fullNamePlayer1}}</ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasetFE1"
+                [labels]="pieChartLabelType"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
+
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot Type (Forced Error) - {{dataService.currentMatch.fullNamePlayer2}} </ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasetFE2"
+                [labels]="pieChartLabelType"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  <!-- Unforced Error Pie Charts -->
+  <ion-row>
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot Type (Unforced Error) - {{dataService.currentMatch.fullNamePlayer1}}</ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasetUE1"
+                [labels]="pieChartLabelType"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+        </canvas>
+      </div>
+    </ion-col>
+
+    <ion-col size="12" size-md="6">
+      <div class="chart-container">
+        <ion-list-header>
+          <ion-label class="list-header"> Shot Type (Unforced Error) - {{dataService.currentMatch.fullNamePlayer2}}</ion-label>
+        </ion-list-header>
+        <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasetUE2"
+                [labels]="pieChartLabelType"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend">
+
+        </canvas>
+      </div>
+    </ion-col>
+  </ion-row>
+
+</ion-grid>
 </ion-content>
