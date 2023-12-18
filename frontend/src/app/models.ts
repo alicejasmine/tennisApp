@@ -36,6 +36,11 @@ export class User {
   isAdmin?: boolean;
 }
 
+export enum Role {
+  User = 'User',
+  Admin = 'Admin'
+}
+
 export class ResponseDto<T> {
   responseData?: T;
   messageToClient?: string;

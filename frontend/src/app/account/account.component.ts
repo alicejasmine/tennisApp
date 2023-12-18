@@ -1,13 +1,14 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
-import { AccountService, AccountUpdate } from './account.service';
+import { AccountService, AccountUpdate } from '../../services/account.service';
 import {finalize, firstValueFrom, Subscription} from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 import {UsersComponent} from "../user/users.component";
+import {AuthService} from "../../services/AuthService";
+import {Role} from "../models";
 @Component({
   template: `
-    <app-title title="Account"></app-title>
-    <ion-content>
+    <ion-content style="--padding-top: 105px;">
       <form [formGroup]="form" (ngSubmit)="submit()">
         <ion-list class="field-list">
           <ion-item>
@@ -19,15 +20,11 @@ import {UsersComponent} from "../user/users.component";
           </ion-item>
 
 
-          <ion-item *ngIf="isAdmin">
-            <ion-toggle  disabled [checked]="isAdmin">Administrator</ion-toggle>
+          <ion-item *ngIf="this.auth.hasRole(Role.Admin)">
+              <ion-label style="color:red; font-weight:bold;">Administrator</ion-label>
           </ion-item>
         </ion-list>
-        <ion-progress-bar
-          *ngIf="uploading"
-          [value]="uploadProgress"
-        ></ion-progress-bar>
-        <ion-button *ngIf="form.valid && !uploading" (click)="submit()">
+        <ion-button *ngIf="form.valid" (click)="submit()">
           Update
         </ion-button>
       </form>
@@ -40,13 +37,9 @@ import {UsersComponent} from "../user/users.component";
   styleUrls: ['./form.css'],
 })
 
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit{
+  protected readonly Role = Role;
 
-  private accountSubscription?: Subscription;
-
-  isAdmin?: boolean;
-  uploading: boolean = false;
-  uploadProgress: number | null = null;
 
   form = this.fb.group({
     fullName: ['', Validators.required],
@@ -56,7 +49,8 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly service: AccountService
+    private readonly service: AccountService,
+    public readonly auth: AuthService
   ) {}
 
   async ngOnInit() {
@@ -67,32 +61,19 @@ export class AccountComponent implements OnInit {
 
     this.service.checkStatus();
   }
-
-  ngOnDestroy() {
-    if (this.accountSubscription) {
-      this.accountSubscription.unsubscribe();
-    }
   }
 
   submit() {
     if (this.form.invalid) return;
-    this.uploading = true;
+
     this.service
       .update(this.form.value as AccountUpdate)
-      .pipe(
-        finalize(() => {
-          this.uploading = false;
-          this.uploadProgress = null;
-        })
-      )
       .subscribe((event) => {
-        if (event.type == HttpEventType.UploadProgress) {
-          this.uploadProgress = Math.round(
-            100 * (event.loaded / (event.total ?? 1))
-          );
-        } else if (event.type == HttpEventType.Response && event.body) {
+        if (event.type == HttpEventType.Response && event.body) {
           this.form.patchValue(event.body);
         }
       });
   }
+
+
 }

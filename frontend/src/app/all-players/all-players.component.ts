@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Player} from '../models';
+import {Player, Role} from '../models';
 import {DataService} from "../data.service";
 import {ModalController} from '@ionic/angular';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -7,18 +7,16 @@ import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {CreatePlayerComponent} from '../create-player/create-player.component';
 import {EditPlayerComponent} from '../edit-player/edit-player.component';
+import {AuthService} from "../../services/AuthService";
 
 @Component({
   selector: 'app-all-players',
   template: `
-    <app-title title="Players"></app-title>
-
-
-    <ion-content class="ion-padding" fullscreen="true">
+    <ion-content style="--padding-top: 105px;" fullscreen="true">
       <div class="container">
         <ion-searchbar animated="true" placeholder="Search players" debounce="100"
                        (ionInput)="handleInput($event)"></ion-searchbar>
-        <ion-button (click)="openCreatePlayer()">Create Player</ion-button>
+        <ion-button *ngIf="this.authService.hasRole(Role.Admin)" (click)="openCreatePlayer()">Create Player</ion-button>
       </div>
       <div class="container">
         <ion-card *ngFor="let player of dataService.players">
@@ -27,7 +25,7 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
             <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
           </ion-card-header>
 
-          <ion-button fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
+          <ion-button *ngIf="this.authService.hasRole(Role.Admin)" fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
 
         </ion-card>
       </div>
@@ -37,12 +35,13 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
 })
 export class AllPlayersComponent {
   player: Player | undefined;
-
+  protected readonly Role = Role;
   constructor(public modalController: ModalController,
               public route: ActivatedRoute,
               public router: Router,
               public dataService: DataService,
-              public http: HttpClient) {
+              public http: HttpClient,
+              public authService: AuthService) {
     this.getAllPlayers();
   }
 
@@ -92,4 +91,6 @@ export class AllPlayersComponent {
 
 
   }
+
+
 }

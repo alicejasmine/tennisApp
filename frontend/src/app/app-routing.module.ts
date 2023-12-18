@@ -4,17 +4,17 @@ import {LoginComponent} from "./account/login.component";
 import {RegisterComponent} from "./account/register.component";
 import {UsersComponent} from "./user/users.component";
 import {AuthenticatedGuard} from "./guards";
-import { TabsComponent } from './tabs.component';
+
 import { AccountComponent } from './account/account.component';
 import { AllPlayersComponent } from './all-players/all-players.component';
 import { MatchesComponent } from './home/matches.component';
+import {TabsComponent} from "./tabs/tabs.component";
 
 
 
 const routes: Routes = [
   {
     path: '',
-    component: TabsComponent,
     children: [
 
       {

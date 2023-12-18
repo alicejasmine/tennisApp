@@ -1,16 +1,16 @@
 import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
-import {AccountService, Credentials} from "./account.service";
+import {AccountService, Credentials} from "../../services/account.service";
 import {Router} from "@angular/router";
 import {ToastController} from "@ionic/angular";
+import {catchError, of, tap} from "rxjs";
+import {AuthService} from "../../services/AuthService";
 import {TokenService} from "../../services/token.service";
-import {firstValueFrom} from "rxjs";
 
 
 @Component({
   template: `
-    <app-title title="Login"></app-title>
-      <ion-content>
+      <ion-content style="--padding-top: 105px;">
           <form [formGroup]="form" (ngSubmit)="submit()">
               <ion-list>
 
@@ -51,6 +51,9 @@ import {firstValueFrom} from "rxjs";
 })
 
 export class LoginComponent {
+
+
+
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
@@ -64,23 +67,38 @@ export class LoginComponent {
     private readonly service: AccountService,
     private readonly router: Router,
     private readonly toast: ToastController,
-    private readonly token: TokenService
+    private authService: AuthService,
+    private token: TokenService
   ) { }
 
   async submit() {
     if (this.form.invalid) return;
-    const { token } = await firstValueFrom(this.service.login(this.form.value as Credentials));
-    this.token.setToken(token);
 
-    await this.service.setLogged();
+    this.service.login(this.form.value as Credentials).pipe(
+      tap(async response => {
+        this.authService.handleLoginResponse(response.isAdmin);
+        this.token.setToken(response.token)
+        this.router.navigateByUrl('/home');
 
-    this.router.navigateByUrl('/home');
+        const toast = await this.toast.create({
+          message: 'Login Successful!',
+          color: 'success',
+          duration: 2000
+        });
+        toast.present();
+      }),
+      catchError(async error => {
+        console.error("An error occurred during login: ", error);
 
-    (await this.toast.create({
-      message: "Welcome back!",
-      color: "success",
-      duration: 5000,
-      position: "top"
-    })).present();
+        const toast = await this.toast.create({
+          message: 'Login Failed...',
+          color: 'danger',
+          duration: 2000
+        });
+        toast.present();
+
+        return of(); // Return an empty observable on error
+      })
+    ).subscribe();
   }
 }

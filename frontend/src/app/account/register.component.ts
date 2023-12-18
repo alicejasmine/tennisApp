@@ -1,14 +1,14 @@
 import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {CustomValidators} from "../custom-validators";
-import {AccountService, Registration} from "./account.service";
+import {AccountService, Registration} from "../../services/account.service";
 import {ToastController} from "@ionic/angular";
 import {firstValueFrom} from "rxjs";
 
 @Component({
   template: `
-    <app-title title="Register"></app-title>
-    <ion-content>
+
+    <ion-content style="--padding-top: 105px;">
       <form [formGroup]="form" (ngSubmit)="submit()">
         <ion-list>
 

@@ -22,14 +22,19 @@ public class AccountController : ControllerBase
     
     // method to login, issues a bearer token for the user and sets our session data.
     // if for some reason the user does not exist or credentials are incorrect, we return unauthorized.
+    // We are also returning our role based boolean
     [HttpPost]
     [Route("/api/account/login")]
     public IActionResult Login([FromBody] LoginCommandModel model)
     {
         var user = _accountService.Authenticate(model);
         if (user == null) return Unauthorized();
+    
         var token = _jwtService.IssueToken(SessionData.FromUser(user!));
-        return Ok(new { token });
+        
+        bool isAdmin = user.IsAdmin;
+        
+        return Ok(new { token, isAdmin });
     }
     
     // public access to create a new user account, this will always default admin status to false.

@@ -1,29 +1,40 @@
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivate, Route, Router} from "@angular/router";
 import {Injectable} from "@angular/core";
 import {TokenService} from "../services/token.service";
 import {ToastController} from "@ionic/angular";
+import {AuthService} from "../services/AuthService";
+import {Observable} from "rxjs";
+import {Role} from "./models";
 
 @Injectable()
 export class AuthenticatedGuard implements CanActivate {
   constructor(
     private readonly router: Router,
-    private readonly token: TokenService,
-    private readonly toast: ToastController,
+    private authService: AuthService
   ) {
   }
 
-  // If for some reason a given user tries to access something that needs authorization
-  // we will redirect them to the login screen if they are not logged in.
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Promise<boolean | UrlTree> {
-    const isAuthenticated = !!this.token.getToken();
-    if (isAuthenticated) return true;
-    (await this.toast.create({
-      message: 'Login required!',
-      color: 'danger', duration: 5000, position: "top"
-    })).present();
-    return this.router.parseUrl('/login');
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.authService.isAuthorized()) {
+      console.log("not auth")
+      this.router.navigate(['/login']);
+      return false;
+    }
+    const roles = route.data["roles"] as Role[];
+    if (roles && !roles.some(r => this.authService.hasRole(r))) {
+      this.router.navigate(['error', 'not-found']);
+      return false;
+    }
+    return true;
+  }
+  canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.authService.isAuthorized()) {
+      return false;
+    }
+    const roles = route.data && route.data["roles"] as Role[];
+    if (roles && !roles.some(r => this.authService.hasRole(r))) {
+      return false;
+    }
+    return true;
   }
 }

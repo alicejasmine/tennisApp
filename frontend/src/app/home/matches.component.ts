@@ -2,25 +2,24 @@ import {Component,OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
 import {ModalController} from "@ionic/angular";
 import {CreateMatchComponent} from "../create-match/create-match.component";
 import {EditMatchComponent} from "../edit-match/edit-match.component";
 import {ActivatedRoute} from '@angular/router';
-import {MatchWithPlayers} from "../models";
+import {MatchWithPlayers, Role} from "../models";
+import {AuthService} from "../../services/AuthService";
 
 
 @Component({
   selector: 'app-home',
   template: `
-    <app-title [title]="'Home'"></app-title>
-    <ion-content [fullscreen]="true">
+    <ion-content style="--padding-top: 105px;">
     <ion-grid>
           <div class="container">
             <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
                            (ionInput)="handleSearch($event)"></ion-searchbar>
-            <ion-button class="createMatchButton" (click)="openModalCreateMatch()">Create Match</ion-button>
+              <ion-button class="createMatchButton" *ngIf="this.authService.hasRole(Role.Admin)" (click)="openModalCreateMatch()">Create Match</ion-button>
           </div>
     </ion-grid>
     <ion-grid>
@@ -30,17 +29,15 @@ import {MatchWithPlayers} from "../models";
             <ion-card-header>
               <ion-card-title>{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
                 VS {{match.fullNamePlayer2}}</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
-              <ion-button (click)="openModalEditMatch(match.id)">Edit</ion-button>
+                <ion-button *ngIf="this.authService.hasRole(Role.Admin)" (click)="openModalEditMatch(match.id)">Edit</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
-
-  </ion-content>
+    </ion-content>
 `,
   styleUrls: ['home.page.scss'],
 })
@@ -53,7 +50,9 @@ export class MatchesComponent implements OnInit {
   constructor(public router: Router,
               public dataService: DataService,
               public http: HttpClient,
-              public modalController: ModalController,private route: ActivatedRoute) {
+              public modalController: ModalController,
+              private route: ActivatedRoute,
+              public authService: AuthService) {
     this.getMatches();
   }
 
@@ -88,12 +87,6 @@ export class MatchesComponent implements OnInit {
     }
   }
 
-  async goToAllPlayers() {
-    this.router.navigate(['/all-players']);
-
-  }
-
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.fullName = params['fullName'];
@@ -103,4 +96,6 @@ export class MatchesComponent implements OnInit {
       }
     });
   }
+
+  protected readonly Role = Role;
 }

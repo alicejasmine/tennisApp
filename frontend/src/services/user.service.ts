@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Player, User} from "../models";
+import {Player, User} from "../app/models";
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Registration {

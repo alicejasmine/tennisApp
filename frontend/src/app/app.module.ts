@@ -13,14 +13,12 @@ import { TokenService } from 'src/services/token.service';
 import { LoginComponent } from './account/login.component';
 import { AccountComponent } from './account/account.component';
 import { RegisterComponent } from './account/register.component';
-import { AccountService } from './account/account.service';
+import { AccountService } from '../services/account.service';
 import { UsersComponent } from './user/users.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { AuthHttpInterceptor } from 'src/interceptors/auth-http-interceptor';
 import {AuthenticatedGuard} from "./guards";
-import { HeaderComponent } from './header.component';
 import { RewriteHttpInterceptor } from 'src/interceptors/rewrite-http-interceptor';
-import { TabsComponent } from './tabs.component';
 import {CreateMatchComponent} from "./create-match/create-match.component";
 import {EditMatchComponent} from "./edit-match/edit-match.component";
 import { AllPlayersComponent } from './all-players/all-players.component';
@@ -29,29 +27,35 @@ import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
-import {UserService} from "./user/user.service";
+import {UserService} from "../services/user.service";
 import {CreateUserComponent} from "./user/create-user-component";
 import {EditUserComponent} from "./user/edit-user.component";
+import {AuthService} from "../services/AuthService";
+import {UserDirective} from "../directives/user.directive";
+import {UserRoleDirective} from "../directives/user-role.directive";
+import { TabsModule } from './tabs/tabs.module';
+
 
 
 @NgModule({
   declarations: [AppComponent,
     MatchesComponent,
     UsersComponent,
-    TabsComponent,
     AccountComponent,
     RegisterComponent,
     LoginComponent,
-  HeaderComponent,
     CreateMatchComponent,
     EditMatchComponent,
     AllPlayersComponent,
     CreatePlayerComponent,
     EditPlayerComponent,
     CreateUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    UserRoleDirective,
+    UserDirective
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule],
+  exports: [UserDirective, UserRoleDirective],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHttpInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
@@ -60,7 +64,8 @@ import {EditUserComponent} from "./user/edit-user.component";
     AuthenticatedGuard,
     AccountService,
     DataService,
-    UserService
+    UserService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

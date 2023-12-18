@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {ToastController} from '@ionic/angular';
 import {firstValueFrom} from 'rxjs';
 import {CustomValidators} from "../custom-validators";
-import {Registration, UserService} from "./user.service";
+import {Registration, UserService} from "../../services/user.service";
 
 
 @Component({

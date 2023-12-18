@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {ReplaySubject} from "rxjs";
-import {User} from "../models";
+import {User} from "../app/models";
 
 
 
@@ -23,39 +23,16 @@ export interface AccountUpdate {
 
 @Injectable()
 export class AccountService {
+
   constructor(private readonly http: HttpClient) {
   }
-
-
-  private logged = new ReplaySubject<boolean>(1);
-  isLogged = this.logged.asObservable();
-  private admin = new ReplaySubject<boolean>(1);
-  isAdmin = this.admin.asObservable();
-
 
   getCurrentUser() {
     return this.http.get<User>('/api/account/info');
   }
 
-
   login(value: Credentials) {
-    return this.http.post<{ token: string }>('/api/account/login', value);
-  }
-
-  async setLogged(){
-    this.getCurrentUser().subscribe(user => {
-      this.admin.next(<boolean>user.isAdmin)
-      this.logged.next(true);
-    });
-  }
-
-
-  checkStatus() {
-    if (localStorage.getItem('token')) {
-      this.logged.next(true);
-    }
-      this.logged.next(false);
-      this.admin.next(false);
+    return this.http.post<{ token: string, isAdmin: boolean }>('/api/account/login', value);
   }
 
   register(value: Registration) {

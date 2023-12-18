@@ -2,15 +2,15 @@ import {Component, OnInit,OnDestroy} from '@angular/core';
 import {finalize, Subscription} from "rxjs";
 import {FormBuilder, Validators} from "@angular/forms";
 import {HttpEventType} from "@angular/common/http";
-import {UserService, UserUpdate} from "./user.service";
-import {AccountService} from "../account/account.service";
-import {modalController} from "@ionic/core";
+import {UserService, UserUpdate} from "../../services/user.service";
+import {AccountService} from "../../services/account.service";
+
 import {ModalController, ToastController} from "@ionic/angular";
 
 @Component({
   selector: 'app-user-edit',
   template:  `
-    <ion-content *ngIf="!loading">
+    <ion-content>
       <form [formGroup]="form" (ngSubmit)="submit()">
         <ion-list class="field-list">
           <ion-item>
@@ -25,13 +25,8 @@ import {ModalController, ToastController} from "@ionic/angular";
                 <ion-checkbox justify="space-between" formControlName="isAdmin">Administrator</ion-checkbox>
             </ion-item>
         </ion-list>
-          <ion-progress-bar
-                  *ngIf="uploading"
-                  [value]="uploadProgress"
-          ></ion-progress-bar>
-
           <ion-toolbar>
-              <ion-button slot="end" *ngIf="form.valid && !uploading" (click)="submit()">
+              <ion-button slot="end" *ngIf="form.valid" (click)="submit()">
                   Update
               </ion-button>
               <ion-button slot="end" (click)="modalController.dismiss()">Cancel</ion-button>
@@ -46,15 +41,7 @@ import {ModalController, ToastController} from "@ionic/angular";
   `,
 })
 
-export class EditUserComponent implements OnInit, OnDestroy {
-
-  private accountSubscription?: Subscription;
-
-  isAdmin?: boolean;
-  loading: boolean = true;
-  uploading: boolean = false;
-  uploadProgress: number | null = null;
-  isLogged?: boolean;
+export class EditUserComponent implements OnInit{
 
   form = this.fb.group({
     fullName: [this.service.editingUser.fullName, Validators.required],
@@ -72,46 +59,24 @@ export class EditUserComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-        this.accountService.getCurrentUser().subscribe(user => {
-          this.isAdmin = user.isAdmin;
-          if (this.service.editingUser?.id != null){
-            this.form.patchValue(this.service.editingUser);
-            this.loading = false;
-          }
-    });
-    this.accountService.checkStatus();
-  }
+    if (this.service.editingUser?.id != null){
+      this.form.patchValue(this.service.editingUser);
 
-  ngOnDestroy() {
-    if (this.accountSubscription) {
-      this.accountSubscription.unsubscribe();
     }
   }
 
 
+
   async submit() {
     if (this.form.invalid) return;
-    this.uploading = true;
+
     this.service
       .update(this.form.value as UserUpdate)
-      .pipe(
-        finalize(() => {
-          this.uploading = false;
-          this.uploadProgress = null;
-        })
-      )
       .subscribe( (event) => {
-        if (event.type == HttpEventType.UploadProgress) {
-          this.uploadProgress = Math.round(
-            100 * (event.loaded / (event.total ?? 1))
-          );
-        } else if (event.type == HttpEventType.Response && event.body) {
+        if (event.type == HttpEventType.Response && event.body) {
           this.form.patchValue(event.body);
         }
       });
-
-
-
 
     this.modalController.dismiss();
     const toast = await this.toastController.create({
