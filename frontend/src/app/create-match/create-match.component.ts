@@ -26,7 +26,7 @@ export class CreateMatchComponent implements OnInit{
 
   createNewMatchForm = this.fb.group({
     date: ['', [Validators.required]],
-    startTime: [''],
+    startTime: ['', [Validators.required]],
     environment: ['', [Validators.required, Validators.pattern('(?:indoor|outdoor)')]],
     surface: ['', [Validators.required, Validators.pattern('(?:clay|hard|other)')]],
     playerid1: ['', [Validators.required]],
