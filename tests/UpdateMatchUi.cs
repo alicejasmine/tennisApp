@@ -8,8 +8,8 @@ namespace tests;
 
 public class UpdateMatchUi : PageTest
 {
-    [TestCase("indoor", "hard", "2000-01-01", "2023-11-24T09:30:22.965Z", "2023-11-24T09:30:22.965Z", true,
-        "some updated note", 1, 2)]
+    [TestCase("indoor", "hard", "2001-01-12", "2001-01-12 00:30:00.000", "2023-11-24T09:30:22.965Z", false,
+        "some note", 1, 2)]
     public async Task MatchCanSuccessfullyBeUpdatedFromUi(string environment, string surface, DateTime date,
         DateTime startTime, DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
     {
@@ -19,15 +19,13 @@ public class UpdateMatchUi : PageTest
         {
             //Insert an match to be updated
             conn.Query(
-                "INSERT INTO tennis_app.match (environment, surface, date, start_time, end_time, finished, notes) VALUES ('outdoor', 'clay', '2001-01-01', '2001-01-02 10:10:10', '2001-01-03 11:11:11', true, 'hardcodedNote') RETURNING *;" +
+                "INSERT INTO tennis_app.match (environment, surface, date, start_time, end_time, finished, notes) VALUES ('outdoor', 'clay', '2001-01-01', '2001-01-02 10:10:10', '2001-01-03 11:11:11', false, 'some note') RETURNING *;" +
                 "insert into tennis_app.players(full_name)VALUES('Aleksandra Kurdelska');" +
                 "insert into tennis_app.players(full_name)VALUES('Bob Pancakes');" +
                 " INSERT INTO tennis_app.played_in (player_id, match_id) VALUES (1,1);" +
                 "INSERT INTO tennis_app.played_in (player_id, match_id) VALUES (2,1)");
         }
-
-        string hour = DateTime.Now.Hour.ToString();
-        string minutes = DateTime.Now.Minute.ToString();
+        
 
         //ACT
         await Page.GotoAsync("http://localhost:4200/");
@@ -37,10 +35,10 @@ public class UpdateMatchUi : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Edit" }).ClickAsync();
 
         await Page.GetByLabel("Friday, January 12").ClickAsync();
+        
+        await Page.GetByRole(AriaRole.Button, new() { Name = "24", Exact = true }).Nth(1).ClickAsync();
 
-        await Page.GetByRole(AriaRole.Button, new() { Name = hour }).Nth(1).ClickAsync();
-
-        await Page.GetByRole(AriaRole.Button, new() { Name = minutes }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "30", Exact = true }).ClickAsync();
 
         await Page.GetByText("Environmentoutdoor").ClickAsync();
 
@@ -55,6 +53,8 @@ public class UpdateMatchUi : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "OK" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Update match" }).ClickAsync();
+        
+        await Page.WaitForTimeoutAsync(2000);
 
 
         //ASSERT
@@ -63,7 +63,6 @@ public class UpdateMatchUi : PageTest
 
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
-            DateTime now = DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
 
             var expected = new Match()
             {
@@ -71,7 +70,7 @@ public class UpdateMatchUi : PageTest
                 Environment = environment,
                 Surface = surface,
                 Date = date,
-                StartTime = now,
+                StartTime = startTime,
                 Finished = finished,
                 Notes = notes,
                 PlayerId1 = playerId1,
