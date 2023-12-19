@@ -114,6 +114,7 @@ export class ShotService {
   public otherUECountPlayer2 = 0;
 
   constructor(private httpClient: HttpClient, public dataService: DataService, public toastController: ToastController,) {
+
   }
 
   async registerShot() {
@@ -163,6 +164,7 @@ export class ShotService {
 
 
   async countShotsForPlayerByMatch(playerId: number, matchId: number) {
+
     try {
 
       const call = `/api/shots/${playerId}/${matchId}/shots`;
@@ -445,4 +447,72 @@ export class ShotService {
     }
   }
 
+   resetCount() {
+    this.winnerCountPlayer1 = 0;
+    this.forcedErrorCountPlayer1 = 0;
+    this.unforcedErrorCountPlayer1 = 0;
+    this.winnerCountPlayer2 = 0;
+    this.forcedErrorCountPlayer2 = 0;
+    this.unforcedErrorCountPlayer2 = 0;
+    this.forehandGroundstrokeWinnerCountPlayer1 = 0;
+    this.forehandGroundstrokeWinnerCountPlayer2 = 0;
+    this.forehandReturnWinnerCountPlayer1 = 0;
+    this.forehandReturnWinnerCountPlayer2 = 0;
+    this.serveDeuceWinnerCountPlayer1 = 0;
+    this.serveDeuceWinnerCountPlayer2 = 0;
+    this.serveAddWinnerCountPlayer1 = 0;
+    this.serveAddWinnerCountPlayer2 = 0;
+    this.backhandGroundstrokeWinnerCountPlayer1 = 0;
+    this.backhandGroundstrokeWinnerCountPlayer2 = 0;
+    this.backhandReturnWinnerCountPlayer1 = 0;
+    this.backhandReturnWinnerCountPlayer2 = 0;
+    this.forehandVolleyWinnerCountPlayer1 = 0;
+    this.forehandVolleyWinnerCountPlayer2 = 0;
+    this.backhandVolleyWinnerCountPlayer1 = 0;
+    this.backhandVolleyWinnerCountPlayer2 = 0;
+    this.overheadWinnerCountPlayer1 = 0;
+    this.overheadWinnerCountPlayer2 = 0;
+    this.otherWinnerCountPlayer1 = 0;
+    this.otherWinnerCountPlayer2 = 0;
+    this.forehandGroundstrokeFECountPlayer1 = 0;
+    this.forehandGroundstrokeFECountPlayer2 = 0;
+    this.forehandReturnFECountPlayer1 = 0;
+    this.forehandReturnFECountPlayer2 = 0;
+    this.serveDeuceFECountPlayer1 = 0;
+    this.serveDeuceFECountPlayer2 = 0;
+    this.serveAddFECountPlayer1 = 0;
+    this.serveAddFECountPlayer2 = 0;
+    this.backhandGroundstrokeFECountPlayer1 = 0;
+    this.backhandGroundstrokeFECountPlayer2 = 0;
+    this.backhandReturnFECountPlayer1 = 0;
+    this.backhandReturnFECountPlayer2 = 0;
+    this.forehandVolleyFECountPlayer1 = 0;
+    this.forehandVolleyFECountPlayer2 = 0;
+    this.backhandVolleyFECountPlayer1 = 0;
+    this.backhandVolleyFECountPlayer2 = 0;
+    this.overheadFECountPlayer1 = 0;
+    this.overheadFECountPlayer2 = 0;
+    this.otherFECountPlayer1 = 0;
+    this.otherFECountPlayer2 = 0;
+    this.forehandGroundstrokeUECountPlayer1 = 0;
+    this.forehandGroundstrokeUECountPlayer2 = 0;
+    this.forehandReturnUECountPlayer1 = 0;
+    this.forehandReturnUECountPlayer2 = 0;
+    this.serveDeuceUECountPlayer1 = 0;
+    this.serveDeuceUECountPlayer2 = 0;
+    this.serveAddUECountPlayer1 = 0;
+    this.serveAddUECountPlayer2 = 0;
+    this.backhandGroundstrokeUECountPlayer1 = 0;
+    this.backhandGroundstrokeUECountPlayer2 = 0;
+    this.backhandReturnUECountPlayer1 = 0;
+    this.backhandReturnUECountPlayer2 = 0;
+    this.forehandVolleyUECountPlayer1 = 0;
+    this.forehandVolleyUECountPlayer2 = 0;
+    this.backhandVolleyUECountPlayer1 = 0;
+    this.backhandVolleyUECountPlayer2 = 0;
+    this.overheadUECountPlayer1 = 0;
+    this.overheadUECountPlayer2 = 0;
+    this.otherUECountPlayer1 = 0;
+    this.otherUECountPlayer2 = 0;
+  }
 }

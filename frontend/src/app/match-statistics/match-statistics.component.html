@@ -31,7 +31,9 @@
   </ion-list>
   <ion-button (click)="openDeleteConfirmation(dataService.currentMatch.id)">Delete match</ion-button>
   <ion-button  *ngIf="!dataService.currentMatch.finished" [routerLink]="['/shot-classification', dataService.currentMatch.id]">Track shots</ion-button>
-<ion-grid *ngIf="dataService.currentMatch.finished">
+  <ion-button *ngIf="dataService.currentMatch.finished" (click)="loadGraphs()">Match Statistics</ion-button>
+
+  <ion-grid *ngIf="graphsLoaded">
 
 
   <!-- Shot classification Pie Charts -->

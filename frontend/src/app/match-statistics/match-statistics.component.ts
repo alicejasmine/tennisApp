@@ -18,7 +18,7 @@ import {ShotService} from "src/services/shot.service";
 })
 
 export class MatchStatisticsComponent implements OnInit {
-
+  graphsLoaded = false;
 
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
@@ -65,7 +65,7 @@ export class MatchStatisticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.getMatchStatistics();
   }
 
   async getMatchStatistics() {
@@ -105,7 +105,9 @@ export class MatchStatisticsComponent implements OnInit {
   }
 
   async loadGraphs() {
+    this.shotService.resetCount();
     if (this.dataService.currentMatch.finished) {
+      this.graphsLoaded = true;
       if (this.dataService.currentMatch.playerId1 && this.dataService.currentMatch.playerId2 && this.dataService.currentMatch.id) {
         await this.shotService.countShotsForPlayerByMatch(this.dataService.currentMatch.playerId1, this.dataService.currentMatch.id);
         await this.shotService.countShotsForPlayerByMatch(this.dataService.currentMatch.playerId2, this.dataService.currentMatch.id);
@@ -126,14 +128,6 @@ export class MatchStatisticsComponent implements OnInit {
     }
   }
 
-
-  async loadData() {
-
-    await this.getMatchStatistics();
-    if (this.dataService.currentMatch.finished == true) { //load data only when match is done
-      this.loadGraphs();
-    }
-  }
 
 
   winnerGraphs() {
