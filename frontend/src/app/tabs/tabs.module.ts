@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule, Routes } from '@angular/router';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 // Pages
 import { MatchesComponent } from '../home/matches.component';
@@ -30,6 +30,8 @@ const routes: Routes = [
     path: 'tabs',
     component: TabsComponent,
     children: [
+
+      // openly available components
       {
         path: 'home',
         component: MatchesComponent,
@@ -39,28 +41,38 @@ const routes: Routes = [
         component: AllPlayersComponent,
       },
       {
+        path: 'match-info/:id',
+        component: MatchStatisticsComponent
+      },
+
+      // From here we are controlling access.
+      {
         path: 'users',
         component: UsersComponent,
         canActivate: [AuthenticatedGuard],
         data: { roles: [Role.Admin] }
       },
       {
-        path: 'match-info/:id',
-        component: MatchStatisticsComponent
-      },
-      {
         path: 'shot-classification/:matchId',
-        component: ShotClassificationComponent
+        component: ShotClassificationComponent,
+        canActivate: [AuthenticatedGuard],
+        data: { roles: [Role.Admin] }
       },
       { path: 'shot-type/:matchId/:playerId',
-        component: ShotTypeComponent
+        component: ShotTypeComponent,
+        canActivate: [AuthenticatedGuard],
+        data: { roles: [Role.Admin] }
 
       },
       { path: 'shot-destination-and-direction/:matchId/:playerId',
-        component:  ShotDestinationAndDirectionComponent
+        component:  ShotDestinationAndDirectionComponent,
+        canActivate: [AuthenticatedGuard],
+        data: { roles: [Role.Admin] }
       },
       { path: 'player-position/:matchId/:playerId',
-        component: PlayerPositionComponent
+        component: PlayerPositionComponent,
+        canActivate: [AuthenticatedGuard],
+        data: { roles: [Role.Admin] }
       }
     ]
   }

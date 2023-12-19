@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Subscription } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
@@ -30,7 +30,7 @@ import { Role } from "../models";
   styleUrls: ['./form.css'],
 })
 
-export class AccountComponent implements OnDestroy {
+export class AccountComponent implements OnInit,OnDestroy {
   protected readonly Role = Role;
   private subscriptions: Subscription[] = [];
 
@@ -46,6 +46,10 @@ export class AccountComponent implements OnDestroy {
   ) {}
 
   ionViewWillEnter() {
+
+  }
+
+  ngOnInit() {
     const user = this.service.getCurrentUser().subscribe(user => {
       this.form.patchValue(user);
     });
@@ -60,6 +64,7 @@ export class AccountComponent implements OnDestroy {
       }
     });
     this.subscriptions.push(clear);
+
   }
 
   ngOnDestroy() {
