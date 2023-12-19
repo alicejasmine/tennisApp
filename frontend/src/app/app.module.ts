@@ -32,8 +32,8 @@ import {CreateUserComponent} from "./user/create-user-component";
 import {EditUserComponent} from "./user/edit-user.component";
 import {AuthService} from "../services/AuthService";
 import {UserDirective} from "../directives/user.directive";
-import {UserRoleDirective} from "../directives/user-role.directive";
 import { TabsModule } from './tabs/tabs.module';
+import {DirectiveModule} from "../directives/directive.module";
 
 
 
@@ -51,11 +51,10 @@ import { TabsModule } from './tabs/tabs.module';
     EditPlayerComponent,
     CreateUserComponent,
     EditUserComponent,
-    UserRoleDirective,
     UserDirective
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule],
-  exports: [UserDirective, UserRoleDirective],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule, DirectiveModule],
+  exports: [UserDirective],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHttpInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },

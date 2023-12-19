@@ -8,18 +8,18 @@ import {Role} from "../models";
   template: `
       <ion-tabs>
           <ion-tab-bar slot="bottom">
-              <ion-tab-button tab="home" routerLink="home">
+              <ion-tab-button tab="home" routerLink="./home" routerLinkActive="tab-selected">
                   <ion-label>Home</ion-label>
                   <ion-icon name="home-outline"></ion-icon>
               </ion-tab-button>
 
-              <ion-tab-button tab="all-players" routerLink="all-players">
+              <ion-tab-button tab="all-players" routerLink="./all-players" routerLinkActive="tab-selected">
                   <ion-label>Players</ion-label>
                   <ion-icon name="people-outline"></ion-icon>
               </ion-tab-button>
 
               <!-- Users tab only shown if user is an admin -->
-              <ion-tab-button *ngIf="isAdmin" tab="users" routerLink="users">
+              <ion-tab-button *ngIf="isAdmin" tab="users" routerLink="./users" routerLinkActive="tab-selected">
                   <ion-label>Users</ion-label>
                   <ion-icon name="person-outline"></ion-icon>
               </ion-tab-button>

@@ -1,7 +1,5 @@
 import {ActivatedRouteSnapshot, CanActivate, Route, Router} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {TokenService} from "../services/token.service";
-import {ToastController} from "@ionic/angular";
 import {AuthService} from "../services/AuthService";
 import {Observable} from "rxjs";
 import {Role} from "./models";
@@ -15,18 +13,20 @@ export class AuthenticatedGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.authService.isAuthorized()) {
-      console.log("not auth")
-      this.router.navigate(['/login']);
+    if (!this.authService.isAuthorized()) { // if the user is not authorized, send them home
+      this.router.navigate(['tabs/home']);
       return false;
     }
-    const roles = route.data["roles"] as Role[];
-    if (roles && !roles.some(r => this.authService.hasRole(r))) {
-      this.router.navigate(['error', 'not-found']);
+
+    const roles = route.data['roles'] as Role[];
+
+    if (roles && !roles.some(r => this.authService.hasRole(r))) { // if the user is not admin, send them home
+      this.router.navigate(['tabs/home']);
       return false;
     }
     return true;
   }
+
   canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.authService.isAuthorized()) {
       return false;

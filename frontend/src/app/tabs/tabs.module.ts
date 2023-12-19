@@ -14,6 +14,8 @@ import { TabsComponent } from './tabs.component';
 
 // Guard
 import { AuthenticatedGuard } from '../guards';
+import {Role} from "../models";
+import {DirectiveModule} from "../../directives/directive.module";
 
 // Child routes under 'tabs'
 const routes: Routes = [
@@ -23,19 +25,17 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        outlet: 'tab',
         component: MatchesComponent,
       },
       {
         path: 'all-players',
-        outlet: 'tab',
         component: AllPlayersComponent,
       },
       {
         path: 'users',
-        outlet: 'tab',
         component: UsersComponent,
         canActivate: [AuthenticatedGuard],
+        data: { roles: [Role.Admin] }
       },
       {
         path: '',
@@ -57,6 +57,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
+    DirectiveModule
   ],
   exports: [
     TabsComponent

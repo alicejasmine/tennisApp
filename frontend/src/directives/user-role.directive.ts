@@ -1,10 +1,13 @@
-import { Directive, OnInit, TemplateRef, ViewContainerRef, Input } from '@angular/core';
+import { Directive, OnDestroy, OnInit, TemplateRef, ViewContainerRef, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { Role } from '../app/models';
 import {AuthService} from "../services/AuthService";
-import {Role} from "../app/models";
 
-
-@Directive({ selector: '[appUserRole]'})
-export class UserRoleDirective implements OnInit {
+@Directive({ selector: '[appUserRole]' })
+export class UserRoleDirective implements OnInit, OnDestroy {
+  private subscription: Subscription = new Subscription();
+  @Input() appUserRole: Role[] = [];
 
   // The user role directive is a structural directive that conditionally includes a template if:
   // A user is authorized
@@ -15,28 +18,23 @@ export class UserRoleDirective implements OnInit {
     private viewContainer: ViewContainerRef
   ) { }
 
-  userRoles: Role[] | undefined;
+  ngOnInit() {
+    this.subscription = this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      let hasAccess = false;
 
-  @Input()
-  set appUserRole(roles: Role[]) {
-    if (!roles || !roles.length) {
-      throw new Error('Roles value is empty or missed');
-    }
+      if (isLoggedIn && this.appUserRole) {
+        hasAccess = this.appUserRole.some(role => this.authService.hasRole(role));
+      }
 
-    this.userRoles = roles;
+      if (hasAccess) {
+        this.viewContainer.createEmbeddedView(this.templateRef);
+      } else {
+        this.viewContainer.clear();
+      }
+    });
   }
 
-  ngOnInit() {
-    let hasAccess = false;
-
-    if (this.authService.isAuthorized() && this.userRoles) {
-      hasAccess = this.userRoles.some(r => this.authService.hasRole(r));
-    }
-
-    if (hasAccess) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainer.clear();
-    }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

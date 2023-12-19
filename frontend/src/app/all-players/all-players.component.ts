@@ -16,7 +16,7 @@ import {AuthService} from "../../services/AuthService";
       <div class="container">
         <ion-searchbar animated="true" placeholder="Search players" debounce="100"
                        (ionInput)="handleInput($event)"></ion-searchbar>
-        <ion-button *ngIf="this.authService.hasRole(Role.Admin)" (click)="openCreatePlayer()">Create Player</ion-button>
+        <ion-button *appUserRole="[Role.Admin]" (click)="openCreatePlayer()">Create Player</ion-button>
       </div>
       <div class="container">
         <ion-card *ngFor="let player of dataService.players">
@@ -25,7 +25,7 @@ import {AuthService} from "../../services/AuthService";
             <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
           </ion-card-header>
 
-          <ion-button *ngIf="this.authService.hasRole(Role.Admin)" fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
+          <ion-button *appUserRole="[Role.Admin]" fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
 
         </ion-card>
       </div>
@@ -37,11 +37,9 @@ export class AllPlayersComponent {
   player: Player | undefined;
   protected readonly Role = Role;
   constructor(public modalController: ModalController,
-              public route: ActivatedRoute,
               public router: Router,
               public dataService: DataService,
-              public http: HttpClient,
-              public authService: AuthService) {
+              public http: HttpClient) {
     this.getAllPlayers();
   }
 
@@ -61,7 +59,8 @@ export class AllPlayersComponent {
 
   async openCreatePlayer() {
     const modal = await this.modalController.create({
-      component: CreatePlayerComponent
+      component: CreatePlayerComponent,
+      cssClass: 'modal-css'
     });
     modal.present();
   }
@@ -74,7 +73,7 @@ export class AllPlayersComponent {
         this.dataService.currentPlayer = editingPlayer;
         const modal = await this.modalController.create({
           component: EditPlayerComponent,
-
+          cssClass: 'modal-css'
         });
         modal.present();
       }

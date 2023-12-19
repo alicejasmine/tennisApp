@@ -1,15 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Role} from "../app/models";
-import {HttpClient} from "@angular/common/http";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Role } from "../app/models";
 
-
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly storage: Storage = window.sessionStorage;
+  private readonly storage = window.sessionStorage;
+  isLoggedIn$ = new BehaviorSubject<boolean>(this.isAuthorized());
 
-  constructor() {
-  }
-  isAuthorized() {
+  isAuthorized(): boolean {
     return !!this.storage.getItem("token");
   }
 
@@ -20,26 +18,25 @@ export class AuthService {
 
   handleLoginResponse(isAdmin: boolean) {
     if (isAdmin) {
-      this.storage.setItem('role', 'Admin')
+      this.storage.setItem('role', Role.Admin);
     } else {
-      this.storage.setItem('role', 'User')
+      this.storage.setItem('role', Role.User);
     }
+    this.isLoggedIn$.next(true);
   }
 
   logout(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       try {
-        // Clear client-side storage
         this.storage.removeItem('token');
         this.storage.removeItem('role');
+        this.isLoggedIn$.next(false);
         resolve();
-      } catch(err) {
-        // If an error occurs while trying to remove items from storage
+      } catch (err) {
         console.error(err);
         alert("An error occurred during logout. Please try again.");
         reject(err);
       }
     });
   }
-
 }

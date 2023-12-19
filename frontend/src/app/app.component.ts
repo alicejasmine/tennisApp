@@ -1,14 +1,15 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../services/AuthService";
 import {Role} from "./models";
-import {TokenService} from "../services/token.service";
 import {Title} from "@angular/platform-browser";
+import { ModalController } from '@ionic/angular';
+import { LoginComponent } from './account/login.component';
+import { RegisterComponent } from './account/register.component';
+import { AccountComponent } from './account/account.component';
 
 @Component({
   selector: 'app-root',
   template: `
-
       <ion-header>
           <ion-toolbar>
               <ion-col size="2" class="logo">
@@ -16,7 +17,7 @@ import {Title} from "@angular/platform-browser";
               </ion-col>
               <ion-buttons slot="end">
                   <!-- Authorized only -->
-                  <ion-button fill="outline" *ngIf="isAuthorized" routerLink="account">
+                  <ion-button fill="outline" *ngIf="isAuthorized" (click)="openProfileModal()">
                       <ion-label>Profile</ion-label>
                   </ion-button>
 
@@ -26,29 +27,32 @@ import {Title} from "@angular/platform-browser";
                   </ion-button>
 
                   <!-- Anonymous only -->
-                  <ion-button fill="outline" *ngIf="!isAuthorized" routerLink="login">
+                  <ion-button fill="outline" *ngIf="!isAuthorized" (click)="openLoginModal()">
                       <ion-label>Login</ion-label>
                       <ion-icon slot="end" name="log-in"></ion-icon>
                   </ion-button>
-                  <ion-button fill="solid" *ngIf="!isAuthorized" routerLink="register">
+
+                  <ion-button fill="solid" *ngIf="!isAuthorized" (click)="openRegisterModal()">
                       Register
                   </ion-button>
               </ion-buttons>
           </ion-toolbar>
       </ion-header>
 
-      <div>
-      <ion-content fullscreen> <!-- Without this padding our content will show under the header -->
+
+      <ion-content>
           <ion-router-outlet></ion-router-outlet>
       </ion-content>
-      </div>
-      <app-tabs></app-tabs>
   `,
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit{
 
-  constructor(private router: Router, private authService: AuthService, private token: TokenService, private readonly title: Title) { }
+  constructor(
+    private authService: AuthService,
+    private title: Title,
+    private modalController: ModalController
+  ) { }
 
   get isAuthorized() {
     return this.authService.isAuthorized();
@@ -64,6 +68,30 @@ export class AppComponent implements OnInit{
 
   async logout() {
     await this.authService.logout();
-    await this.router.navigate(['/home']);
+  }
+
+  // Functions to open login, register & profile as modals
+  async openLoginModal() {
+    const modal = await this.modalController.create({
+      component: LoginComponent,
+      cssClass: 'modal-css'
+    });
+    modal.present();
+  }
+
+  async openRegisterModal() {
+    const modal = await this.modalController.create({
+      component: RegisterComponent,
+      cssClass: 'modal-css'
+    });
+    modal.present();
+  }
+
+  async openProfileModal() {
+    const modal = await this.modalController.create({
+      component: AccountComponent,
+      cssClass: 'modal-css'
+    });
+    modal.present();
   }
 }

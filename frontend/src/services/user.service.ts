@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Player, User} from "../app/models";
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, Observable, tap} from 'rxjs';
 
 export interface Registration {
   fullName: string;
@@ -23,7 +23,6 @@ export class UserService {
 
   public editingUser: User = {};
 
-
   constructor(private readonly http: HttpClient) {
     this._users = new BehaviorSubject<User[]>([]);
     this.users = this._users.asObservable();
@@ -40,7 +39,11 @@ export class UserService {
   }
 
   register(value: Registration) {
-    return this.http.post<any>('/api/users/register', value);
+    return this.http.post<any>('/api/users/register', value).pipe(
+      tap(_ => {
+        this.getUsers();
+      })
+    );
   }
 
   update(value: UserUpdate) {
@@ -51,6 +54,10 @@ export class UserService {
     return this.http.put<User>('/api/users/update/' + this.editingUser.id, formData, {
       reportProgress: true,
       observe: 'events'
-    });
+    }).pipe(
+      tap(_ => {
+        this.getUsers();
+      })
+    );
   }
 }

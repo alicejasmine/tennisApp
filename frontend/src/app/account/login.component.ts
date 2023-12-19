@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {AccountService, Credentials} from "../../services/account.service";
 import {Router} from "@angular/router";
-import {ToastController} from "@ionic/angular";
+import {ModalController, ToastController} from "@ionic/angular";
 import {catchError, of, tap} from "rxjs";
 import {AuthService} from "../../services/AuthService";
 import {TokenService} from "../../services/token.service";
@@ -65,10 +65,10 @@ export class LoginComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly service: AccountService,
-    private readonly router: Router,
     private readonly toast: ToastController,
     private authService: AuthService,
-    private token: TokenService
+    private token: TokenService,
+    private readonly modalController: ModalController
   ) { }
 
   async submit() {
@@ -77,15 +77,18 @@ export class LoginComponent {
     this.service.login(this.form.value as Credentials).pipe(
       tap(async response => {
         this.authService.handleLoginResponse(response.isAdmin);
-        this.token.setToken(response.token)
-        this.router.navigateByUrl('/home');
+        this.token.setToken(response.token);
 
         const toast = await this.toast.create({
           message: 'Login Successful!',
           color: 'success',
-          duration: 2000
+          duration: 2000,
+          position: 'top'
         });
         toast.present();
+
+        this.modalController.dismiss(); // Close the modal
+        window.location.reload(); // Perform full page reload
       }),
       catchError(async error => {
         console.error("An error occurred during login: ", error);

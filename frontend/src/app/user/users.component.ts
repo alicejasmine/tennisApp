@@ -4,15 +4,16 @@ import {firstValueFrom, Observable} from "rxjs";
 import {CreateUserComponent} from "./create-user-component";
 import {EditUserComponent} from "./edit-user.component";
 import {UserService} from "../../services/user.service";
-import {User} from "../models";
+import {Role, User} from "../models";
 import {HttpClient} from "@angular/common/http";
+import {AuthService} from "../../services/AuthService";
 
 
 @Component({
   template: `
       <ion-content style="--padding-top: 105px;">
           <ion-list>
-              <ion-item *ngFor="let user of this.service.users| async">
+              <ion-item *ngFor="let user of this.users$ | async">
                   <div style="display: grid; grid-template-columns: auto auto auto 1fr; gap: 10px; justify-content: center; width: fit-content; margin: auto;">
                       <ion-label class="ion-text-wrap" style="width: 200px;">
                           <h2>{{user.fullName}}</h2>
@@ -29,7 +30,7 @@ import {HttpClient} from "@angular/common/http";
           </ion-list>
           <ion-footer>
               <ion-toolbar>
-                  <ion-button slot="end" class="createUserButton" (click)="openModalCreateUser()">Create User</ion-button>
+                  <ion-button *ngIf="this.authService.hasRole(Role.Admin)" slot="end" class="createUserButton" (click)="openModalCreateUser()">Create User</ion-button>
               </ion-toolbar>
           </ion-footer>
       </ion-content>
@@ -37,17 +38,22 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['users.component.scss'],
 })
 export class UsersComponent implements OnInit{
+  users$: Observable<User[]>;
+
   constructor(
     private modalController: ModalController,
-    public service: UserService
+    public service: UserService,
+    public authService: AuthService
   ) {
+    this.users$ = service.users;
   }
 
 
 
   async openModalCreateUser(){
     const modal = await this.modalController.create({
-      component: CreateUserComponent
+      component: CreateUserComponent,
+      cssClass: 'modal-css'
     });
     modal.present();
   }
@@ -58,7 +64,8 @@ export class UsersComponent implements OnInit{
       if (editUser$) {
         this.service.editingUser = await firstValueFrom(editUser$);
         const modal = await this.modalController.create({
-          component: EditUserComponent
+          component: EditUserComponent,
+          cssClass: 'modal-css'
         });
         modal.present();
       }
@@ -69,4 +76,5 @@ export class UsersComponent implements OnInit{
     this.service.getUsers();
   }
 
+  protected readonly Role = Role;
 }

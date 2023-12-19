@@ -19,7 +19,7 @@ import {AuthService} from "../../services/AuthService";
           <div class="container">
             <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
                            (ionInput)="handleSearch($event)"></ion-searchbar>
-              <ion-button class="createMatchButton" *ngIf="this.authService.hasRole(Role.Admin)" (click)="openModalCreateMatch()">Create Match</ion-button>
+              <ion-button class="createMatchButton" *appUserRole="[Role.Admin]" (click)="openModalCreateMatch()">Create Match</ion-button>
           </div>
     </ion-grid>
     <ion-grid>
@@ -31,7 +31,7 @@ import {AuthService} from "../../services/AuthService";
                 VS {{match.fullNamePlayer2}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-                <ion-button *ngIf="this.authService.hasRole(Role.Admin)" (click)="openModalEditMatch(match.id)">Edit</ion-button>
+                <ion-button *appUserRole="[Role.Admin]" (click)="openModalEditMatch(match.id)">Edit</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -51,8 +51,7 @@ export class MatchesComponent implements OnInit {
               public dataService: DataService,
               public http: HttpClient,
               public modalController: ModalController,
-              private route: ActivatedRoute,
-              public authService: AuthService) {
+              private route: ActivatedRoute) {
     this.getMatches();
   }
 
@@ -69,7 +68,8 @@ export class MatchesComponent implements OnInit {
 
   async openModalCreateMatch() {
     const modal = await this.modalController.create({
-      component: CreateMatchComponent
+      component: CreateMatchComponent,
+      cssClass: 'modal-css'
     });
     modal.present();
   }
@@ -80,7 +80,8 @@ export class MatchesComponent implements OnInit {
       if (currentMatchToEdit) {
         this.dataService.currentMatch = currentMatchToEdit;
         const modal = await this.modalController.create({
-          component: EditMatchComponent
+          component: EditMatchComponent,
+          cssClass: 'modal-css'
         });
         modal.present();
       }
@@ -97,5 +98,5 @@ export class MatchesComponent implements OnInit {
     });
   }
 
-  protected readonly Role = Role;
+  protected Role = Role;
 }
