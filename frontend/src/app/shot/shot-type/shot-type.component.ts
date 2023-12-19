@@ -6,12 +6,14 @@ import {DataService} from 'src/app/data.service';
 @Component({
   selector: 'app-shot-type',
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Shot Type</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
+
+
+    <ion-content style="--padding-top: 105px;">
+        <ion-toolbar>
+            <ion-title>Shot Type</ion-title>
+        </ion-toolbar>
+
+
       <ion-list>
         <ion-item *ngFor="let shot of shotTypes">
 
@@ -27,8 +29,12 @@ import {DataService} from 'src/app/data.service';
         </ion-item>
       </ion-list>
 
-      <ion-button [disabled]="!selectedShotType" (click)="registerShotType(selectedShotType)">Next</ion-button>
+            <ion-button [disabled]="!selectedShotType" (click)="registerShotType(selectedShotType)">Next</ion-button>
+
+
+
     </ion-content>
+
   `,
   styleUrls: ['./shot-type.component.scss'],
 })
@@ -61,7 +67,7 @@ export class ShotTypeComponent {
   registerShotType(shotType: string | undefined) {
     this.dataService.currentShot.shotType = shotType;
     this.selectedShotType = undefined;
-    this.router.navigate(['/shot-destination-and-direction/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
+    this.router.navigate(['/tabs/shot-destination-and-direction/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
 
   }
 }

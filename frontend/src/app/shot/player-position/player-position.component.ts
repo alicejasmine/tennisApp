@@ -12,12 +12,12 @@ import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.com
   selector: 'app-player-position',
   template: `
 
+      <ion-content style="--padding-top: 105px;">
 
-      <ion-header>
           <ion-toolbar>
               <ion-title>Player Position</ion-title>
           </ion-toolbar>
-      </ion-header>
+
       <ion-item>
           <ion-button (click)="registerPlayerPosition(selectedArea)" [disabled]="!selectedArea" color="primary">Next Point
           </ion-button>
@@ -61,6 +61,7 @@ import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.com
                   <rect x="0" y="0" width="854.627" height="198.792" style="fill:none;"/></svg>
           </div>
       </ion-content>
+      </ion-content>
   `,
   styleUrls: ['./player-position.component.scss'],
 })
@@ -84,7 +85,7 @@ export class PlayerPositionComponent {
   registerPlayerPosition(playerPosition: string | undefined) {
     this.dataService.currentShot.playerPosition = playerPosition;
     this.shotService.registerShot();
-    this.router.navigate(['/shot-classification/' + this.dataService.currentMatch.id]);
+    this.router.navigate(['/tabs/shot-classification/' + this.dataService.currentMatch.id]);
     this.dataService.currentShot = {}; //clear current shot so a new one can be registered
     this.selectedArea = undefined; //clear button
   }
@@ -93,9 +94,11 @@ export class PlayerPositionComponent {
   async endMatchModal(playerPosition: string | undefined) {
     const modal = await this.modalCtrl.create({
       component: EditEndingMatchComponent,
+      cssClass: 'modal-css'
     });
     this.dataService.currentShot.playerPosition = playerPosition;
     this.dataService.currentMatch.finished = true;
+
 
     const currentDateTime = new Date();
     currentDateTime.setHours(currentDateTime.getHours() + 1);

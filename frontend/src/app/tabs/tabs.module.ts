@@ -16,6 +16,13 @@ import { TabsComponent } from './tabs.component';
 import { AuthenticatedGuard } from '../guards';
 import {Role} from "../models";
 import {DirectiveModule} from "../../directives/directive.module";
+import {MatchStatisticsComponent} from "../match-statistics/match-statistics.component";
+import {ShotClassificationComponent} from "../shot/shot-classification/shot-classification.component";
+import {ShotTypeComponent} from "../shot/shot-type/shot-type.component";
+import {
+  ShotDestinationAndDirectionComponent
+} from "../shot/shot-destination-and-direction/shot-destination-and-direction.component";
+import {PlayerPositionComponent} from "../shot/player-position/player-position.component";
 
 // Child routes under 'tabs'
 const routes: Routes = [
@@ -38,17 +45,25 @@ const routes: Routes = [
         data: { roles: [Role.Admin] }
       },
       {
-        path: '',
-        redirectTo: '/tabs/home',
-        pathMatch: 'full',
+        path: 'match-info/:id',
+        component: MatchStatisticsComponent
       },
-    ],
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/home',
-    pathMatch: 'full',
-  },
+      {
+        path: 'shot-classification/:matchId',
+        component: ShotClassificationComponent
+      },
+      { path: 'shot-type/:matchId/:playerId',
+        component: ShotTypeComponent
+
+      },
+      { path: 'shot-destination-and-direction/:matchId/:playerId',
+        component:  ShotDestinationAndDirectionComponent
+      },
+      { path: 'player-position/:matchId/:playerId',
+        component: PlayerPositionComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({

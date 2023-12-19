@@ -27,7 +27,7 @@ import {MatchWithPlayers, Role} from "../models";
         <ion-col size="4" *ngFor="let match of dataService.matchesWithPlayers">
           <ion-card>
             <ion-card-header>
-              <ion-card-title routerLink="/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
+              <ion-card-title routerLink="/tabs/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
                 VS {{match.fullNamePlayer2}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>

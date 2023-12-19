@@ -85,7 +85,7 @@ export class AllPlayersComponent {
       const navigationExtras: NavigationExtras = {
         queryParams: { fullName: fullname, fillSearchBar: true },
       };
-      this.router.navigate(['/home'], navigationExtras);
+      this.router.navigate(['tabs/home'], navigationExtras);
     }
 
 
