@@ -14,33 +14,33 @@ import {MatchWithPlayers} from "../models";
 @Component({
   selector: 'app-home',
   template: `
-    <app-title [title]="'Home'"></app-title>
-    <ion-content [fullscreen]="true">
-    <ion-grid>
+      <app-title [title]="'Home'"></app-title>
+      <ion-content [fullscreen]="true" class="ion-padding">
           <div class="container">
-            <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
-                           (ionInput)="handleSearch($event)" data-testid="search-bar"></ion-searchbar>
-            <ion-button class="createMatchButton" (click)="openModalCreateMatch()">Create Match</ion-button>
+              <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
+                             (ionInput)="handleSearch($event)" data-testid="search-bar"></ion-searchbar>
+              <ion-button class="createMatchButton" (click)="openModalCreateMatch()">Create Match</ion-button>
           </div>
-    </ion-grid>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4" *ngFor="let match of dataService.matchesWithPlayers">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title routerLink="/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
-                VS {{match.fullNamePlayer2}}</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-button (click)="openModalEditMatch(match.id)">Edit</ion-button>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+          <ion-grid>
+              <ion-row>
+                  <ion-col size="12" size-sm="12" size-md="6" size-lg="4"
+                           *ngFor="let match of dataService.matchesWithPlayers">
+                      <ion-card>
+                          <ion-card-header>
+                              <ion-card-title routerLink="/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}}
+                                  || {{match.fullNamePlayer1}}
+                                  VS {{match.fullNamePlayer2}}</ion-card-title>
+                          </ion-card-header>
 
-  </ion-content>
-`,
+                              <ion-button fill="clear" (click)="openModalEditMatch(match.id)">Edit</ion-button>
+
+                      </ion-card>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+
+      </ion-content>
+  `,
   styleUrls: ['home.page.scss'],
 })
 export class MatchesComponent implements OnInit {

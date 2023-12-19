@@ -11,28 +11,33 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
 @Component({
   selector: 'app-all-players',
   template: `
-    <app-title title="Players"></app-title>
+      <app-title title="Players"></app-title>
 
 
-    <ion-content class="ion-padding" fullscreen="true">
-      <div class="container">
-        <ion-searchbar animated="true" placeholder="Search players" debounce="100"
-                       (ionInput)="handleInput($event)"></ion-searchbar>
-        <ion-button (click)="openCreatePlayer()">Create Player</ion-button>
-      </div>
-      <div class="container">
-        <ion-card *ngFor="let player of dataService.players">
-          <ion-card-header>
-            <ion-card-title (click)="openPlayerMatches(player.fullName)">{{player.fullName}}</ion-card-title>
-            <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
-          </ion-card-header>
+      <ion-content class="ion-padding" fullscreen="true">
+          <div class="container">
+              <ion-searchbar animated="true" placeholder="Search players" debounce="100"
+                             (ionInput)="handleInput($event)"></ion-searchbar>
+              <ion-button (click)="openCreatePlayer()">Create Player</ion-button>
+          </div>
+          <ion-grid>
+              <ion-row>
+                  <ion-col size="12" size-sm="12" size-md="6" size-lg="4" *ngFor="let player of dataService.players">
+                      <ion-card>
+                          <ion-card-header>
+                              <ion-card-title
+                                      (click)="openPlayerMatches(player.fullName)">{{player.fullName}}</ion-card-title>
+                              <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
+                          </ion-card-header>
 
-          <ion-button fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
+                          <ion-button fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
 
-        </ion-card>
-      </div>
+                      </ion-card>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
 
-    </ion-content>`,
+      </ion-content>`,
   styleUrls: ['./all-players.component.scss'],
 })
 export class AllPlayersComponent {
