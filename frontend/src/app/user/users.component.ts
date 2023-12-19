@@ -5,7 +5,6 @@ import {CreateUserComponent} from "./create-user-component";
 import {EditUserComponent} from "./edit-user.component";
 import {UserService} from "../../services/user.service";
 import {Role, User} from "../models";
-import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../../services/AuthService";
 
 

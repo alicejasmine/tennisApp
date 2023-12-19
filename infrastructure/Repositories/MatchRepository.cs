@@ -47,6 +47,17 @@ public class MatchRepository
             return conn.Execute(sql, new { matchId, playerId }) > 0;
         }
     }
+    
+    public bool GetPlayersToMatch(int playerId, int matchId)
+    {
+        var sql = @"
+        SELECT player_id ";
+        
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new { matchId, playerId }) > 0;
+        }
+    }
 
     public IEnumerable<MatchWithPlayers> GetAllMatchesWithPlayers()
     {
@@ -108,7 +119,7 @@ public class MatchRepository
         }
     }
 
-    public IEnumerable<MatchWithPlayers> GetMatchById(int matchId)
+    public MatchWithPlayers GetMatchById(int matchId)
     {
         var sql = $@"SELECT DISTINCT ON (m.match_id)
     m.match_id as {nameof(MatchWithPlayers.Id)},
@@ -134,7 +145,7 @@ public class MatchRepository
 
     using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<MatchWithPlayers>(sql, new { matchId });
+            return conn.QueryFirst<MatchWithPlayers>(sql, new { matchId });
         }
     }
 }

@@ -8,7 +8,7 @@ import {CreateMatchComponent} from "../create-match/create-match.component";
 import {EditMatchComponent} from "../edit-match/edit-match.component";
 import {ActivatedRoute} from '@angular/router';
 import {MatchWithPlayers, Role} from "../models";
-import {AuthService} from "../../services/AuthService";
+
 
 
 @Component({
@@ -27,7 +27,7 @@ import {AuthService} from "../../services/AuthService";
         <ion-col size="4" *ngFor="let match of dataService.matchesWithPlayers">
           <ion-card>
             <ion-card-header>
-              <ion-card-title>{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
+              <ion-card-title routerLink="/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}} || {{match.fullNamePlayer1}}
                 VS {{match.fullNamePlayer2}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>

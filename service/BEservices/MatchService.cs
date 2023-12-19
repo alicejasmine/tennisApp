@@ -44,10 +44,25 @@ public class MatchService
         return _matchRepository.GetAllMatchesWithPlayers();
     }
 
-    public Match UpdateMatch(int id, string environment, string surface, DateTime date, DateTime startTime,
-        DateTime endTime, bool finished, string notes)
+    public MatchWithPlayers UpdateMatch(int id, string environment, string surface, DateTime date, DateTime startTime,
+        DateTime endTime, bool finished, string notes, int playerId1, int playerId2)
     {
-        return _matchRepository.UpdateMatch(id, environment, surface, date, startTime, endTime, finished, notes);
+        MatchWithPlayers updatedMatchWithPlayers = new MatchWithPlayers();
+        var updatedMatch = _matchRepository.UpdateMatch(id, environment, surface, date, startTime, endTime, finished, notes);
+        var fullName1 = _playerRepository.GetPlayerById(playerId1);
+        var fullName2 = _playerRepository.GetPlayerById(playerId2);
+
+        
+            updatedMatchWithPlayers = new MatchWithPlayers()
+            {
+                Id = updatedMatch.Id, Environment = environment, Surface = surface, Date = date, StartTime = startTime,
+                EndTime = endTime, Finished = finished, Notes = notes, PlayerId1 = playerId1, PlayerId2 = playerId2, FullNamePlayer1 = fullName1.FullName, FullNamePlayer2 = fullName2.FullName
+            };
+        
+        
+        return updatedMatchWithPlayers;
+        
+        
     }
 
     public void DeleteMatch(int matchId)
@@ -59,7 +74,7 @@ public class MatchService
         }
     }
 
-    public IEnumerable<MatchWithPlayers> GetMatchById(int matchId)
+    public MatchWithPlayers GetMatchById(int matchId)
     {
         return _matchRepository.GetMatchById(matchId);
     }

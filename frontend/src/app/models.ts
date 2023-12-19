@@ -1,3 +1,4 @@
+
 export class Player {
   playerId?: number;
   fullName?: string;
@@ -13,7 +14,6 @@ export class Match {
   public finished?: boolean;
   public notes?: string;
 }
-
 export class MatchWithPlayers {
   id?: number;
   environment?: string;
@@ -45,3 +45,15 @@ export class ResponseDto<T> {
   responseData?: T;
   messageToClient?: string;
 }
+
+export class Shot{
+  shotsId?: number;
+  playerId?: number;
+  matchId?: number;
+  shotClassification?: string;
+  shotType?: string;
+  shotDestination?: string;
+  shotDirection?: string;
+  playerPosition?: string;
+}
+

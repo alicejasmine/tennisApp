@@ -1,8 +1,11 @@
 import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {ModalController, ToastController} from "@ionic/angular";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {DataService} from "../data.service";
+import {Match, MatchWithPlayers} from "../models";
+import {firstValueFrom} from "rxjs";
+import { MatchService } from "src/services/match.service";
 
 @Component({
   templateUrl: './edit-match.component.html',
@@ -10,10 +13,11 @@ import {DataService} from "../data.service";
 })
 
 export class EditMatchComponent {
-  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public dataService: DataService, public toastController: ToastController) {
+  constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public dataService: DataService, public toastController: ToastController, public matchService:MatchService) {
 
   }
-  editNewMatchForm = this.fb.group({
+
+  editMatchForm = this.fb.group({
     date: [this.dataService.currentMatch.date, [Validators.required]],
     startTime: [this.dataService.currentMatch.startTime],
     environment: [this.dataService.currentMatch.environment, [Validators.required, Validators.pattern('(?:indoor|outdoor)')]],
@@ -23,7 +27,8 @@ export class EditMatchComponent {
     notes: [this.dataService.currentMatch.notes]
   });
 
-  async update() {
 
+   editMatch(){
+    this.matchService.editMatch(this.editMatchForm)
   }
 }

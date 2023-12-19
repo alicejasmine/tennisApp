@@ -2,11 +2,11 @@
   <ion-list>
     <ion-item>
       <ion-label>Date</ion-label>
-      <ion-datetime [formControl]="createNewMatchForm.controls.date" presentation="date"></ion-datetime>
+      <ion-datetime [formControl]="createNewMatchForm.controls.date" presentation="date" [value]="dateTime" displayFormat="dd-MM-yyyy" [firstDayOfWeek]="1" max="2030-12-31T23:59:59"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime [formControl]="createNewMatchForm.controls.startTime" hourCycle="h24" presentation="time">77</ion-datetime>
+      <ion-datetime [formControl]="createNewMatchForm.controls.startTime" hourCycle="h24" presentation="time" [value]="createNewMatchForm.controls.date.value" displayFormat="HH:mm"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Player 1</ion-label>
