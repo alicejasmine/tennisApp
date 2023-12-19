@@ -126,7 +126,7 @@ public class RegisterUserTests
         
         
         httpRegister.StatusCode.Should().Be(HttpStatusCode.NoContent); // user creating is still successful as that is not what we are testing
-        httpLogin.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        httpLogin.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
             conn.ExecuteScalar<int>
