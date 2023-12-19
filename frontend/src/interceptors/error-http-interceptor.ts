@@ -8,10 +8,10 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
 
   // The purpose of this class is so that we have an HTTP interceptor on our frontend
   // this is so that it can show an error message when appropriate
-  
+
   constructor(private readonly toast: ToastController) {
   }
-  
+
   // this method is used to add a message to our toast when there is an error
   private async showError(message: string) {
     return (await this.toast.create({
@@ -20,11 +20,11 @@ export class ErrorHttpInterceptor implements HttpInterceptor {
       color: 'danger'
     })).present()
   }
-  
-  // we are using catchError to invoke the given lambda on an error.
-  // the purpose of this is to check if the error is a response from our backend and show it as a toast
-  // using the showError() method
-  
+
+  //This is the main method of the HTTP interceptor. It intercepts outgoing HTTP requests and handles errors using the catchError operator.
+  // If the error is an instance of HttpErrorResponse (meaning it's an error response from the backend),
+  // it calls the showError method to display a toast with the error message from the response
+  // rethrow the error, so we can respond to the error in other places of the app
   intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError(async e => {

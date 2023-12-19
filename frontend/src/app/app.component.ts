@@ -54,6 +54,7 @@ export class AppComponent implements OnInit{
     private modalController: ModalController
   ) { }
 
+  // We use app.component for our header and its functions, such as logging in, out, or registering.
   get isAuthorized() {
     return this.authService.isAuthorized();
   }

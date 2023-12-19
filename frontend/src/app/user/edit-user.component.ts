@@ -58,6 +58,7 @@ export class EditUserComponent implements OnInit{
     public modalController: ModalController
   ) {}
 
+  // fetch the user to be edited and fill the form
   async ngOnInit() {
     if (this.service.editingUser?.id != null){
       this.form.patchValue(this.service.editingUser);
@@ -65,8 +66,9 @@ export class EditUserComponent implements OnInit{
     }
   }
 
-
-
+  // take the new values and attempt to submit. Rejecting the form if necessary
+  // if the form is fine, call our service method.
+  // close the modal and show a success toast.
   async submit() {
     if (this.form.invalid) return;
 

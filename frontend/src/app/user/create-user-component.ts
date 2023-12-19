@@ -94,6 +94,8 @@ export class CreateUserComponent {
     private readonly toast: ToastController
   ) {
   }
+
+  // check the form and return if invalid, otherwise call the service method with the filled form.
   async submit() {
     if (this.form.invalid) return;
     await firstValueFrom(this.service.register(this.form.value as Registration));

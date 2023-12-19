@@ -2,12 +2,19 @@ import {NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
 // Pages
 import { MatchesComponent } from '../home/matches.component';
 import { AllPlayersComponent } from '../all-players/all-players.component';
 import { UsersComponent } from '../user/users.component';
+import {MatchStatisticsComponent} from "../match-statistics/match-statistics.component";
+import {ShotClassificationComponent} from "../shot/shot-classification/shot-classification.component";
+import {ShotTypeComponent} from "../shot/shot-type/shot-type.component";
+import {
+  ShotDestinationAndDirectionComponent
+} from "../shot/shot-destination-and-direction/shot-destination-and-direction.component";
+import {PlayerPositionComponent} from "../shot/player-position/player-position.component";
 
 // Component
 import { TabsComponent } from './tabs.component';
@@ -16,13 +23,6 @@ import { TabsComponent } from './tabs.component';
 import { AuthenticatedGuard } from '../guards';
 import {Role} from "../models";
 import {DirectiveModule} from "../../directives/directive.module";
-import {MatchStatisticsComponent} from "../match-statistics/match-statistics.component";
-import {ShotClassificationComponent} from "../shot/shot-classification/shot-classification.component";
-import {ShotTypeComponent} from "../shot/shot-type/shot-type.component";
-import {
-  ShotDestinationAndDirectionComponent
-} from "../shot/shot-destination-and-direction/shot-destination-and-direction.component";
-import {PlayerPositionComponent} from "../shot/player-position/player-position.component";
 
 // Child routes under 'tabs'
 const routes: Routes = [

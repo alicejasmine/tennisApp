@@ -45,10 +45,9 @@ export class AccountComponent implements OnInit,OnDestroy {
     public readonly auth: AuthService
   ) {}
 
-  ionViewWillEnter() {
 
-  }
-
+  // get the user information and fill the fields.
+  // clear the fields when they log out.
   ngOnInit() {
     const user = this.service.getCurrentUser().subscribe(user => {
       this.form.patchValue(user);
@@ -67,10 +66,12 @@ export class AccountComponent implements OnInit,OnDestroy {
 
   }
 
+  // cancel our subs on destroy
   ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe()); // Unsubscribe all subscriptions
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  // submit the updated account information, return if form is invalid.
   submit() {
     if (this.form.invalid) return;
 

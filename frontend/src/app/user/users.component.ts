@@ -38,17 +38,23 @@ import {AuthService} from "../../services/AuthService";
 })
 export class UsersComponent implements OnInit{
   users$: Observable<User[]>;
-
+  protected readonly Role = Role;
   constructor(
     private modalController: ModalController,
     public service: UserService,
     public authService: AuthService
   ) {
-    this.users$ = service.users;
+    this.users$ = service.users; // fill our obs list
   }
 
 
+  // fetch users from service
+  ngOnInit() {
+    this.service.getUsers();
+  }
 
+
+  // These methods open our modals
   async openModalCreateUser(){
     const modal = await this.modalController.create({
       component: CreateUserComponent,
@@ -71,9 +77,4 @@ export class UsersComponent implements OnInit{
     }
   }
 
-  ngOnInit() {
-    this.service.getUsers();
-  }
-
-  protected readonly Role = Role;
 }

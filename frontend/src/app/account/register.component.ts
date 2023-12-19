@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {CustomValidators} from "../custom-validators";
 import {AccountService, Registration} from "../../services/account.service";
-import {ToastController} from "@ionic/angular";
+import {ModalController, ToastController} from "@ionic/angular";
 import {firstValueFrom} from "rxjs";
 
 @Component({
@@ -84,19 +84,43 @@ export class RegisterComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly service: AccountService,
-    private readonly toast: ToastController
+    private readonly toast: ToastController,
+    private modalController: ModalController
   ) {
   }
 
-  async submit() {
-    if (this.form.invalid) return;
-    await firstValueFrom(this.service.register(this.form.value as Registration));
 
-    (await this.toast.create({
-      message: "Thank you for signing up!",
-      color: "success",
-      duration: 5000,
-      position: "top"
-    })).present();
+  // This method is how new anonymous users can create an account
+  // check the form, if its valid call the method in our service and show a toast.
+  async submit() {
+    try {
+      if (this.form.invalid) {
+        // Handle form validation error
+        return;
+      }
+
+      // Call the register service method
+      await firstValueFrom(this.service.register(this.form.value as Registration));
+
+      // Display success message
+      (await this.toast.create({
+        message: "Thank you for signing up!",
+        color: "success",
+        duration: 5000,
+        position: "top"
+      })).present();
+
+      this.modalController.dismiss(); // Close the modal
+    } catch (error) { // generic error catch
+      console.error("Registration failed:", error);
+
+      // Display an error message to the user
+      (await this.toast.create({
+        message: "Registration failed.",
+        color: "danger",
+        duration: 5000,
+        position: "top"
+      })).present();
+    }
   }
 }

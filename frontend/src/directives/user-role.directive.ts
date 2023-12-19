@@ -12,6 +12,8 @@ export class UserRoleDirective implements OnInit, OnDestroy {
   // The user role directive is a structural directive that conditionally includes a template if:
   // A user is authorized
   // A user has at least one of the allowed roles, currently only user and admin
+  // While the guard controls nav, this will just manipulate elements.
+  // Such as hiding buttons in MatchesComponent if the user is not an Admin.
   constructor(
     private templateRef: TemplateRef<any>,
     private authService: AuthService,

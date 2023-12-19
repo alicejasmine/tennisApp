@@ -71,6 +71,11 @@ export class LoginComponent {
     private readonly modalController: ModalController
   ) { }
 
+  // this is used to actually log in with the entered credentials
+  //if the form is invalid, return
+  //attempt to log in through our account service, catch the error and return a toast to the user if there is a problem
+  //if there is no problem, set our token and our role in token service and auth service.
+  //show a positive toast, close the modal and reload the page.
   async submit() {
     if (this.form.invalid) return;
 

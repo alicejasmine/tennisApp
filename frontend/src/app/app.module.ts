@@ -47,40 +47,55 @@ import { EditEndingMatchComponent } from './edit-match/edit-ending-match.compone
 
 
 @NgModule({
-  declarations: [AppComponent,
+  declarations: [
+    // functional declarations
+    AppComponent,
+    UserDirective,
+
+    // page comps
     MatchesComponent,
     UsersComponent,
     AccountComponent,
     RegisterComponent,
     LoginComponent,
-    CreateMatchComponent,
-    EditMatchComponent,
     AllPlayersComponent,
+
+    // creation comps
     CreatePlayerComponent,
-    EditPlayerComponent,
+    CreateMatchComponent,
     CreateUserComponent,
+
+    // edit comps
+    EditMatchComponent,
+    EditPlayerComponent,
     EditUserComponent,
-    UserDirective,
+    EditEndingMatchComponent,
+
+    // shot comps
     ShotClassificationComponent,
     ShotTypeComponent,
     ShotDestinationAndDirectionComponent,
     PlayerPositionComponent,
     MatchStatisticsComponent,
+
+    // delete comps
     DeleteMatchComponent,
-    EditEndingMatchComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule, DirectiveModule],
   exports: [UserDirective],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    // INTERCEPTORS
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHttpInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RewriteHttpInterceptor, multi: true },
+    // AUTH SERVICES & GUARDS
     TokenService,
     AuthenticatedGuard,
+    AuthService,
+    // OTHER SERVICES
     AccountService,
     DataService,
     UserService,
-    AuthService
   ],
   bootstrap: [AppComponent]
 })

@@ -28,16 +28,19 @@ export class UserService {
     this.users = this._users.asObservable();
   }
 
+  // fetch and turn our users into an obs list
+  // called after creating or editing a user to refresh our list.
   getUsers() {
     this.http.get<User[]>('/api/users').subscribe(data => {
       this._users.next(data);
     });
   }
 
+  // get a user by id, most likely to edit them as Admin.
   getUserById(id: number) {
     return this.http.get<User>(`/api/users/${id}`);
   }
-
+  // create a new account as Admin, allows giving Admin access.
   register(value: Registration) {
     return this.http.post<any>('/api/users/register', value).pipe(
       tap(_ => {
@@ -46,6 +49,7 @@ export class UserService {
     );
   }
 
+  // Update another account as admin, allows giving a user made account admin access.
   update(value: UserUpdate) {
     const formData = new FormData();
     Object.entries(value).forEach(([key, value]) =>
