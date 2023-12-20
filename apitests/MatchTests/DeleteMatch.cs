@@ -18,7 +18,7 @@ public class DeleteMatch
         Helper.TriggerRebuild();
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
-            conn.QueryFirst<Match>(
+            conn.QueryFirst<MatchWithPlayers>(
                 "insert into tennis_app.players(full_name)VALUES('Aleksandra Kurdelska');" +
                 "insert into tennis_app.players(full_name)VALUES('Bob Pancakes');" +
                 "INSERT INTO tennis_app.match (environment, surface, date, start_time, end_time, finished, notes) VALUES (@environment, @surface, @date, @startTime, @endTime, @finished, @notes)  RETURNING *;" +
