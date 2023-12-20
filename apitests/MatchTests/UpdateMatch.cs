@@ -27,7 +27,7 @@ public class UpdateMatch
                 "");
         }
 
-        var testMatch = new Match()
+        var testMatch = new MatchWithPlayers()
         {
             Id = 1, Environment = environment, Surface = surface, Date = date, StartTime = startTime, EndTime = endTime,
             Finished = finished, Notes = notes, PlayerId1 = playerId1, PlayerId2 = playerId2
@@ -36,12 +36,12 @@ public class UpdateMatch
         //ACT
         var httpResponse = await new HttpClient().PutAsJsonAsync(Helper.ApiBaseUrl + "/matches/1", testMatch);
         var matchFromResponseBody =
-            JsonConvert.DeserializeObject<Match>(await httpResponse.Content.ReadAsStringAsync());
+            JsonConvert.DeserializeObject<MatchWithPlayers>(await httpResponse.Content.ReadAsStringAsync());
 
         //ASSERT
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
-            var updatedMatch = conn.QueryFirst<Match>(
+            var updatedMatch = conn.QueryFirst<MatchWithPlayers>(
                 "SELECT m.match_id as Id, m.environment as Environment, m.surface as Surface, m.date as Date, m.start_time as StartTime, m.end_time as EndTime, m.finished as Finished, m.notes as Notes, pi1.player_id as PlayerId1, pi2.player_id as PlayerId2, p1.full_name as FullNamePlayer1, p2.full_name as FullNamePlayer2 " +
                 " FROM tennis_app.match m " +
                 "INNER JOIN tennis_app.played_in pi1 ON m.match_id = pi1.match_id AND pi1.player_id = 1 " +
