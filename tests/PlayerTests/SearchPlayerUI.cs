@@ -29,8 +29,23 @@ public class SearchPlayerUI : PageTest
         }
 
         //ACT
+        
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
 
-        await Page.GotoAsync("http://localhost:4200/all-players");
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+
+        await Page.GotoAsync("http://localhost:4200/tabs/all-players");
 
         await Page.GetByLabel("search text").ClickAsync();
         await Page.GetByRole(AriaRole.Searchbox, new() { Name = "search text" }).FillAsync(fullname);
@@ -65,7 +80,23 @@ public class SearchPlayerUI : PageTest
 
 
         //ACT
-        await Page.GotoAsync("http://localhost:4200/all-players");
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
+
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+        
+        
+        await Page.GotoAsync("http://localhost:4200/tabs/all-players");
 
         await Page.GetByLabel("search text").ClickAsync();
 

@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using infrastructure.DataModels;
 using Microsoft.IdentityModel.Tokens;
 
 namespace service;
@@ -8,13 +9,27 @@ public class JwtOptions
 {
     // These are the options for creating and signing a token that we are making configurable
     // So that we can use different values in development vs deployed.
+    // if we are testing we will be bypassing our auth
     public required byte[] Secret { get; init; }
     public required TimeSpan Lifetime { get; init; }
     public string? Address { get; set; }
+    public bool IsTestingEnvironment { get; set; }
 }
 
 public class JwtService
 {
+    
+    private SessionData GetMockSessionData()
+    {
+        // Create a mock SessionData for testing purposes
+        return new SessionData
+        {
+            UserId = 1,
+            IsAdmin = true
+        };
+    }
+    
+    
     private readonly JwtOptions _options;
 
     // Since the options are taken as a constructor parameter
@@ -55,6 +70,13 @@ public class JwtService
     public SessionData ValidateAndDecodeToken(string token)
     {
         var jwtHandler = new JwtSecurityTokenHandler();
+        
+        if (_options.IsTestingEnvironment)
+        {
+            // Bypass token validation for testing environment
+            return GetMockSessionData();
+        }
+        
         var principal = jwtHandler.ValidateToken(token, new TokenValidationParameters
         {
             IssuerSigningKey = new SymmetricSecurityKey(_options.Secret),

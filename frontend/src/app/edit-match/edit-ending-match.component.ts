@@ -61,7 +61,7 @@ export class EditEndingMatchComponent {
      endMatch() {
         this.matchService.editMatch(this.editMatchForm);
         this.shotService.registerShot();
-        this.router.navigate(['/match-info/' + this.dataService.currentMatch.id]);
+        this.router.navigate(['/tabs/match-info/' + this.dataService.currentMatch.id]);
 
     }
 

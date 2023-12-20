@@ -24,7 +24,7 @@ jobs:
         run: cd tests && sleep 60 && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
 
       - name: Build and run Web API + getting process ID for shutting down later
-        run: cd api && dotnet run --Environment Development & echo "API_PID=$!" >> $GITHUB_ENV
+        run: cd api && dotnet run --Environment Testing & echo "API_PID=$!" >> $GITHUB_ENV
         env:
           pgconn: ${{secrets.PGCONN}}
 

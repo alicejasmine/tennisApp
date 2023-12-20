@@ -13,9 +13,24 @@ public class CreatePlayerUI : PageTest
     {
         //ARRANGE
         Helper.TriggerRebuild();
+        
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
 
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+        
         //ACT
-        await Page.GotoAsync("http://localhost:4200/all-players");
+        await Page.GotoAsync("http://localhost:4200/tabs/all-players");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Create Player" }).ClickAsync();
 

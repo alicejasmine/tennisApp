@@ -6,12 +6,11 @@ import {DataService} from 'src/app/data.service';
 @Component({
   selector: 'app-shot-destination-and-direction',
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Shot Destination and Direction</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
+
+    <ion-content style="--padding-top: 105px;">
+        <ion-toolbar>
+            <ion-title>Shot Destination and Direction</ion-title>
+        </ion-toolbar>
       <ion-card>
         <ion-card-content>
           <ion-grid>
@@ -39,7 +38,6 @@ import {DataService} from 'src/app/data.service';
                     [class.selected]="selectedDirection === direction"
                     [color]="selectedDirection === direction ? 'success' : 'light'"
                     (click)="selectDirection(direction)"
-
                   >
                     {{ direction }}
                   </ion-button>
@@ -89,7 +87,7 @@ export class ShotDestinationAndDirectionComponent {
     this.dataService.currentShot.shotDestination = shotDestination;
     this.selectedDestination = undefined; //clear buttons
     this.selectedDirection = undefined;
-    this.router.navigate(['/player-position/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
-  
+    this.router.navigate(['/tabs/player-position/' + this.dataService.currentMatch.id + '/' + this.dataService.currentShot.playerId]);
+
   }
 }

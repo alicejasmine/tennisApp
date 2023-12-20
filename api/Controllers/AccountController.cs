@@ -21,17 +21,20 @@ public class AccountController : ControllerBase
     }
     
     // method to login, issues a bearer token for the user and sets our session data.
+    // if for some reason the user does not exist or credentials are incorrect, we return unauthorized.
+    // We are also returning our role based boolean
     [HttpPost]
     [Route("/api/account/login")]
-    public ResponseDto Login([FromBody] LoginCommandModel model)
+    public IActionResult Login([FromBody] LoginCommandModel model)
     {
         var user = _accountService.Authenticate(model);
+        if (user == null) return Unauthorized();
+    
         var token = _jwtService.IssueToken(SessionData.FromUser(user!));
-        return new ResponseDto
-        {
-            MessageToClient = "Successfully authenticated",
-            ResponseData = new { token }
-        };
+        
+        bool isAdmin = user.IsAdmin;
+        
+        return Ok(new { token, isAdmin });
     }
     
     // public access to create a new user account, this will always default admin status to false.
@@ -43,21 +46,20 @@ public class AccountController : ControllerBase
         return Created();
     }
     
-    // for accessing the users own info
-    [RequireAuthentication]
+    // for accessing the users own info can also be used to check if an account is logged in
+    // if session data is null it will return no context, meaning user data does not exist.
     [HttpGet]
     [Route("/api/account/info")]
-    public ResponseDto AccInfo()
+    public IActionResult AccInfo()
     {
+        
         var data = HttpContext.GetSessionData();
+        if (data == null) return NoContent();
         var user = _accountService.Get(data);
-        return new ResponseDto
-        {
-            ResponseData = user
-        };
+        return Ok(user);
     }
     
-    
+    // this is used to allow the user to update their own account through the account route.
     [RequireAuthentication]
     [HttpPut]
     [Route("/api/account/update")]

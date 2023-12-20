@@ -2,43 +2,48 @@ import {Component,OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../data.service";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
 import {firstValueFrom} from "rxjs";
 import {ModalController} from "@ionic/angular";
 import {CreateMatchComponent} from "../create-match/create-match.component";
 import {EditMatchComponent} from "../edit-match/edit-match.component";
 import {ActivatedRoute} from '@angular/router';
-import {MatchWithPlayers} from "../models";
+import {MatchWithPlayers, Role} from "../models";
+
 
 
 @Component({
   selector: 'app-home',
   template: `
-      <app-title [title]="'Home'"></app-title>
-      <ion-content [fullscreen]="true" class="ion-padding">
+    <ion-content style="--padding-top: 105px;">
+    <ion-grid>
           <div class="container">
-              <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
-                             (ionInput)="handleSearch($event)" data-testid="search-bar"></ion-searchbar>
-              <ion-button class="createMatchButton" (click)="openModalCreateMatch()">Create Match</ion-button>
+            <ion-searchbar [value]="fullName" animated="true" placeholder="Search match"
+                           (ionInput)="handleSearch($event)" data-testid="search-bar"></ion-searchbar>
+              <ion-button class="createMatchButton" *appUserRole="[Role.Admin]" (click)="openModalCreateMatch()">Create Match</ion-button>
           </div>
-          <ion-grid>
-              <ion-row>
+    </ion-grid>
+    <ion-grid>
+      <ion-row>
+      
                   <ion-col size="12" size-sm="12" size-md="6" size-lg="4"
                            *ngFor="let match of dataService.matchesWithPlayers">
                       <ion-card>
                           <ion-card-header>
-                              <ion-card-title routerLink="/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}}
+ 
+                              <ion-card-title routerLink="/tabs/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}}
                                   || {{match.fullNamePlayer1}}
                                   VS {{match.fullNamePlayer2}}</ion-card-title>
                           </ion-card-header>
-                              <ion-button fill="clear" (click)="openModalEditMatch(match.id)">Edit</ion-button>
-                      </ion-card>
-                  </ion-col>
-              </ion-row>
-          </ion-grid>
 
-      </ion-content>
-  `,
+           
+                <ion-button *appUserRole="[Role.Admin]" (click)="openModalEditMatch(match.id)">Edit</ion-button>
+          
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    </ion-content>
+`,
   styleUrls: ['home.page.scss'],
 })
 export class MatchesComponent implements OnInit {
@@ -50,7 +55,8 @@ export class MatchesComponent implements OnInit {
   constructor(public router: Router,
               public dataService: DataService,
               public http: HttpClient,
-              public modalController: ModalController,private route: ActivatedRoute) {
+              public modalController: ModalController,
+              private route: ActivatedRoute) {
     this.getMatches();
   }
 
@@ -67,7 +73,8 @@ export class MatchesComponent implements OnInit {
 
   async openModalCreateMatch() {
     const modal = await this.modalController.create({
-      component: CreateMatchComponent
+      component: CreateMatchComponent,
+      cssClass: 'modal-css'
     });
     modal.present();
   }
@@ -78,20 +85,13 @@ export class MatchesComponent implements OnInit {
       if (currentMatchToEdit) {
         this.dataService.currentMatch = currentMatchToEdit;
         const modal = await this.modalController.create({
-          component: EditMatchComponent
+          component: EditMatchComponent,
+          cssClass: 'modal-css'
         });
         modal.present();
       }
     }
   }
-
-
-
-  async goToAllPlayers() {
-    this.router.navigate(['/all-players']);
-
-  }
-
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -102,4 +102,6 @@ export class MatchesComponent implements OnInit {
       }
     });
   }
+
+  protected Role = Role;
 }

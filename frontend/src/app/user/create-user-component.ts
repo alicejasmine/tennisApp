@@ -1,14 +1,15 @@
-import {Component} from "@angular/core";
-import {FormBuilder, Validators} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {ToastController} from '@ionic/angular';
+import {firstValueFrom} from 'rxjs';
 import {CustomValidators} from "../custom-validators";
-import {AccountService, Registration} from "../../services/account.service";
-import {ModalController, ToastController} from "@ionic/angular";
-import {firstValueFrom} from "rxjs";
+import {Registration, UserService} from "../../services/user.service";
+
 
 @Component({
+  selector: 'app-create-user',
   template: `
-
-    <ion-content style="--padding-top: 105px;">
+    <ion-content>
       <form [formGroup]="form" (ngSubmit)="submit()">
         <ion-list>
 
@@ -59,68 +60,51 @@ import {firstValueFrom} from "rxjs";
             </ion-input>
           </ion-item>
 
+          <ion-item>
+            <ion-checkbox justify="space-between" formControlName="isAdmin">Administrator</ion-checkbox>
+          </ion-item>
+
         </ion-list>
 
         <ion-button id="btn-submit" [disabled]="form.invalid" (click)="submit()">Submit</ion-button>
       </form>
     </ion-content>
   `,
-  styleUrls: ['./form.css'],
+  styleUrls: ['users.component.scss'],
 })
-export class RegisterComponent {
+export class CreateUserComponent {
   readonly form = this.fb.group({
     fullName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    passwordRepeat: ['', [Validators.required, CustomValidators.matchOther('password')]]
+    passwordRepeat: ['', [Validators.required, CustomValidators.matchOther('password')]],
+    isAdmin: [false, Validators.required]
   });
 
   get fullName() { return this.form.controls.fullName; }
   get email() { return this.form.controls.email; }
   get password() { return this.form.controls.password }
   get passwordRepeat() { return this.form.controls.passwordRepeat }
+  get isAdmin() { return this.form.controls.isAdmin}
 
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly service: AccountService,
-    private readonly toast: ToastController,
-    private modalController: ModalController
+    private readonly service: UserService,
+    private readonly toast: ToastController
   ) {
   }
 
-
-  // This method is how new anonymous users can create an account
-  // check the form, if its valid call the method in our service and show a toast.
+  // check the form and return if invalid, otherwise call the service method with the filled form.
   async submit() {
-    try {
-      if (this.form.invalid) {
-        // Handle form validation error
-        return;
-      }
+    if (this.form.invalid) return;
+    await firstValueFrom(this.service.register(this.form.value as Registration));
 
-      // Call the register service method
-      await firstValueFrom(this.service.register(this.form.value as Registration));
-
-      // Display success message
-      (await this.toast.create({
-        message: "Thank you for signing up!",
-        color: "success",
-        duration: 5000,
-        position: "top"
-      })).present();
-
-      this.modalController.dismiss(); // Close the modal
-    } catch (error) { // generic error catch
-      console.error("Registration failed:", error);
-
-      // Display an error message to the user
-      (await this.toast.create({
-        message: "Registration failed.",
-        color: "danger",
-        duration: 5000,
-        position: "top"
-      })).present();
-    }
+    (await this.toast.create({
+      message: "New user creation successful",
+      color: "success",
+      duration: 5000,
+      position: "top"
+    })).present();
   }
 }
