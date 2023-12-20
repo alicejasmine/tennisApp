@@ -55,7 +55,7 @@ export class ShotTypeComponent {
 
 
   selectShotType(shot: string) {
-    this.selectedShotType = shot; //this.dataService.currentShot.shotType = shot; ? and remove selectedshottype, register shot type only navigation
+    this.selectedShotType = shot;
   }
 
   registerShotType(shotType: string | undefined) {
