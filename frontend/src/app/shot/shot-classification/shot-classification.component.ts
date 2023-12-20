@@ -35,18 +35,21 @@ import {firstValueFrom} from 'rxjs';
             <ion-button
               [color]="selectedShotClassification === 'Winner' && selectedPlayerId === this.dataService.currentMatch.playerId1 ? 'success' : 'light'"
               (click)="selectedPlayerId = this.dataService.currentMatch.playerId1; selectedShotClassification = 'Winner';"
+              data-testid="shotClassification-Winner"
             >
               Winner
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'Forced Error' && selectedPlayerId === this.dataService.currentMatch.playerId1 ? 'success' : 'light'"
               (click)="selectedPlayerId = this.dataService.currentMatch.playerId1; selectedShotClassification = 'Forced Error';"
+              data-testid="shotClassification-Forced Error"
             >
               Forced Error
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'Unforced Error' && selectedPlayerId === this.dataService.currentMatch.playerId1 ? 'success' : 'light'"
               (click)="selectedPlayerId = this.dataService.currentMatch.playerId1; selectedShotClassification = 'Unforced Error';"
+              data-testid="shotClassification-Unforced Error"
             >
               Unforced Error
             </ion-button>
@@ -57,18 +60,22 @@ import {firstValueFrom} from 'rxjs';
             <ion-button
               [color]="selectedShotClassification === 'Winner' && selectedPlayerId === this.dataService.currentMatch.playerId2 ? 'success' : 'light'"
               (click)="selectedPlayerId = this.dataService.currentMatch.playerId2; selectedShotClassification = 'Winner';"
+              data-testid="shotClassification-Winner"
+
             >
               Winner
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'Forced Error' && selectedPlayerId === this.dataService.currentMatch.playerId2 ? 'success' : 'light'"
               (click)="selectedPlayerId = this.dataService.currentMatch.playerId2; selectedShotClassification = 'Forced Error';"
+              data-testid="shotClassification-Forced Error"
             >
               Forced Error
             </ion-button>
             <ion-button
               [color]="selectedShotClassification === 'Unforced Error' && selectedPlayerId === this.dataService.currentMatch.playerId2 ? 'success' : 'light'"
               (click)="selectedPlayerId = this.dataService.currentMatch.playerId2; selectedShotClassification = 'Unforced Error';"
+              data-testid="shotClassification-Unforced Error"
             >
               Unforced Error
             </ion-button>
