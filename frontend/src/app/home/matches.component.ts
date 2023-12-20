@@ -31,7 +31,7 @@ import {MatchWithPlayers} from "../models";
                                   || {{match.fullNamePlayer1}}
                                   VS {{match.fullNamePlayer2}}</ion-card-title>
                           </ion-card-header>
-                              <ion-button fill="clear" (click)="openModalEditMatch(match.id)">Edit</ion-button>
+                              <ion-button fill="clear" (click)="openModalEditMatch(match.id)">Update</ion-button>
                       </ion-card>
                   </ion-col>
               </ion-row>
