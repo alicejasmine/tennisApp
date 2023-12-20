@@ -32,7 +32,7 @@ import {MatchWithPlayers} from "../models";
                 VS {{match.fullNamePlayer2}}</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-button (click)="openModalEditMatch(match.id)">Edit</ion-button>
+              <ion-button (click)="openModalEditMatch(match.id)">Update</ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>

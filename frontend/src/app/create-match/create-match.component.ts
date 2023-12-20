@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormBuilder, Validators} from "@angular/forms";
 import {ModalController, ToastController} from "@ionic/angular";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
@@ -11,7 +11,7 @@ import {MatchWithPlayers, Player} from "../models";
   templateUrl: './create-match.component.html',
   styleUrl: './create-match.component.scss'
 })
-export class CreateMatchComponent {
+export class CreateMatchComponent implements OnInit{
   dateTime: any;
 
   constructor(public fb: FormBuilder, public modalController: ModalController, public http: HttpClient, public dataService: DataService, public toastController: ToastController) {
@@ -26,7 +26,7 @@ export class CreateMatchComponent {
 
   createNewMatchForm = this.fb.group({
     date: ['', [Validators.required]],
-    startTime: [''],
+    startTime: ['', [Validators.required]],
     environment: ['', [Validators.required, Validators.pattern('(?:indoor|outdoor)')]],
     surface: ['', [Validators.required, Validators.pattern('(?:clay|hard|other)')]],
     playerid1: ['', [Validators.required]],

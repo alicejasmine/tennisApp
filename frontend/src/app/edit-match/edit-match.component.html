@@ -28,4 +28,5 @@
     </ion-item>
   </ion-list>
   <ion-button data-testid="submit" [disabled]="editMatchForm.invalid" (click)="editMatch()">Update match</ion-button>
+  <ion-button (click)="modalController.dismiss()">Close</ion-button>
 </ion-content>

@@ -16,6 +16,7 @@ import {DataService} from 'src/app/data.service';
         <ion-item *ngFor="let shot of shotTypes">
 
           <ion-button
+            [attr.data-testid]="'shotType-' + shot"
             [class.selected]="selectedShotType === shot"
             [color]="selectedShotType === shot ? 'success' : 'light'"
             (click)="selectShotType(shot)"

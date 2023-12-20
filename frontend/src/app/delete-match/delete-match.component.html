@@ -4,4 +4,5 @@
   <ion-label>{{dataService.currentMatch.fullNamePlayer1}} VS {{dataService.currentMatch.fullNamePlayer2}} - {{dataService.currentMatch.date| date:'dd-MM-yyyy'}}</ion-label>
   <br>
   <ion-button (click)="deleteMatch(dataService.currentMatch.id)">Confirm</ion-button>
+  <ion-button (click)="modalController.dismiss()">Close</ion-button>
 </ion-content>
