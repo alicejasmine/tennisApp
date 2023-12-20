@@ -12,25 +12,31 @@ import {AuthService} from "../../services/AuthService";
 @Component({
   selector: 'app-all-players',
   template: `
+
     <ion-content style="--padding-top: 105px;" fullscreen="true">
       <div class="container">
         <ion-searchbar animated="true" placeholder="Search players" debounce="100"
                        (ionInput)="handleInput($event)"></ion-searchbar>
         <ion-button *appUserRole="[Role.Admin]" (click)="openCreatePlayer()">Create Player</ion-button>
       </div>
-      <div class="container">
-        <ion-card *ngFor="let player of dataService.players">
-          <ion-card-header>
-            <ion-card-title (click)="openPlayerMatches(player.fullName)">{{player.fullName}}</ion-card-title>
-            <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
-          </ion-card-header>
+<ion-grid>
+              <ion-row>
+                  <ion-col size="12" size-sm="12" size-md="6" size-lg="4" *ngFor="let player of dataService.players">
+                      <ion-card>
+                          <ion-card-header>
+                              <ion-card-title
+                                      (click)="openPlayerMatches(player.fullName)">{{player.fullName}}</ion-card-title>
+                              <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
+                          </ion-card-header>
 
           <ion-button *appUserRole="[Role.Admin]" fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
+                      </ion-card>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
 
-        </ion-card>
-      </div>
+      </ion-content>`,
 
-    </ion-content>`,
   styleUrls: ['./all-players.component.scss'],
 })
 export class AllPlayersComponent {

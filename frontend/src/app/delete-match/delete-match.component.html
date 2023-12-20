@@ -1,8 +1,12 @@
-<ion-content>
+<ion-content >
+  <ion-list lines="none">
+    <ion-item>
   <ion-label>Do you want to delete this match?</ion-label>
-  <br>
+    </ion-item>
+    <ion-item>
   <ion-label>{{dataService.currentMatch.fullNamePlayer1}} VS {{dataService.currentMatch.fullNamePlayer2}} - {{dataService.currentMatch.date| date:'dd-MM-yyyy'}}</ion-label>
-  <br>
+    </ion-item>
+  </ion-list>
   <ion-button (click)="deleteMatch(dataService.currentMatch.id)">Confirm</ion-button>
   <ion-button (click)="modalController.dismiss()">Close</ion-button>
 </ion-content>
