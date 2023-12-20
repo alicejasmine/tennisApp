@@ -44,6 +44,7 @@ import { ShotDestinationAndDirectionComponent } from './shot/shot-destination-an
 import { ShotClassificationComponent } from './shot/shot-classification/shot-classification.component';
 import { ShotTypeComponent } from './shot/shot-type/shot-type.component';
 import { EditEndingMatchComponent } from './edit-match/edit-ending-match.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -81,7 +82,7 @@ import { EditEndingMatchComponent } from './edit-match/edit-ending-match.compone
     // delete comps
     DeleteMatchComponent,
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule, DirectiveModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule, DirectiveModule, NgChartsModule],
   exports: [UserDirective],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     // INTERCEPTORS
