@@ -1,6 +1,6 @@
 ﻿namespace tests;
 
-public class Match
+public class MatchWithPlayers
 {
     public int Id { get; set; }
     public string Environment { get; set; }

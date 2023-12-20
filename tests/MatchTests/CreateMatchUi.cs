@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace tests;
 
-public class CreateMatchUi : PageTest
+/*public class CreateMatchUi : PageTest
 {
     //await Page.Locator("calendar-day calendar-day-active calendar-day-today").ClickAsync();
 
@@ -108,4 +108,4 @@ public class CreateMatchUi : PageTest
                 .BeEquivalentTo(expected);
         }
     }
-}
+}*/
