@@ -1,4 +1,4 @@
-﻿namespace apitests.Models;
+namespace tests;
 
 public class Match
 {
@@ -10,8 +10,4 @@ public class Match
     public DateTime EndTime { get; set; }
     public bool Finished { get; set; }
     public string Notes { get; set; }
-    public int PlayerId1 { get; set; }
-    public int PlayerId2 { get; set; }
-    public string FullNamePlayer1 { get; set; }
-    public string FullNamePlayer2 { get; set; }
 }

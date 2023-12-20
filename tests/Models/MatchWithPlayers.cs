@@ -1,4 +1,4 @@
-﻿namespace apitests.Models;
+﻿namespace tests;
 
 public class MatchWithPlayers
 {

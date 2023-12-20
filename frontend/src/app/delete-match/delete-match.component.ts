@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {DataService} from "../data.service";
 import {firstValueFrom} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {ToastController} from "@ionic/angular";
+import {ModalController, ToastController} from "@ionic/angular";
 import {Router} from "@angular/router";
 
 
@@ -12,13 +12,14 @@ import {Router} from "@angular/router";
 })
 
 export class DeleteMatchComponent {
-  constructor(public http: HttpClient, public dataService: DataService, public toastController: ToastController, public router: Router) {
+  constructor(public http: HttpClient, public dataService: DataService, public toastController: ToastController, public router: Router, public modalController : ModalController) {
   }
 
   async deleteMatch(matchId: number | undefined) {
     try {
       await firstValueFrom(this.http.delete('/api/matches/' + matchId))
-      this.dataService.matchesWithPlayers=this.dataService.matchesWithPlayers.filter(a => a.id!=matchId)
+      this.dataService.matchesWithPlayers=this.dataService.matchesWithPlayers.filter(a => a.id!=matchId);
+      this.modalController.dismiss();
       this.router.navigate(['']);
 
       const toast = await this.toastController.create({
