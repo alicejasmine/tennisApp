@@ -27,12 +27,17 @@ public static class ServiceCollectionExtensions
                 var addresses = server.Features.Get<IServerAddressesFeature>()?.Addresses;
                 options.Address = addresses?.FirstOrDefault();
             }
+            
+            // Set IsTestingEnvironment based on the application's environment
+            var hostingEnvironment = services.GetRequiredService<IWebHostEnvironment>();
+            options.IsTestingEnvironment = hostingEnvironment.IsEnvironment("Testing");
 
+            
             return options;
         });
         services.AddSingleton<JwtService>();
     }
-
+    
     
     // This is to get swagger to work with bearer tokens.
     public static void AddSwaggerGenWithBearerJWT(this IServiceCollection services)

@@ -69,6 +69,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Configuration.AddJsonFile("appsettings.Testing.json", optional: true, reloadOnChange: true);
+    
+}
+
 app.UseSecurityHeaders();
 
 
