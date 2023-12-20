@@ -29,8 +29,23 @@ public class EditPlayerUI : PageTest
 
         //ACT
         //update from UI
+        
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
 
-        await Page.GotoAsync("http://localhost:4200/all-players");
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+        
+        await Page.GotoAsync("http://localhost:4200/tabs/all-players");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Update" }).ClickAsync();
 

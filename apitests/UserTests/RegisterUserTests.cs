@@ -62,7 +62,6 @@ public class RegisterUserTests
         }
     }
     
-    // Register and login with an account
     [TestCase("Jeff Lebowski", "TheBigLB@bowlinglane.com", "ItWasANiceRug")]
     [TestCase("Jules Winnfield", "SayWhatAgain@pulp.com", "RoyaleWithCheese")]
     public async Task LoginFromHttp(string fullName, string email, string password)
@@ -81,18 +80,18 @@ public class RegisterUserTests
             Email = email,
             Password = password
         };
-        
-        var httpRegister =
-            await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/account/register", testRegister);
 
+        var httpRegister = await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/account/register", testRegister);
         var httpLogin = await new HttpClient().PostAsJsonAsync(Helper.ApiBaseUrl + "/account/login", testLogin);
-
+        
         httpRegister.StatusCode.Should().Be(HttpStatusCode.NoContent);
         httpLogin.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+    
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
-            conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.users;").Should().Be(1); // Checking the Object exists server side
-            
+            var userCount = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.users;");
+            userCount.Should().Be(1); // Checking the Object exists server side
         }
     }
     
@@ -126,7 +125,7 @@ public class RegisterUserTests
         
         
         httpRegister.StatusCode.Should().Be(HttpStatusCode.NoContent); // user creating is still successful as that is not what we are testing
-        httpLogin.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        httpLogin.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
         {
             conn.ExecuteScalar<int>

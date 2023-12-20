@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Player} from '../models';
+import {Player, Role} from '../models';
 import {DataService} from "../data.service";
 import {ModalController} from '@ionic/angular';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -7,20 +7,19 @@ import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {CreatePlayerComponent} from '../create-player/create-player.component';
 import {EditPlayerComponent} from '../edit-player/edit-player.component';
+import {AuthService} from "../../services/AuthService";
 
 @Component({
   selector: 'app-all-players',
   template: `
-      <app-title title="Players"></app-title>
 
-
-      <ion-content class="ion-padding" fullscreen="true">
-          <div class="container">
-              <ion-searchbar animated="true" placeholder="Search players" debounce="100"
-                             (ionInput)="handleInput($event)"></ion-searchbar>
-              <ion-button (click)="openCreatePlayer()">Create Player</ion-button>
-          </div>
-          <ion-grid>
+    <ion-content style="--padding-top: 105px;" fullscreen="true">
+      <div class="container">
+        <ion-searchbar animated="true" placeholder="Search players" debounce="100"
+                       (ionInput)="handleInput($event)"></ion-searchbar>
+        <ion-button *appUserRole="[Role.Admin]" (click)="openCreatePlayer()">Create Player</ion-button>
+      </div>
+<ion-grid>
               <ion-row>
                   <ion-col size="12" size-sm="12" size-md="6" size-lg="4" *ngFor="let player of dataService.players">
                       <ion-card>
@@ -30,21 +29,20 @@ import {EditPlayerComponent} from '../edit-player/edit-player.component';
                               <ion-card-subtitle> {{ player.active ? 'Active' : 'Not Active' }}</ion-card-subtitle>
                           </ion-card-header>
 
-                          <ion-button fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
-
+          <ion-button *appUserRole="[Role.Admin]" fill="clear" (click)="openEditPlayer(player.playerId)">Update</ion-button>
                       </ion-card>
                   </ion-col>
               </ion-row>
           </ion-grid>
 
       </ion-content>`,
+
   styleUrls: ['./all-players.component.scss'],
 })
 export class AllPlayersComponent {
   player: Player | undefined;
-
+  protected readonly Role = Role;
   constructor(public modalController: ModalController,
-              public route: ActivatedRoute,
               public router: Router,
               public dataService: DataService,
               public http: HttpClient) {
@@ -67,7 +65,8 @@ export class AllPlayersComponent {
 
   async openCreatePlayer() {
     const modal = await this.modalController.create({
-      component: CreatePlayerComponent
+      component: CreatePlayerComponent,
+      cssClass: 'modal-css'
     });
     modal.present();
   }
@@ -80,7 +79,7 @@ export class AllPlayersComponent {
         this.dataService.currentPlayer = editingPlayer;
         const modal = await this.modalController.create({
           component: EditPlayerComponent,
-
+          cssClass: 'modal-css'
         });
         modal.present();
       }
@@ -92,9 +91,11 @@ export class AllPlayersComponent {
       const navigationExtras: NavigationExtras = {
         queryParams: { fullName: fullname, fillSearchBar: true },
       };
-      this.router.navigate(['/home'], navigationExtras);
+      this.router.navigate(['tabs/home'], navigationExtras);
     }
 
 
   }
+
+
 }

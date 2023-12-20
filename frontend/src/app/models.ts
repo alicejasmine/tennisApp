@@ -1,5 +1,4 @@
 
-
 export class Player {
   playerId?: number;
   fullName?: string;
@@ -30,16 +29,23 @@ export class MatchWithPlayers {
   fullNamePlayer2?: string;
 }
 
-export interface User {
-  id: number;
-  fullName: string;
-  email: string;
+export class User {
+  id?: number;
+  fullName?: string;
+  email?: string;
+  isAdmin?: boolean;
+}
+
+export enum Role {
+  User = 'User',
+  Admin = 'Admin'
 }
 
 export class ResponseDto<T> {
   responseData?: T;
   messageToClient?: string;
 }
+
 export class Shot{
   shotsId?: number;
   playerId?: number;
@@ -50,3 +56,4 @@ export class Shot{
   shotDirection?: string;
   playerPosition?: string;
 }
+

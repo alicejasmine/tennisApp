@@ -19,7 +19,9 @@ public class ShotTestsUI : PageTest
         //ARRANGE
         Helper.TriggerRebuild();
 
-
+        
+        
+        
         //insert a match in database
 
         await using (var conn = await Helper.DataSource.OpenConnectionAsync())
@@ -46,8 +48,23 @@ public class ShotTestsUI : PageTest
         };
 
         //ACT
+        
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
 
-        await Page.GotoAsync("http://localhost:4200/match-info/1");
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+
+        await Page.GotoAsync("http://localhost:4200/tabs/match-info/1");
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Track shots" }).ClickAsync();
 
@@ -111,7 +128,23 @@ public class ShotTestsUI : PageTest
         //ACT
         //register shot
         
-        await Page.GotoAsync("http://localhost:4200/match-info/1");
+        
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
+
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+        
+        await Page.GotoAsync("http://localhost:4200/tabs/match-info/1");
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "Track shots" }).ClickAsync();
 

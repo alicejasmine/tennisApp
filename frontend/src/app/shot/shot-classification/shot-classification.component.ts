@@ -11,13 +11,11 @@ import {firstValueFrom} from 'rxjs';
 @Component({
   selector: 'app-shot-classification',
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Shot Classification</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <ion-content style="--padding-top: 105px;">
+        <ion-toolbar>
+            <ion-title>Shot Classification</ion-title>
+        </ion-toolbar>
 
-    <ion-content>
       <ion-card *ngIf="this.dataService.currentMatch">
         <ion-card-header>
           <ion-card-title>
@@ -126,7 +124,7 @@ export class ShotClassificationComponent {
     this.dataService.currentShot.matchId = matchId;
     this.dataService.currentShot.shotClassification = shotType;
     this.selectedShotClassification = undefined; //clear selected button
-    this.router.navigate(['/shot-type/' + matchId + '/' + playerId]);
+    this.router.navigate(['/tabs/shot-type/' + matchId + '/' + playerId]);
 
   }
 

@@ -13,14 +13,12 @@ import { TokenService } from 'src/services/token.service';
 import { LoginComponent } from './account/login.component';
 import { AccountComponent } from './account/account.component';
 import { RegisterComponent } from './account/register.component';
-import { AccountService } from './account/account.service';
+import { AccountService } from '../services/account.service';
 import { UsersComponent } from './user/users.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { AuthHttpInterceptor } from 'src/interceptors/auth-http-interceptor';
 import {AuthenticatedGuard} from "./guards";
-import { HeaderComponent } from './header.component';
 import { RewriteHttpInterceptor } from 'src/interceptors/rewrite-http-interceptor';
-import { TabsComponent } from './tabs.component';
 import {CreateMatchComponent} from "./create-match/create-match.component";
 import {EditMatchComponent} from "./edit-match/edit-match.component";
 import { AllPlayersComponent } from './all-players/all-players.component';
@@ -29,6 +27,14 @@ import { FormsModule } from '@angular/forms';
 import { CreatePlayerComponent } from './create-player/create-player.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
 import { MatchesComponent } from './home/matches.component';
+import {UserService} from "../services/user.service";
+import {CreateUserComponent} from "./user/create-user-component";
+import {EditUserComponent} from "./user/edit-user.component";
+import {AuthService} from "../services/AuthService";
+import {UserDirective} from "../directives/user.directive";
+import { TabsModule } from './tabs/tabs.module';
+import {DirectiveModule} from "../directives/directive.module";
+
 
 
 import { DeleteMatchComponent } from './delete-match/delete-match.component';
@@ -42,36 +48,55 @@ import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
-  declarations: [AppComponent,
+  declarations: [
+    // functional declarations
+    AppComponent,
+    UserDirective,
+
+    // page comps
     MatchesComponent,
     UsersComponent,
-    TabsComponent,
     AccountComponent,
     RegisterComponent,
     LoginComponent,
-  HeaderComponent,
-    CreateMatchComponent,
-    EditMatchComponent,
     AllPlayersComponent,
+
+    // creation comps
     CreatePlayerComponent,
+    CreateMatchComponent,
+    CreateUserComponent,
+
+    // edit comps
+    EditMatchComponent,
     EditPlayerComponent,
+    EditUserComponent,
+    EditEndingMatchComponent,
+
+    // shot comps
     ShotClassificationComponent,
     ShotTypeComponent,
     ShotDestinationAndDirectionComponent,
     PlayerPositionComponent,
     MatchStatisticsComponent,
+
+    // delete comps
     DeleteMatchComponent,
-    EditEndingMatchComponent
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule,FormsModule, NgChartsModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, HttpClientModule, FormsModule, TabsModule, DirectiveModule, NgChartsModule],
+  exports: [UserDirective],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    // INTERCEPTORS
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHttpInterceptor, multi: true},
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: RewriteHttpInterceptor, multi: true },
+    // AUTH SERVICES & GUARDS
     TokenService,
     AuthenticatedGuard,
+    AuthService,
+    // OTHER SERVICES
     AccountService,
-    DataService
+    DataService,
+    UserService,
   ],
   bootstrap: [AppComponent]
 })

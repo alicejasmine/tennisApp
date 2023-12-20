@@ -28,15 +28,13 @@ public class UserRepository
                     new { email }) != 0;
             }  
         }
-        else
+
+        using (var conn = _dataSource.OpenConnection())
         {
-            using (var conn = _dataSource.OpenConnection())
-            {
-                return conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.users WHERE email = @email AND id != @userId;",
-                    new { email, userId }) != 0;
-            } 
+            return conn.ExecuteScalar<int>("SELECT COUNT(*) FROM tennis_app.users WHERE email = @email AND id != @userId;",
+                new { email, userId }) != 0;
         }
-        
+
     }
 
    

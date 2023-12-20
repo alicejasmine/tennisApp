@@ -26,9 +26,24 @@ public class DeleteMatchUi : PageTest
         }
         
         //ACT
-        await Page.GotoAsync("http://localhost:4200/");
+        
+        
+        // Navigate to the page without setting the token initially
+        await Page.GotoAsync("http://localhost:4200");
 
-        await Page.GotoAsync("http://localhost:4200/home");
+        
+        // Set the token using injected script
+        await Page.EvaluateAsync(
+            "() => {" +
+            "   sessionStorage.setItem('token', 'TotallyARealToken');" +
+            "   sessionStorage.setItem('role', 'Admin');" +
+            "}"
+        );
+
+        // Refresh the page to apply the changes
+        await Page.ReloadAsync();
+
+        await Page.GotoAsync("http://localhost:4200/tabs/home");
 
         await Page.GetByRole(AriaRole.Heading, new() { Name = "01-01-2001 || Bob Pancakes VS Aleksandra Kurdelska" }).ClickAsync();
 
@@ -36,7 +51,7 @@ public class DeleteMatchUi : PageTest
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Confirm" }).ClickAsync();
         
-        await Page.GotoAsync("http://localhost:4200/home");
+        await Page.GotoAsync("http://localhost:4200/tabs/home");
 
       
         //ASSERT
