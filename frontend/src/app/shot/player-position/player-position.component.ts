@@ -41,7 +41,7 @@ import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.com
               <svg data-testid="Yellow"[class.selected]="selectedArea === 'Yellow'"
                    (click)="selectCourtArea('Yellow')"
                    [style.border]="selectedArea === 'Yellow' ? '10px solid yellow' : 'transparent'" width="20vw"
-                   viewBox="0 0 855 613" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 855 613" xmlns="http://www.w3.org/2000/svg"
                    xml:space="preserve"
                    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><rect x="0" y="-232.409" width="854.627" height="1043.69" style="fill:#ebdc55;"/>
                   <g><path d="M117.5,-229.489l-0,1037.62" style="fill:none;stroke:#fff;stroke-width:6.25px;"/>
@@ -54,7 +54,7 @@ import {EditEndingMatchComponent} from 'src/app/edit-match/edit-ending-match.com
               <svg data-testid="Red" [class.selected]="selectedArea === 'Red'"
                    (click)="selectCourtArea('Red')"
                    [style.border]="selectedArea === 'Red' ? '10px solid red' : 'transparent'" width="20vw"
-                   viewBox="0 0 855 199" version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                   viewBox="0 0 855 199" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
                    style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><rect x="0" y="-844.897" width="854.627" height="1043.69" style="fill:#d84435;"/>
                   <g><path d="M117.5,-841.976l-0,1037.62" style="fill:none;stroke:#fff;stroke-width:6.25px;"/>
                       <path d="M747.497,-841.852l0,1037.31" style="fill:none;stroke:#fff;stroke-width:6.25px;"/></g>
