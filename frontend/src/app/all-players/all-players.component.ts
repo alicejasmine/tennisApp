@@ -52,14 +52,14 @@ export class AllPlayersComponent {
 
   async getAllPlayers() {
 
-    const call = this.http.get<Player[]>('api/players');
+    const call = this.http.get<Player[]>('/api/players');
     this.dataService.players = await firstValueFrom<Player[]>(call);
   }
 
 
   async handleInput($event: any) {
     const query = $event.target.value;
-    const call = this.http.get<Player[]>(`api/players/search?SearchTerm=${query}`);
+    const call = this.http.get<Player[]>(`/api/players/search?SearchTerm=${query}`);
     this.dataService.players = await firstValueFrom<Player[]>(call);
   }
 

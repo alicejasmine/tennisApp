@@ -42,7 +42,7 @@ export class CreatePlayerComponent {
 
   async submitCreatePlayer() {
     try {
-      const call = this.http.post<Player>('api/players', this.PlayerForm.getRawValue())
+      const call = this.http.post<Player>('/api/players', this.PlayerForm.getRawValue())
       const result = await firstValueFrom<Player>(call);
       this.dataService.players.push(result);
       const toast = await this.toastController.create({
