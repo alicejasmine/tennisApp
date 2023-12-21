@@ -1,0 +1,14 @@
+.container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+ion-searchbar {
+  flex: 1;
+  margin-right: 8px;
+}
+
+ion-button {
+  flex: 0;
+}

@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-datetime [formControl]="editMatchForm.controls.date" presentation="date" [firstDayOfWeek]="1"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Start Time</ion-label>
+      <ion-datetime [formControl]="editMatchForm.controls.startTime" hourCycle="h24" presentation="time" [value]="editMatchForm.controls.date.value"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-select [formControl]="editMatchForm.controls.environment" label="Environment"
+                  placeholder="Pick environment">
+        <ion-select-option value="indoor">indoor</ion-select-option>
+        <ion-select-option value="outdoor">outdoor</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select [formControl]="editMatchForm.controls.surface" label="Surface" placeholder="Pick surface">
+        <ion-select-option value="clay">clay</ion-select-option>
+        <ion-select-option value="hard">hard</ion-select-option>
+        <ion-select-option value="other">other</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input [formControl]="editMatchForm.controls.notes" type="text" label="Notes" placeholder="Enter note" [counter]="true" maxlength="250">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button data-testid="submit" [disabled]="editMatchForm.invalid" (click)="editMatch()">Update match</ion-button>
+  <ion-button (click)="modalController.dismiss()">Close</ion-button>
+</ion-content>
