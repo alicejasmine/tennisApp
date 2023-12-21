@@ -24,20 +24,18 @@ import {MatchWithPlayers, Role} from "../models";
     </ion-grid>
     <ion-grid>
       <ion-row>
-      
+
                   <ion-col size="12" size-sm="12" size-md="6" size-lg="4"
                            *ngFor="let match of dataService.matchesWithPlayers">
                       <ion-card>
                           <ion-card-header>
- 
+
                               <ion-card-title routerLink="/tabs/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}}
                                   || {{match.fullNamePlayer1}}
                                   VS {{match.fullNamePlayer2}}</ion-card-title>
                           </ion-card-header>
+                              <ion-button *appUserRole="[Role.Admin]" fill="clear" (click)="openModalEditMatch(match.id)">Update</ion-button>
 
-           
-                <ion-button *appUserRole="[Role.Admin]" (click)="openModalEditMatch(match.id)">Edit</ion-button>
-          
           </ion-card>
         </ion-col>
       </ion-row>

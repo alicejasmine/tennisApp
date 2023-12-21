@@ -1,1 +1,8 @@
+.court {
+  margin-left: 5vw;
+  margin-top: 5vh;
+}
 
+@media only screen and (max-width: 600px)  {
+  svg { width: 90vw; }
+}
