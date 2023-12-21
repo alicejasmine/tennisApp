@@ -30,7 +30,7 @@ import {MatchWithPlayers, Role} from "../models";
                       <ion-card>
                           <ion-card-header>
 
-                              <ion-card-title routerLink="/tabs/match-info/{{match.id}}">{{match.date| date:'dd-MM-yyyy'}}
+                              <ion-card-title (click)="goToMatch(match.id)">{{match.date| date:'dd-MM-yyyy'}}
                                   || {{match.fullNamePlayer1}}
                                   VS {{match.fullNamePlayer2}}</ion-card-title>
                           </ion-card-header>
@@ -91,6 +91,11 @@ export class MatchesComponent implements OnInit {
     }
   }
 
+  async goToMatch(matchId:number|undefined){
+    this.dataService.currentMatch = (await firstValueFrom(this.http.get<MatchWithPlayers>('/api/matches/' + matchId)));
+    this.router.navigate(['/tabs/match-info/'+ matchId]);
+
+  }
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.fullName = params['fullName'];

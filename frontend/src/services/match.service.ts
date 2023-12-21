@@ -19,7 +19,7 @@ export class MatchService {
 
   async editMatch(editMatchForm: FormGroup) {
     try {
-      const call = this.httpClient.put<MatchWithPlayers>('api/matches/' + this.dataService.currentMatch.id, editMatchForm.value);
+      const call = this.httpClient.put<MatchWithPlayers>('/api/matches/' + this.dataService.currentMatch.id, editMatchForm.value);
       const result = await firstValueFrom<MatchWithPlayers>(call);
       let index = this.dataService.matchesWithPlayers.findIndex(m => m.id == this.dataService.currentMatch.id)
       this.dataService.matchesWithPlayers[index] = result;
